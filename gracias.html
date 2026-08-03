@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Gracias por tu pedido! — La Factoría by Juana Perfecta</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .thanks-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--color-bg);
+  }
+  .thanks-card {
+    max-width: 560px;
+  }
+  .thanks-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .thanks-card h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    margin-bottom: 0.75rem;
+  }
+  .thanks-card p {
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .thanks-order {
+    display: inline-block;
+    margin: 1.25rem 0;
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-alt);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+  }
+  .thanks-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<main class="thanks-page">
+  <div class="thanks-card">
+    <div class="thanks-icon" aria-hidden="true">🎨</div>
+    <h1>¡Gracias! Ya tenemos tu pedido.</h1>
+    <p>Tu pago se procesó correctamente. En breve nos ponemos en contacto para confirmar los detalles de tu retrato.</p>
+    <p><strong>Tiempo estimado de entrega:</strong> 15 días desde la confirmación.</p>
+
+    <p class="thanks-order" id="thanks-order-number">Orden: —</p>
+
+    <div class="thanks-actions">
+      <a class="btn btn-primary btn-lg" id="thanks-whatsapp" href="https://wa.me/5491130509450" target="_blank" rel="noopener">
+        Escribinos por WhatsApp
+      </a>
+      <a class="btn btn-ghost" href="index.html">Volver al inicio</a>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Mercado Pago vuelve acá con ?external_reference=<orden> (entre otros params).
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var order = params.get("external_reference");
+    var orderEl = document.getElementById("thanks-order-number");
+    var waLink = document.getElementById("thanks-whatsapp");
+    if (order && orderEl) {
+      orderEl.textContent = "Orden: #" + order;
+      if (waLink) {
+        var msg = encodeURIComponent("¡Hola! Acabo de pagar mi retrato por Mercado Pago. Orden #" + order + ".");
+        waLink.href = "https://wa.me/5491130509450?text=" + msg;
+      }
+    }
+  })();
+</script>
+
+</body>
+</html>

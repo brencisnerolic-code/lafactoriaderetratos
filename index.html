@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Factoría by Juana Perfecta — Retratos de mascotas personalizados</title>
+<meta name="description" content="Retrato de tu mascota, pintado a mano en acrílico u óleo sobre madera. Un auto-regalo emotivo, único e irrepetible. Configurá el tuyo y mirá cómo queda en tu pared antes de comprar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- ============ NAV ============ -->
+<header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="#top" class="logo-mark" aria-label="La Factoría by Juana Perfecta — inicio">
+      <span class="logo-name">La Factoría</span>
+      <span class="logo-tagline">by Juana Perfecta</span>
+    </a>
+
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav-menu" id="nav-menu" aria-label="Navegación principal">
+      <a href="#configurador" class="nav-link">Crear mi retrato</a>
+      <a href="#portfolio" class="nav-link">Portfolio</a>
+      <a href="#testimonios" class="nav-link">Testimonios</a>
+      <a href="#faq" class="nav-link">Preguntas frecuentes</a>
+      <a href="#configurador" class="nav-link nav-cta">Comenzar mi retrato</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ 1. HERO ============ -->
+<section class="hero" id="top">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">Retratos de mascotas, pintados a mano</p>
+      <h1>Retrato de tu mascota,<br>personalizado y único</h1>
+      <p class="hero-sub">Un auto-regalo emotivo que celebra tu vínculo. Pintado a mano en acrílico u óleo sobre madera — no es una impresión, es una obra original.</p>
+      <div class="hero-actions">
+        <a href="#configurador" class="btn btn-primary btn-lg">Comenzar mi retrato</a>
+        <a href="#portfolio" class="btn btn-ghost">Ver galería</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-frame" aria-hidden="true">
+        <div class="hero-frame-placeholder">
+          <span>Foto de retrato terminado</span>
+          <small>reemplazar por imagen real de portfolio</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. GUÍA DE FOTOS ============ -->
+<section class="photo-guide" id="guia-fotos">
+  <div class="container">
+    <div class="section-head">
+      <h2>¿Cuál es la mejor foto para tu retrato?</h2>
+      <p>Subí cualquier foto, nosotros creamos el arte.</p>
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-card">
+        <div class="guide-icon" aria-hidden="true">✓</div>
+        <h3>De frente</h3>
+        <p>Captura toda la personalidad de tu mascota.</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-icon" aria-hidden="true">✓</div>
+        <h3>De perfil</h3>
+        <p>Ideal para resaltar facciones únicas.</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-icon" aria-hidden="true">✓</div>
+        <h3>Foto HD</h3>
+        <p>Mejor calidad de imagen = mayor nivel de detalle en el retrato.</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-icon" aria-hidden="true">✓</div>
+        <h3>Foto especial</h3>
+        <p>Aunque no sea perfecta, también es válida. Consultanos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. CONFIGURADOR ============ -->
+<section class="configurator" id="configurador">
+  <div class="container configurator-inner">
+
+    <div class="configurator-steps">
+      <div class="section-head section-head-left">
+        <h2>Armá tu retrato</h2>
+        <p>Elegí tamaño, marco y fondo. El precio se actualiza al instante.</p>
+      </div>
+
+      <!-- Paso 1: tamaño -->
+      <fieldset class="config-step" id="step-size" data-step="size">
+        <legend>1. Tamaño</legend>
+        <div class="size-options" role="group" aria-label="Elegir tamaño del retrato">
+          <!-- size-card buttons injected/bound here — see js/config.js FACTORIA_CONFIG.sizes -->
+        </div>
+        <p class="step-note">¿Buscás otra medida? También tenemos <strong>10x15cm</strong> y <strong>70x100cm</strong> — <a href="#contacto-whatsapp" class="link-whatsapp-generic">consultanos por WhatsApp</a>.</p>
+      </fieldset>
+
+      <!-- Paso 2: marco -->
+      <fieldset class="config-step" id="step-frame" data-step="frame">
+        <legend>2. Marco</legend>
+        <div class="frame-options" role="group" aria-label="Elegir tipo de marco">
+          <!-- frame-card buttons injected here -->
+        </div>
+      </fieldset>
+
+      <!-- Paso 3: color de fondo -->
+      <fieldset class="config-step" id="step-bg" data-step="bg">
+        <legend>3. Color de fondo</legend>
+        <div class="bg-options" role="group" aria-label="Elegir color de fondo">
+          <!-- color-swatch buttons injected here -->
+        </div>
+      </fieldset>
+
+      <!-- Paso 4: merchandising -->
+      <fieldset class="config-step" id="step-merch" data-step="merch">
+        <legend>4. Sumá merchandising <span class="step-optional">(opcional)</span></legend>
+        <div class="merch-options" role="group" aria-label="Elegir merchandising adicional">
+          <!-- merch-card buttons injected here -->
+        </div>
+        <p class="step-note">La impresión es de tu retrato ya terminado (la pintura).</p>
+      </fieldset>
+    </div>
+
+    <!-- Resumen sticky -->
+    <aside class="order-summary" id="order-summary" aria-live="polite">
+      <h3>Tu retrato</h3>
+      <dl class="summary-list">
+        <div class="summary-row"><dt>Tamaño</dt><dd id="summary-size">—</dd></div>
+        <div class="summary-row"><dt>Marco</dt><dd id="summary-frame">—</dd></div>
+        <div class="summary-row"><dt>Fondo</dt><dd id="summary-bg">—</dd></div>
+        <div class="summary-row"><dt>Extra</dt><dd id="summary-merch">Retrato solo</dd></div>
+      </dl>
+      <div class="summary-total-row">
+        <span>Total estimado</span>
+        <strong id="summary-total">$ 0 ARS</strong>
+      </div>
+      <p class="summary-fine-print">Seña del 50% para comenzar · entrega estimada 15 días.</p>
+      <button type="button" class="btn btn-primary btn-block" id="btn-to-mockup">Ver en mi pared</button>
+    </aside>
+
+  </div>
+</section>
+
+<!-- ============ 3E. MOCKUP EN PARED ============ -->
+<section class="wall-mockup" id="mockup">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">La joya de la corona</p>
+      <h2>Mirá tu retrato en la pared</h2>
+      <p>Subí una foto de tu mascota y mirá exactamente cómo va a quedar, colgado y enmarcado, antes de comprar.</p>
+    </div>
+
+    <div class="mockup-layout">
+      <div class="mockup-upload">
+        <div class="dropzone" id="mockup-dropzone" tabindex="0" role="button" aria-describedby="dropzone-hint">
+          <input type="file" id="mockup-file-input" accept="image/jpeg,image/png" hidden>
+          <div class="dropzone-content">
+            <span class="dropzone-icon" aria-hidden="true">↑</span>
+            <p><strong>Arrastrá una foto</strong> o hacé clic para elegir</p>
+            <p id="dropzone-hint" class="dropzone-hint">JPG o PNG, máx. 10MB</p>
+          </div>
+        </div>
+        <p class="dropzone-error" id="dropzone-error" role="alert" hidden></p>
+      </div>
+
+      <div class="mockup-stage">
+        <div class="mockup-wall" id="mockup-wall">
+          <div class="mockup-frame" id="mockup-frame" data-frame="simple" data-bg="blanco">
+            <div class="mockup-frame-inner">
+              <img id="mockup-pet-image" alt="" hidden>
+              <div class="mockup-placeholder" id="mockup-placeholder">Tu retrato va a aparecer acá</div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup-controls">
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-rotate-left" aria-label="Girar pared a la izquierda">⟲ Girar</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-toggle-light" aria-label="Cambiar iluminación">☀ Iluminación</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-rotate-right" aria-label="Girar pared a la derecha">Girar ⟳</button>
+        </div>
+        <button type="button" class="btn btn-link" id="btn-back-to-config">← Cambiar configuración</button>
+      </div>
+    </div>
+
+    <div class="mockup-cta">
+      <button type="button" class="btn btn-primary btn-lg" id="btn-to-checkout">Siguiente paso</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PASO 3: DATOS + PAGO ============ -->
+<section class="checkout" id="checkout">
+  <div class="container checkout-inner">
+    <div class="section-head section-head-left">
+      <h2>Últimos datos</h2>
+      <p>Enviás la foto de tu mascota. Nosotros creamos una <strong>pintura original</strong>. El retrato final será único y tendrá nuestro estilo artístico.</p>
+    </div>
+
+    <form class="client-form" id="client-form" novalidate>
+      <div class="form-row">
+        <label for="client-pet-name">Nombre de tu mascota <span class="optional">(opcional)</span></label>
+        <input type="text" id="client-pet-name" name="petName" autocomplete="off">
+      </div>
+      <div class="form-row">
+        <label for="client-name">Tu nombre <span class="required">*</span></label>
+        <input type="text" id="client-name" name="name" required autocomplete="name">
+      </div>
+      <div class="form-row">
+        <label for="client-email">Email <span class="required">*</span></label>
+        <input type="email" id="client-email" name="email" required autocomplete="email">
+      </div>
+      <div class="form-row">
+        <label for="client-phone">Teléfono / WhatsApp <span class="required">*</span></label>
+        <input type="tel" id="client-phone" name="phone" required autocomplete="tel">
+      </div>
+      <div class="form-row form-row-full">
+        <label for="client-notes">Notas especiales <span class="optional">(opcional, máx. 500 caracteres)</span></label>
+        <textarea id="client-notes" name="notes" maxlength="500" rows="3" placeholder='Ej: "Quiero capturar su expresión traviesa" o "Tiene un lunar especial"'></textarea>
+      </div>
+
+      <div class="form-row form-row-full form-terms">
+        <label class="checkbox-label">
+          <input type="checkbox" id="accept-terms" required>
+          Acepto los <a href="#" class="link-terms">términos y condiciones</a>
+        </label>
+      </div>
+
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+
+      <div class="form-row form-row-full checkout-payment">
+        <p class="payment-note">Con la seña del 50% arrancamos tu retrato. Elegís cómo pagar en el siguiente paso.</p>
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-whatsapp-checkout">
+          Continuar al pago
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ============ PASO 4: MÉTODO DE PAGO ============ -->
+<section class="payment-section" id="payment-section" hidden>
+  <div class="container">
+    <div class="section-head section-head-left">
+      <h2>Elegí tu método de pago</h2>
+      <p>Ambos métodos son seguros y rápidos.</p>
+    </div>
+
+    <p class="payment-total">Seña a pagar hoy (50%): <strong id="payment-total-amount">—</strong></p>
+
+    <div class="payment-methods">
+      <button type="button" class="payment-method-card" id="btn-pay-mercadopago">
+        <span class="payment-method-icon" aria-hidden="true">💳</span>
+        <span class="payment-method-title">Mercado Pago</span>
+        <span class="payment-method-desc">Pagá con tarjeta online, al instante.</span>
+      </button>
+
+      <button type="button" class="payment-method-card" id="btn-pay-transfer">
+        <span class="payment-method-icon" aria-hidden="true">🏦</span>
+        <span class="payment-method-title">Transferencia bancaria</span>
+        <span class="payment-method-desc">Te mostramos los datos para transferir.</span>
+      </button>
+    </div>
+
+    <p class="payment-error" id="payment-error" role="alert" hidden></p>
+  </div>
+</section>
+
+<!-- MODAL: transferencia bancaria -->
+<div class="modal-overlay" id="modal-transfer" hidden>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-transfer-title">
+    <button type="button" class="modal-close" id="btn-close-transfer" aria-label="Cerrar">✕</button>
+    <h3 id="modal-transfer-title">Transferencia bancaria</h3>
+
+    <dl class="transfer-details">
+      <div class="transfer-row">
+        <dt>Banco</dt>
+        <dd id="transfer-banco">—</dd>
+      </div>
+      <div class="transfer-row">
+        <dt>Titular</dt>
+        <dd id="transfer-titular">—</dd>
+      </div>
+      <div class="transfer-row">
+        <dt>CBU</dt>
+        <dd class="transfer-copy-row">
+          <code id="transfer-cbu">—</code>
+          <button type="button" class="btn-copy" data-copy-target="transfer-cbu">Copiar</button>
+        </dd>
+      </div>
+      <div class="transfer-row">
+        <dt>Alias</dt>
+        <dd class="transfer-copy-row">
+          <code id="transfer-alias">—</code>
+          <button type="button" class="btn-copy" data-copy-target="transfer-alias">Copiar</button>
+        </dd>
+      </div>
+      <div class="transfer-row">
+        <dt>Monto a transferir</dt>
+        <dd id="transfer-amount" class="transfer-amount">—</dd>
+      </div>
+      <div class="transfer-row">
+        <dt>Concepto</dt>
+        <dd>Retrato mascota — Orden #<span id="transfer-order-number">—</span></dd>
+      </div>
+    </dl>
+
+    <p class="transfer-warning">Una vez que hagas la transferencia, mandanos el comprobante por WhatsApp para arrancar tu retrato.</p>
+
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-confirm-transfer">
+      Confirmar transferencia por WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- ============ 4. PORTFOLIO ============ -->
+<section class="portfolio" id="portfolio">
+  <div class="container">
+    <div class="section-head">
+      <h2>Nuestros trabajos</h2>
+      <p>Cada retrato es único, hecho a mano.</p>
+    </div>
+
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- 8-12 gallery-item placeholders — reemplazar img src por fotos reales del portfolio -->
+      <button class="gallery-item" type="button" data-caption="Reemplazar con foto real del portfolio">
+        <div class="gallery-placeholder">Retrato</div>
+      </button>
+      <button class="gallery-item" type="button" data-caption="Reemplazar con foto real del portfolio">
+        <div class="gallery-placeholder">Retrato</div>
+      </button>
+      <button class="gallery-item" type="button" data-caption="Reemplazar con foto real del portfolio">
+        <div class="gallery-placeholder">Retrato</div>
+      </button>
+      <button class="gallery-item" type="button" data-caption="Reemplazar con foto real del portfolio">
+        <div class="gallery-placeholder">Retrato</div>
+      </button>
+      <button class="gallery-item" type="button" data-caption="Reemplazar con foto real del portfolio">
+        <div class="gallery-placeholder">Retrato</div>
+      </button>
+      <button class="gallery-item" type="button" data-caption="Reemplazar con foto real del portfolio">
+        <div class="gallery-placeholder">Retrato</div>
+      </button>
+    </div>
+
+    <div class="portfolio-more">
+      <a href="https://www.instagram.com/lafactoriaderetratos" target="_blank" rel="noopener">Ver más en Instagram @lafactoriaderetratos →</a>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox-close" id="lightbox-close" aria-label="Cerrar">×</button>
+    <div class="lightbox-content">
+      <img id="lightbox-image" src="" alt="">
+      <p id="lightbox-caption"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. TESTIMONIOS ============ -->
+<section class="testimonials" id="testimonios">
+  <div class="container">
+    <div class="section-head">
+      <h2>Lo que dicen nuestros clientes</h2>
+    </div>
+    <div class="testimonial-grid">
+      <!-- Placeholders — reemplazar por testimonios reales de clientes -->
+      <div class="testimonial-card testimonial-placeholder">
+        <p class="testimonial-quote">“Agregá acá el testimonio real de un cliente.”</p>
+        <p class="testimonial-author">Nombre — mamá/papá de [mascota]</p>
+      </div>
+      <div class="testimonial-card testimonial-placeholder">
+        <p class="testimonial-quote">“Agregá acá el testimonio real de un cliente.”</p>
+        <p class="testimonial-author">Nombre — mamá/papá de [mascota]</p>
+      </div>
+      <div class="testimonial-card testimonial-placeholder">
+        <p class="testimonial-quote">“Agregá acá el testimonio real de un cliente.”</p>
+        <p class="testimonial-author">Nombre — mamá/papá de [mascota]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. SOBRE NOSOTROS ============ -->
+<section class="about" id="sobre-nosotros">
+  <div class="container about-inner">
+    <div class="about-photo">
+      <div class="about-photo-placeholder">Foto de Juana Perfecta</div>
+    </div>
+    <div class="about-copy">
+      <h2>Detrás de cada retrato</h2>
+      <p>La Factoría es un estudio de arte especializado en retratos de mascotas hechos a mano. Cada pintura es creada por una artista visual profesional, en acrílico u óleo sobre madera.</p>
+      <p>Buscamos capturar no solo la imagen, sino la esencia y personalidad única de tu compañero. Cada retrato es una obra original, única e irrepetible.</p>
+      <p><strong>Garantía:</strong> si no amás tu retrato, hacemos ajustes sin cargo.</p>
+      <p class="about-credit">Estudio liderado por <strong>Juana Perfecta</strong> (Brenda Cisnero, Licenciada en Artes)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          ¿Cuánto tiempo tarda mi retrato?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>El plazo estimado de entrega es de 15 días desde que confirmamos tu foto y tu seña.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          ¿Qué tamaño recomiendan?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Depende de dónde lo vayas a colgar. Chico (25x30) para espacios íntimos, Mediano/Grande para living o salón. ¿Dudas? Consultanos por WhatsApp.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          ¿Hay garantía de satisfacción?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>100%. Si no estás conforme, hacemos ajustes sin cargo hasta que ames tu retrato.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          ¿Cómo es el proceso?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>1) Configurás tu retrato, 2) nos escribís por WhatsApp y coordinamos la seña del 50%, 3) creamos el retrato, 4) te mostramos una foto para tu aprobación, 5) entrega.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          ¿Puedo cambiar algo antes de que sea enviado?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Sí. Antes de enviarlo te mostramos el retrato terminado y podés pedir ajustes sin cargo.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          ¿Envían al exterior?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Sí. Los costos y tiempos varían según el país. Consultá por WhatsApp.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          ¿Cómo se calcula el precio?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Tamaño + marco elegido. El configurador te muestra el total estimado en tiempo real.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ 8. FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="logo-name">La Factoría</span>
+      <span class="logo-tagline">by Juana Perfecta</span>
+    </div>
+    <nav class="footer-links" aria-label="Enlaces del pie de página">
+      <a href="#top">Home</a>
+      <a href="#configurador">Shop</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#faq">FAQ</a>
+      <a href="#">Términos</a>
+      <a href="#">Privacidad</a>
+    </nav>
+    <div class="footer-contact">
+      <a href="https://www.instagram.com/lafactoriaderetratos" target="_blank" rel="noopener">Instagram @lafactoriaderetratos</a>
+      <a href="mailto:contacto@lafactoriaderetratos.com">contacto@lafactoriaderetratos.com</a>
+      <span>CABA, Argentina</span>
+    </div>
+    <p class="footer-copy">© <span id="footer-year"></span> La Factoría by Juana Perfecta. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<!-- WhatsApp flotante -->
+<a href="https://wa.me/5491130509450" class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <span aria-hidden="true">💬</span>
+</a>
+
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/mockup.js"></script>
+<script src="js/payment.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
