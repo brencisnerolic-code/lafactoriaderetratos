@@ -40,12 +40,18 @@ window.FACTORIA_CONFIG = {
     { id: "box", label: "Marco BOX", desc: "Efecto 3D, profundidad, más impactante", priceAdd: 10000, availableFor: "all" }
   ],
 
-  // Colores de marco: 4 opciones principales.
+  // Colores de marco: 9 opciones (8 preestablecidas + 1 personalizado).
   frameColors: [
     { id: "negro", label: "Negro (bestseller)", hex: "#1B1815" },
     { id: "blanco", label: "Blanco (minimalista)", hex: "#F7F4EE" },
+    { id: "gris-claro", label: "Gris claro", hex: "#C9C4BB" },
+    { id: "gris-oscuro", label: "Gris oscuro", hex: "#4A473F" },
     { id: "natural", label: "Natural (cálido)", hex: "#D4A574" },
-    { id: "barnizado", label: "Barnizado (clásico)", hex: "#8B7355" }
+    { id: "madera-oscura", label: "Madera oscura", hex: "#6B4423" },
+    { id: "barnizado", label: "Barnizado (clásico)", hex: "#8B7355" },
+    { id: "oro", label: "Oro", hex: "#D4AF37" },
+    { id: "plata", label: "Plata", hex: "#C0C0C0" },
+    { id: "otro", label: "Otro color", hex: null, custom: true }
   ],
 
   // TBD: merchandising aún no tiene precio confirmado — se muestra "Próximamente".
