@@ -1667,6 +1667,26 @@ textarea:focus-visible,
   box-shadow: var(--shadow-lg);
 }
 
+/* ===== Size guide ===== */
+.size-guide {
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+  background-color: var(--color-bg);
+}
+
+.size-guide-image {
+  margin-top: 2.5rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.size-guide-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
   html {
