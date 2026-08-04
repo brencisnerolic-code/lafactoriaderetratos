@@ -21,11 +21,11 @@ window.FACTORIA_CONFIG = {
   },
 
   // Los 3 tamaños destacados en el configurador (spec: máx 3 tarjetas visibles).
-  // Precios reales tomados del presupuesto oficial (PDF, 07/2026).
+  // Precios actualizados (agosto 2024).
   sizes: [
-    { id: "chico", label: "Chico", dims: "25x35cm", price: 250000 },
-    { id: "mediano", label: "Mediano", dims: "35x50cm", price: 300000 },
-    { id: "grande", label: "Grande", dims: "50x70cm", price: 450000 }
+    { id: "chico", label: "Chico", dims: "25x35cm", price: 280000 },
+    { id: "mediano", label: "Mediano", dims: "35x50cm", price: 390000 },
+    { id: "grande", label: "Grande", dims: "50x70cm", price: 490000 }
   ],
 
   // Tamaños reales adicionales, no destacados como tarjeta pero disponibles a pedido.
@@ -34,23 +34,18 @@ window.FACTORIA_CONFIG = {
     { id: "xl", label: "XL", dims: "70x100cm", price: 500000 }
   ],
 
-  // Marco: solo 2 opciones ahora (PLANO y BOX, renacentista eliminado).
+  // Marco: solo 2 opciones (PLANO y BOX). BOX tiene costo adicional.
   frames: [
-    { id: "plano", label: "Marco PLANO", desc: "Elegante y minimalista", priceAdd: 0, availableFor: "all" },
-    { id: "box", label: "Marco BOX", desc: "Con volumen y presencia", priceAdd: 0, availableFor: "all" }
+    { id: "plano", label: "Marco PLANO", desc: "Acabado tradicional, línea limpia", priceAdd: 0, availableFor: "all" },
+    { id: "box", label: "Marco BOX", desc: "Efecto 3D, profundidad, más impactante", priceAdd: 10000, availableFor: "all" }
   ],
 
-  // Colores de marco: 9 opciones (8 preestablecidas + 1 personalizado).
+  // Colores de marco: 4 opciones principales.
   frameColors: [
-    { id: "blanco", label: "Blanco", hex: "#F7F4EE" },
-    { id: "negro", label: "Negro", hex: "#1B1815" },
-    { id: "gris-claro", label: "Gris claro", hex: "#C9C4BB" },
-    { id: "gris-oscuro", label: "Gris oscuro", hex: "#4A473F" },
-    { id: "madera-clara", label: "Madera clara", hex: "#D4A574" },
-    { id: "madera-oscura", label: "Madera oscura", hex: "#6B4423" },
-    { id: "oro", label: "Oro", hex: "#D4AF37" },
-    { id: "plata", label: "Plata", hex: "#C0C0C0" },
-    { id: "otro", label: "Otro color", hex: null, custom: true }
+    { id: "negro", label: "Negro (bestseller)", hex: "#1B1815" },
+    { id: "blanco", label: "Blanco (minimalista)", hex: "#F7F4EE" },
+    { id: "natural", label: "Natural (cálido)", hex: "#D4A574" },
+    { id: "barnizado", label: "Barnizado (clásico)", hex: "#8B7355" }
   ],
 
   // TBD: merchandising aún no tiene precio confirmado — se muestra "Próximamente".
@@ -65,14 +60,12 @@ window.FACTORIA_CONFIG = {
   maxUploadMB: 10,
   acceptedUploadTypes: ["image/jpeg", "image/png"],
 
-  // TBD: datos reales de transferencia a confirmar con Juana (ver README.md).
-  // Nunca inventar estos valores — un dato mal puesto manda la plata del
-  // cliente a una cuenta incorrecta.
+  // Datos de transferencia bancaria (Banco Galicia).
   bankTransfer: {
-    banco: "TBD — completar con Juana",
-    titular: "TBD — completar con Juana",
-    cbu: "TBD — completar con Juana",
-    alias: "TBD — completar con Juana"
+    banco: "Banco Galicia",
+    titular: "Brenda Jeanette Cisnero",
+    cbu: "0070184230004005355418",
+    alias: "BREN.CISNERO"
   },
 
   // El Access Token de Mercado Pago NUNCA va acá (es secreto). Vive como

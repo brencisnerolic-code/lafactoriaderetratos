@@ -1,0 +1,161 @@
+---
+title: "La Factoría de Retratos — Contexto de Proyecto"
+author: "Brenda Cisnero (Juana Perfecta)"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Quién soy
+
+- **Nombre:** Brenda Cisnero, 31 años
+- **Nombre artístico:** Juana Perfecta
+- **Ubicación:** Ciudad Autónoma de Buenos Aires, Argentina
+- **Educación:** Dos licenciaturas en Artes
+- **Filosofía:** "Ausencia de miedo moldeada por la supervivencia" — no es valentía, es haber sobrevivido lo peor
+- **Historia:** Aplicó a TEDxStanford con narrativa de resiliencia (femicidio de hermana, abandono de padres a los 13, se crió sola con hermano mayor)
+
+---
+
+## Proyecto: La Factoría de Retratos
+
+**Qué es:** Sitio de ecommerce de retratos de mascotas pintados a mano, con configurador interactivo, mockup en pared, integración Mercado Pago y opción de transferencia bancaria.
+
+**URL Netlify:** `lafactoriaderetratos.netlify.app`
+**Repo GitHub:** `github.com/brencisnerolic-code/lafactoriaderetratos` (privado)
+
+---
+
+## Stack técnico
+
+- **Frontend:** HTML5 + CSS3 custom properties + JavaScript vanilla
+- **Backend:** Netlify Functions (Node.js) para crear preferencias de Mercado Pago
+- **Hosteo:** Netlify (auto-deploy desde GitHub)
+- **Pago:** Mercado Pago API (checkout pro)
+- **Banco:** Datos de transferencia configurables en `js/config.js` (TBD = aún sin datos reales)
+
+---
+
+## Estructura de archivos
+
+```
+La Factoria de Retratos/
+├── index.html              # Sitio completo (single-page)
+├── gracias.html            # Página de confirmación post-pago
+├── css/
+│   └── style.css           # Todos los estilos (custom properties, responsive)
+├── js/
+│   ├── config.js           # SSOT: tamaños, marcos, colores, precios, etc.
+│   ├── state.js            # FactoriaState: configurador + pricing en tiempo real
+│   ├── mockup.js           # Wall mockup: upload imagen + preview
+│   ├── payment.js          # Lógica de pago (Mercado Pago + transferencia)
+│   └── main.js             # Event listeners, UX globales
+├── netlify/
+│   └── functions/
+│       └── create-preference.js  # Netlify Function: crea pref. MP server-side
+├── netlify.toml            # Config build + headers de seguridad
+├── .gitignore              # Excluye node_modules, .env, .DS_Store, etc.
+└── README.md               # Documentación del proyecto
+```
+
+---
+
+## Configuración actual (config.js)
+
+### Tamaños
+- Chico: 25x35cm — $280.000 ARS
+- Mediano: 35x50cm — $390.000 ARS
+- Grande: 50x70cm — $490.000 ARS
+- (Extra: Mini 10x15cm y XL 70x100cm disponibles a pedido)
+
+### Marcos
+- **PLANO:** Elegante y minimalista (profundidad 1cm, frente 2cm)
+- **BOX:** Con volumen y presencia (profundidad 2cm, frente 1.5cm)
+
+### Colores de marco (9 opciones)
+Blanco, Negro, Gris claro, Gris oscuro, Madera clara, Madera oscura, Oro, Plata, Otro color (personalizado)
+
+### Merchandising
+- Retrato solo (incluido)
+- Remera impresa (próximamente)
+- Totebag impreso (próximamente)
+
+---
+
+## Cambios recientes (agosto 2024)
+
+1. **Sección "Guía de fotos"** → Simplificada a 2 tarjetas:
+   - "Mayor definición = mejor resultado"
+   - "Cualquier foto funciona"
+
+2. **Tamaños** → Cambio de 25x30cm a **25x35cm** (Chico)
+
+3. **Marcos** → Eliminado "Marco renacentista", mantener solo PLANO y BOX
+
+4. **Colores de marco** → Agregadas 9 opciones (antes era "color de fondo")
+
+5. **FAQ** → Reemplazadas todas las preguntas por 10 nuevas exactas (ver index.html)
+
+6. **JavaScript** → Refactored `state.js` y `mockup.js` para usar `frameColors` en lugar de `bgColors`
+
+---
+
+## Pendiente / TBD
+
+- **Datos de transferencia bancaria:** Banco, titular, CBU, alias (en `js/config.js` líneas 74-78)
+- **Portfolio:** Reemplazar placeholders con fotos reales (6+ retratos)
+- **Testimonios:** Agregar 3+ testimonios reales de clientes
+- **Foto de artista:** Reemplazar placeholder de Juana
+- **Mockup en pared:** Mejorar visualización (pared realista + escalado dinámico del marco según tamaño)
+- **Banner hero:** Reemplazar placeholder por imagen real
+
+---
+
+## Integración Mercado Pago
+
+- **Endpoint Netlify:** `/.netlify/functions/create-preference`
+- **Variable de entorno:** `MP_ACCESS_TOKEN` (configurada en Netlify Site settings)
+- **Access Token:** Regenerado (el anterior se revocó por seguridad)
+- **Public Key:** No se usa en este flujo (server-side preference)
+- **Flujo:** Cliente → Frontend (js/payment.js) → Netlify Function → MP API → init_point → redirección checkout
+
+---
+
+## Preferencias de la usuaria
+
+- **Idioma:** Español argentino (vos, che, etc.)
+- **Comunicación:** Directa y eficiente, sin explicaciones innecesarias
+- **Cambios:** "Hacé lo que sea más conveniente" (no requiere aprobación previa para cambios razonables)
+- **Documentación:** El contexto maestro en `Organic & AI/CONTEXT_proyecto_web.md` debe mantenerse actualizado
+
+---
+
+## Checklist rápido antes de trabajar
+
+- [ ] ¿Cambios en `config.js`? → Revisar precios, tamaños, marcos, colores
+- [ ] ¿Cambios en HTML? → Asegurar accesibilidad (ARIA labels, roles)
+- [ ] ¿Cambios en pago? → NO tocar datos bancarios sin confirmación explícita
+- [ ] ¿Cambios en JS? → Probar en navegador (mockup, pricing, WhatsApp flow)
+- [ ] ¿Listo para push?  → `git add . && git commit -m "..." && git push origin main`
+- [ ] ¿Push falló por autenticación?  → Generar nuevo token GitHub, pegar en prompt
+
+---
+
+## Links útiles
+
+- **GitHub Repo:** https://github.com/brencisnerolic-code/lafactoriaderetratos
+- **Netlify Site:** https://app.netlify.com/sites/lafactoriaderetratos/configuration/general
+- **Mercado Pago Panel:** https://www.mercadopago.com.ar/developers/panel
+- **Documento de contexto maestro:** `/Downloads/Juana Perfecta/Organic & AI/CONTEXT_proyecto_web.md`
+
+---
+
+## Notas de seguridad
+
+- **NUNCA commitear** tokens, API keys, credenciales
+- **NUNCA pegar** en el chat: GitHub tokens, MP Access Tokens, datos bancarios
+- **Siempre usar** variables de entorno en Netlify
+- **Siempre limpiar** historial de terminal después de pegar credenciales
+
+---
+
+*Pegá este archivo en nuevos chats para dar contexto sin saturar la conversación.*
