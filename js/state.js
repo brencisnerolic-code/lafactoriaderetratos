@@ -29,8 +29,8 @@
   const selection = {
     size: null,
     frame: null,
-    bg: null,
-    customBgLabel: "",
+    frameColor: null,
+    customFrameColorLabel: "",
     merch: "solo"
   };
 
@@ -40,8 +40,8 @@
   function findFrame(id) {
     return CFG.frames.find((f) => f.id === id);
   }
-  function findBg(id) {
-    return CFG.bgColors.find((c) => c.id === id);
+  function findFrameColor(id) {
+    return CFG.frameColors.find((c) => c.id === id);
   }
   function findMerch(id) {
     return CFG.merch.find((m) => m.id === id);
@@ -79,9 +79,9 @@
     emitChange();
   }
 
-  function setBg(id, customLabel) {
-    selection.bg = id;
-    selection.customBgLabel = id === "otro" ? customLabel || "" : "";
+  function setFrameColor(id, customLabel) {
+    selection.frameColor = id;
+    selection.customFrameColorLabel = id === "otro" ? customLabel || "" : "";
     syncActiveStates();
     emitChange();
   }
@@ -118,18 +118,18 @@
   function getLabels() {
     const size = findSize(selection.size);
     const frame = findFrame(selection.frame);
-    const bg = findBg(selection.bg);
+    const frameColor = findFrameColor(selection.frameColor);
     const merch = findMerch(selection.merch);
     return {
       sizeLabel: size ? `${size.label} (${size.dims})` : "—",
-      frameLabel: frame ? frame.label + (frame.note ? " · precio a confirmar" : "") : "—",
-      bgLabel: bg ? (bg.id === "otro" && selection.customBgLabel ? selection.customBgLabel : bg.label) : "—",
+      frameLabel: frame ? frame.label : "—",
+      frameColorLabel: frameColor ? (frameColor.id === "otro" && selection.customFrameColorLabel ? selection.customFrameColorLabel : frameColor.label) : "—",
       merchLabel: merch ? merch.label : "Retrato solo"
     };
   }
 
   function isReadyForMockup() {
-    return Boolean(selection.size && selection.frame && selection.bg);
+    return Boolean(selection.size && selection.frame && selection.frameColor);
   }
 
   // ---------- rendering: options ----------
@@ -171,26 +171,26 @@
     });
   }
 
-  function renderBgOptions() {
-    const wrap = document.querySelector("#step-bg .bg-options");
+  function renderFrameColorOptions() {
+    const wrap = document.querySelector("#step-frame-color .frame-color-options");
     if (!wrap) return;
-    wrap.innerHTML = CFG.bgColors
+    wrap.innerHTML = CFG.frameColors
       .map(
         (c) => `
-      <button type="button" class="color-swatch${c.custom ? " color-swatch--custom" : ""}" data-bg="${c.id}"
+      <button type="button" class="color-swatch${c.custom ? " color-swatch--custom" : ""}" data-frame-color="${c.id}"
         aria-pressed="false" aria-label="${c.label}" style="${c.hex ? `--swatch-color:${c.hex}` : ""}">
         ${c.custom ? "?" : ""}
       </button>`
       )
-      .join("") + '<span class="bg-option-label" id="bg-option-label">Elegí un color</span>';
+      .join("") + '<span class="frame-color-option-label" id="frame-color-option-label">Elegí un color</span>';
     wrap.querySelectorAll(".color-swatch").forEach((btn) => {
       btn.addEventListener("click", () => {
-        if (btn.dataset.bg === "otro") {
-          const custom = window.prompt("Describí el color de fondo que te gustaría:", selection.customBgLabel || "");
+        if (btn.dataset.frameColor === "otro") {
+          const custom = window.prompt("Describí el color de marco que te gustaría:", selection.customFrameColorLabel || "");
           if (custom === null) return;
-          setBg("otro", custom.trim());
+          setFrameColor("otro", custom.trim());
         } else {
-          setBg(btn.dataset.bg);
+          setFrameColor(btn.dataset.frameColor);
         }
       });
     });
@@ -226,7 +226,7 @@
       btn.setAttribute("aria-pressed", String(active));
     });
     document.querySelectorAll(".color-swatch").forEach((btn) => {
-      const active = btn.dataset.bg === selection.bg;
+      const active = btn.dataset.frameColor === selection.frameColor;
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-pressed", String(active));
     });
@@ -242,13 +242,13 @@
     const totalEl = document.getElementById("summary-total");
     const sizeEl = document.getElementById("summary-size");
     const frameEl = document.getElementById("summary-frame");
-    const bgEl = document.getElementById("summary-bg");
+    const frameColorEl = document.getElementById("summary-frame-color");
     const merchEl = document.getElementById("summary-merch");
     const nextBtn = document.getElementById("btn-to-mockup");
 
     if (sizeEl) sizeEl.textContent = labels.sizeLabel;
     if (frameEl) frameEl.textContent = labels.frameLabel;
-    if (bgEl) bgEl.textContent = labels.bgLabel;
+    if (frameColorEl) frameColorEl.textContent = labels.frameColorLabel;
     if (merchEl) merchEl.textContent = labels.merchLabel;
 
     const price = getPrice();
@@ -268,8 +268,8 @@
       `¡Hola! Quiero encargar un retrato en *La Factoría*.`,
       ``,
       `*Tamaño:* ${labels.sizeLabel}`,
-      `*Marco:* ${labels.frameLabel}`,
-      `*Fondo:* ${labels.bgLabel}`,
+      `*Tipo de marco:* ${labels.frameLabel}`,
+      `*Color de marco:* ${labels.frameColorLabel}`,
       `*Extra:* ${labels.merchLabel}`,
       `*Total estimado:* ${price === null ? "a confirmar" : formatARS(price)}`,
       ``
@@ -293,7 +293,7 @@
   function init() {
     renderSizeOptions();
     renderFrameOptions();
-    renderBgOptions();
+    renderFrameColorOptions();
     renderMerchOptions();
     syncActiveStates();
     renderSummary();
@@ -303,7 +303,7 @@
     selection,
     setSize,
     setFrame,
-    setBg,
+    setFrameColor,
     setMerch,
     getPrice,
     getLabels,

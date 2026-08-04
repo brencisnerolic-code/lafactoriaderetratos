@@ -23,7 +23,7 @@ window.FACTORIA_CONFIG = {
   // Los 3 tamaños destacados en el configurador (spec: máx 3 tarjetas visibles).
   // Precios reales tomados del presupuesto oficial (PDF, 07/2026).
   sizes: [
-    { id: "chico", label: "Chico", dims: "25x30cm", price: 250000 },
+    { id: "chico", label: "Chico", dims: "25x35cm", price: 250000 },
     { id: "mediano", label: "Mediano", dims: "35x50cm", price: 300000 },
     { id: "grande", label: "Grande", dims: "50x70cm", price: 450000 }
   ],
@@ -34,25 +34,22 @@ window.FACTORIA_CONFIG = {
     { id: "xl", label: "XL", dims: "70x100cm", price: 500000 }
   ],
 
-  // Marco: solo lo que realmente se ofrece hoy. "Renacentista" únicamente para 35x50cm.
+  // Marco: solo 2 opciones ahora (PLANO y BOX, renacentista eliminado).
   frames: [
-    { id: "simple", label: "Marco simple de madera", priceAdd: 0, availableFor: "all" },
-    {
-      id: "renacentista",
-      label: "Marco renacentista",
-      priceAdd: null,
-      availableFor: ["mediano"],
-      note: "Disponible solo en 35x50cm · precio a confirmar por WhatsApp"
-    }
+    { id: "plano", label: "Marco PLANO", desc: "Elegante y minimalista", priceAdd: 0, availableFor: "all" },
+    { id: "box", label: "Marco BOX", desc: "Con volumen y presencia", priceAdd: 0, availableFor: "all" }
   ],
 
-  // TBD: colores de fondo a confirmar con Juana (spec sugiere estos 6).
-  bgColors: [
-    { id: "blanco", label: "Blanco limpio", hex: "#F7F4EE" },
+  // Colores de marco: 9 opciones (8 preestablecidas + 1 personalizado).
+  frameColors: [
+    { id: "blanco", label: "Blanco", hex: "#F7F4EE" },
+    { id: "negro", label: "Negro", hex: "#1B1815" },
     { id: "gris-claro", label: "Gris claro", hex: "#C9C4BB" },
     { id: "gris-oscuro", label: "Gris oscuro", hex: "#4A473F" },
-    { id: "negro", label: "Negro", hex: "#1B1815" },
-    { id: "celeste", label: "Azul claro", hex: "#A9C4D4" },
+    { id: "madera-clara", label: "Madera clara", hex: "#D4A574" },
+    { id: "madera-oscura", label: "Madera oscura", hex: "#6B4423" },
+    { id: "oro", label: "Oro", hex: "#D4AF37" },
+    { id: "plata", label: "Plata", hex: "#C0C0C0" },
     { id: "otro", label: "Otro color", hex: null, custom: true }
   ],
 

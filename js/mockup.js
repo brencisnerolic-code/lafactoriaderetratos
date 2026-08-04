@@ -160,14 +160,14 @@
       frameEl.setAttribute("data-frame", selection.frame);
     }
 
-    if (selection.bg) {
-      frameEl.setAttribute("data-bg", selection.bg);
-      if (innerEl && cfg) {
-        const bgColor = cfg.bgColors.find((c) => c.id === selection.bg);
-        if (bgColor && bgColor.hex) {
-          innerEl.style.setProperty("--mockup-bg-color", bgColor.hex);
+    if (selection.frameColor) {
+      frameEl.setAttribute("data-frame-color", selection.frameColor);
+      if (frameEl && cfg) {
+        const frameColor = cfg.frameColors.find((c) => c.id === selection.frameColor);
+        if (frameColor && frameColor.hex) {
+          frameEl.style.setProperty("--mockup-frame-color", frameColor.hex);
         } else {
-          innerEl.style.removeProperty("--mockup-bg-color");
+          frameEl.style.removeProperty("--mockup-frame-color");
         }
       }
     }
