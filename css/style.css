@@ -68,8 +68,8 @@ button {
   --color-accent-dark: #9C4529;
   --color-border: #E2D9C8;
 
-  --font-heading: 'Fraunces', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
   --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 
   --radius-sm: 6px;
@@ -102,25 +102,31 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.15;
   color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 h1 {
-  font-size: clamp(2.25rem, 1.9rem + 2vw, 3.75rem);
-  font-weight: 500;
+  font-size: clamp(1.5rem, 1.25rem + 1.5vw, 3rem);
+  font-weight: 400;
 }
 
 h2 {
-  font-size: clamp(1.75rem, 1.5rem + 1.2vw, 2.75rem);
+  font-size: clamp(1.35rem, 1.15rem + 1vw, 2.25rem);
+  font-weight: 400;
 }
 
 h3 {
-  font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.5rem);
+  font-size: clamp(1rem, 0.95rem + 0.4vw, 1.35rem);
+  font-weight: 400;
 }
 
 p {
+  font-family: var(--font-body);
+  font-weight: 400;
   color: var(--color-text-muted);
 }
 
@@ -204,10 +210,13 @@ textarea:focus-visible,
   gap: 0.5rem;
   padding: 0.85rem 1.75rem;
   border-radius: 999px;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-weight: 700;
   font-size: 0.95rem;
   line-height: 1.2;
   border: 1px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   transition: background-color var(--transition-base), color var(--transition-base),
     border-color var(--transition-base), transform var(--transition-base), opacity var(--transition-base);
   white-space: nowrap;
