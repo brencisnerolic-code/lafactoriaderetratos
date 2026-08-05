@@ -308,22 +308,22 @@ textarea:focus-visible,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: 0.5rem;
+  padding-block: 0.2rem;
   transition: padding-block var(--transition-base);
 }
 
 .site-header.is-scrolled .header-inner {
-  padding-block: 0.3rem;
+  padding-block: 0.1rem;
 }
 
 .logo-mark {
   display: flex;
   align-items: center;
-  height: 190px;
+  height: 210px;
 }
 
 .logo-image {
-  max-height: 190px;
+  max-height: 210px;
   width: auto;
   display: block;
 }
