@@ -308,12 +308,12 @@ textarea:focus-visible,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: 0.2rem;
+  padding-block: 0;
   transition: padding-block var(--transition-base);
 }
 
 .site-header.is-scrolled .header-inner {
-  padding-block: 0.1rem;
+  padding-block: 0;
 }
 
 .logo-mark {
