@@ -319,11 +319,11 @@ textarea:focus-visible,
 .logo-mark {
   display: flex;
   align-items: center;
-  height: 65px;
+  height: 75px;
 }
 
 .logo-image {
-  max-height: 65px;
+  max-height: 75px;
   width: auto;
   display: block;
 }
