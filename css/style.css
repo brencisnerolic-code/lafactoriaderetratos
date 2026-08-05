@@ -68,8 +68,8 @@ button {
   --color-accent-dark: #9C4529;
   --color-border: #E2D9C8;
 
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Montserrat', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
   --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 
   --radius-sm: 6px;
@@ -102,32 +102,35 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
-  font-weight: 400;
-  line-height: 1.15;
+  font-weight: 600;
+  line-height: 1.2;
   color: var(--color-text);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 h1 {
   font-size: clamp(1.5rem, 1.25rem + 1.5vw, 3rem);
-  font-weight: 400;
+  font-weight: 700;
+  line-height: 1.15;
 }
 
 h2 {
   font-size: clamp(1.35rem, 1.15rem + 1vw, 2.25rem);
-  font-weight: 400;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 h3 {
   font-size: clamp(1rem, 0.95rem + 0.4vw, 1.35rem);
-  font-weight: 400;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 p {
   font-family: var(--font-body);
   font-weight: 400;
   color: var(--color-text-muted);
+  line-height: 1.6;
 }
 
 strong {
@@ -211,12 +214,12 @@ textarea:focus-visible,
   padding: 0.85rem 1.75rem;
   border-radius: 999px;
   font-family: var(--font-body);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.95rem;
   line-height: 1.2;
   border: 1px solid transparent;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   transition: background-color var(--transition-base), color var(--transition-base),
     border-color var(--transition-base), transform var(--transition-base), opacity var(--transition-base);
   white-space: nowrap;
