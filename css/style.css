@@ -306,24 +306,26 @@ textarea:focus-visible,
 
 .header-inner {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding-block: 0;
-  transition: padding-block var(--transition-base);
+  padding-top: 0.2rem;
+  padding-bottom: 0;
+  transition: padding var(--transition-base);
 }
 
 .site-header.is-scrolled .header-inner {
-  padding-block: 0;
+  padding-top: 0.15rem;
+  padding-bottom: 0;
 }
 
 .logo-mark {
   display: flex;
   align-items: center;
-  height: 210px;
+  height: 168px;
 }
 
 .logo-image {
-  max-height: 210px;
+  max-height: 168px;
   width: auto;
   display: block;
 }
