@@ -19,7 +19,8 @@
  *
  * DOM contract this file owns/renders into:
  *   #step-size        .size-options       -> one .size-card[data-size] button per config.sizes
- *   #step-frame        .frame-options      -> one .frame-card[data-frame] button per config.frames
+ *   #step-frame        .frame-picker       -> config.frameImage + one .frame-hotspot per config.frames
+ *                       #frame-selected     -> caption with the currently chosen frame type
  *   #step-frame-color  .frame-color-picker -> config.frameColorImage + one .frame-color-hotspot per config.frameColors
  *                       #frame-color-selected -> caption with the currently chosen frame color
  *   #bg-pref (radio inputs, static markup) + #bg-pref-custom-text + #bg-pref-custom-field
@@ -213,22 +214,34 @@
   }
 
   function renderFrameOptions() {
-    const wrap = document.querySelector("#step-frame .frame-options");
+    const wrap = document.querySelector("#step-frame .frame-picker");
     if (!wrap) return;
-    wrap.innerHTML = CFG.frames
+    const hotspots = CFG.frames
       .map((f) => {
         const available = isFrameAvailable(f.id, selection.size);
         return `
-      <button type="button" class="frame-card${available ? "" : " is-disabled"}" data-frame="${f.id}"
-        aria-pressed="false" ${available ? "" : "disabled"}>
-        <span class="frame-card-label">${f.label}</span>
-        ${f.note ? `<span class="frame-card-note">${f.note}</span>` : ""}
-      </button>`;
+      <button type="button" class="frame-hotspot${available ? "" : " is-disabled"}" data-frame="${f.id}"
+        aria-pressed="false" aria-label="Elegir ${f.label}" ${available ? "" : "disabled"}
+        style="left:${f.hotspot.left}%;top:${f.hotspot.top}%;width:${f.hotspot.width}%;height:${f.hotspot.height}%;"></button>`;
       })
       .join("");
-    wrap.querySelectorAll(".frame-card:not(.is-disabled)").forEach((btn) => {
+    wrap.innerHTML = `<img src="${CFG.frameImage}" alt="Los 2 tipos de marco disponibles: Marco Box y Marco Plano" class="frame-picker-image">${hotspots}`;
+    wrap.querySelectorAll(".frame-hotspot:not(.is-disabled)").forEach((btn) => {
       btn.addEventListener("click", () => setFrame(btn.dataset.frame));
     });
+    renderFrameSelected();
+  }
+
+  function renderFrameSelected() {
+    const el = document.getElementById("frame-selected");
+    if (!el) return;
+    const frame = findFrame(selection.frame);
+    if (!frame) {
+      el.textContent = "Elegí un marco tocando la imagen";
+      return;
+    }
+    const priceNote = frame.priceAdd ? ` (+${formatARS(frame.priceAdd)})` : " — sin costo extra";
+    el.innerHTML = `Elegiste: <strong>${frame.label}</strong>${priceNote}`;
   }
 
   function renderFrameColorOptions() {
@@ -322,11 +335,12 @@
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-pressed", String(active));
     });
-    document.querySelectorAll(".frame-card").forEach((btn) => {
+    document.querySelectorAll(".frame-hotspot").forEach((btn) => {
       const active = btn.dataset.frame === selection.frame;
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-pressed", String(active));
     });
+    renderFrameSelected();
     document.querySelectorAll(".frame-color-hotspot").forEach((btn) => {
       const active = btn.dataset.frameColor === selection.frameColor;
       btn.classList.toggle("is-active", active);

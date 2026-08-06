@@ -620,8 +620,7 @@ textarea:focus-visible,
   text-underline-offset: 2px;
 }
 
-.size-options,
-.frame-options {
+.size-options {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
@@ -635,15 +634,13 @@ textarea:focus-visible,
 }
 
 @media (min-width: 640px) {
-  .size-options,
-  .frame-options {
+  .size-options {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Card buttons: size / frame */
-.size-card,
-.frame-card {
+/* Card buttons: size */
+.size-card {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -656,15 +653,13 @@ textarea:focus-visible,
     transform var(--transition-base), box-shadow var(--transition-base), opacity var(--transition-base);
 }
 
-.size-card:hover,
-.frame-card:not(.is-disabled):hover {
+.size-card:hover {
   border-color: var(--color-accent);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
 
-.size-card.is-active,
-.frame-card.is-active {
+.size-card.is-active {
   border-color: var(--color-accent);
   background-color: rgba(196, 167, 71, 0.1);
   box-shadow: 0 0 0 1px var(--color-accent) inset;
@@ -689,28 +684,83 @@ textarea:focus-visible,
   margin-top: 0.25rem;
 }
 
-.frame-card-label {
-  font-weight: 600;
-  font-size: 0.98rem;
+/* ===== Tipo de marco (paso 2): imagen clickeable ===== */
+.frame-material-note {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
 }
 
-.frame-card-note {
-  font-size: 0.78rem;
-  font-style: italic;
+.frame-picker {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.frame-picker-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.frame-hotspot {
+  position: absolute;
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+  background-color: transparent;
+  cursor: pointer;
+  transition: border-color var(--transition-base), background-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.frame-hotspot:hover {
+  border-color: rgba(196, 167, 71, 0.5);
+  background-color: rgba(196, 167, 71, 0.08);
+}
+
+.frame-hotspot.is-active {
+  border-color: var(--color-accent);
+  background-color: rgba(196, 167, 71, 0.12);
+  box-shadow: 0 0 0 3px rgba(196, 167, 71, 0.2);
+}
+
+.frame-hotspot:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.frame-hotspot.is-disabled,
+.frame-hotspot:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.frame-selected {
+  margin-top: 1rem;
+  font-size: 0.95rem;
   color: var(--color-text-muted);
 }
 
-.frame-card.is-disabled,
-.frame-card:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: var(--color-bg-alt);
+.frame-selected strong {
+  color: var(--color-accent-dark);
 }
 
-.frame-card.is-disabled:hover {
-  transform: none;
-  box-shadow: none;
-  border-color: var(--color-border);
+.frame-specs {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.frame-specs strong {
+  color: var(--color-text);
 }
 
 /* ===== Merchandising (paso 4) ===== */

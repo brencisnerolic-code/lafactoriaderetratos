@@ -34,10 +34,24 @@ window.FACTORIA_CONFIG = {
     { id: "xl", label: "XL", dims: "70x100cm", price: 500000 }
   ],
 
-  // Marco: solo 2 opciones (PLANO y BOX). BOX tiene costo adicional.
+  // Marco: solo 2 opciones (PLANO y BOX). BOX tiene costo adicional. El
+  // cliente elige clickeando directamente sobre el marco que le gusta en la
+  // imagen combinada "tipo de marco.png" (mismo mecanismo que frameColors).
+  frameImage: "tipo de marco.png",
+  frameMaterial: "Cuadro realizado en madera Kiri, con vidrio, tapa trasera de desmonte y soporte para colgar.",
   frames: [
-    { id: "plano", label: "Marco PLANO", desc: "Acabado tradicional, línea limpia", priceAdd: 0, availableFor: "all" },
-    { id: "box", label: "Marco BOX", desc: "Efecto 3D, profundidad, más impactante", priceAdd: 10000, availableFor: "all" }
+    {
+      id: "plano", label: "Marco PLANO", desc: "Acabado tradicional, línea limpia",
+      specs: "2 cm frente × 1 cm profundidad",
+      priceAdd: 0, availableFor: "all",
+      hotspot: { left: 54, top: 8, width: 29, height: 84 }
+    },
+    {
+      id: "box", label: "Marco BOX", desc: "Efecto 3D, profundidad, más impactante",
+      specs: "1,5 cm frente × 2 cm profundidad",
+      priceAdd: 10000, availableFor: "all",
+      hotspot: { left: 15, top: 8, width: 30, height: 84 }
+    }
   ],
 
   // Colores de marco: 4 opciones de la línea Kiri. El cliente elige clickeando
