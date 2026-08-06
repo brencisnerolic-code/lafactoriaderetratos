@@ -1,6 +1,7 @@
 /**
- * mockup.js — wall mockup feature: pet photo upload + compositing into the
- * frame preview (rotate/light controls), kept in sync with FactoriaState.
+ * mockup.js — wall mockup feature: pet photo upload, composited on top of a
+ * real living-room photo that swaps per selected size (config.sizes[].wallImage
+ * + wallCanvas), plus rotate/light controls. Kept in sync with FactoriaState.
  *
  * Depends on window.FACTORIA_CONFIG (config.js) and window.FactoriaState
  * (state.js), both loaded before this file.
@@ -113,9 +114,9 @@
   // ---------- rotate / lighting controls ----------
 
   function applyRotation() {
-    const frame = document.getElementById("mockup-frame");
-    if (!frame) return;
-    frame.style.transform = `rotateY(${ROTATION_ANGLES[rotationIndex]}deg)`;
+    const wall = document.getElementById("mockup-wall");
+    if (!wall) return;
+    wall.style.transform = `rotateY(${ROTATION_ANGLES[rotationIndex]}deg)`;
   }
 
   function initControls() {
@@ -149,28 +150,47 @@
 
   // ---------- sync with FactoriaState ----------
 
+  // El marco y su color ya vienen fotografiados dentro de cada wallImage
+  // (una foto real de living por tamaño) — lo único que cambia por selección
+  // es CUÁL de esas 3 fotos se muestra, y dónde se superpone la foto que
+  // sube el cliente (wallCanvas, medido a mano sobre cada foto).
+  function findSizeConfig(sizeId) {
+    const cfg = getConfig();
+    if (!cfg || !sizeId) return null;
+    return cfg.sizes.find((s) => s.id === sizeId) || (cfg.sizesExtra || []).find((s) => s.id === sizeId) || null;
+  }
+
+  function syncWallForSize(sizeId) {
+    const wall = document.getElementById("mockup-wall");
+    const photoArea = document.getElementById("mockup-photo-area");
+    const hint = document.getElementById("mockup-size-hint");
+    if (!wall || !photoArea) return;
+
+    const size = findSizeConfig(sizeId);
+    if (!size || !size.wallImage || !size.wallCanvas) {
+      wall.style.backgroundImage = "";
+      wall.classList.add("is-empty");
+      if (hint) hint.hidden = true;
+      return;
+    }
+
+    wall.classList.remove("is-empty");
+    wall.style.backgroundImage = `url("${size.wallImage}")`;
+    const c = size.wallCanvas;
+    photoArea.style.left = c.left + "%";
+    photoArea.style.top = c.top + "%";
+    photoArea.style.width = c.width + "%";
+    photoArea.style.height = c.height + "%";
+
+    if (hint) {
+      hint.textContent = `Así se ve a escala real el tamaño ${size.label} (${size.dims})`;
+      hint.hidden = false;
+    }
+  }
+
   function syncFromSelection(selection) {
     if (!selection) return;
-    const frameEl = document.getElementById("mockup-frame");
-    const innerEl = $(".mockup-frame-inner");
-    const cfg = getConfig();
-    if (!frameEl) return;
-
-    if (selection.frame) {
-      frameEl.setAttribute("data-frame", selection.frame);
-    }
-
-    if (selection.frameColor) {
-      frameEl.setAttribute("data-frame-color", selection.frameColor);
-      if (frameEl && cfg) {
-        const frameColor = cfg.frameColors.find((c) => c.id === selection.frameColor);
-        if (frameColor && frameColor.hex) {
-          frameEl.style.setProperty("--mockup-frame-color", frameColor.hex);
-        } else {
-          frameEl.style.removeProperty("--mockup-frame-color");
-        }
-      }
-    }
+    syncWallForSize(selection.size);
   }
 
   function initStateSync() {

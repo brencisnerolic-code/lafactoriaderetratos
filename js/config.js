@@ -22,10 +22,28 @@ window.FACTORIA_CONFIG = {
 
   // Los 3 tamaños destacados en el configurador (spec: máx 3 tarjetas visibles).
   // Precios actualizados (agosto 2024).
+  //
+  // wallImage/wallCanvas alimentan el mockup de pared (paso "Mirá tu retrato
+  // en la pared"): wallImage es la foto de ambiente real para ese tamaño, y
+  // wallCanvas es el rectángulo (en %, medido sobre esa foto) donde va la
+  // foto que sube el cliente — el marco ya viene fotografiado en la imagen,
+  // así que la superposición solo necesita esas 4 coordenadas.
   sizes: [
-    { id: "chico", label: "Chico", dims: "25x35cm", price: 280000 },
-    { id: "mediano", label: "Mediano", dims: "35x50cm", price: 390000 },
-    { id: "grande", label: "Grande", dims: "50x70cm", price: 490000 }
+    {
+      id: "chico", label: "Chico", dims: "25x35cm", price: 280000,
+      wallImage: "25x35.png",
+      wallCanvas: { left: 41.57, top: 20.07, width: 15.75, height: 30.57 }
+    },
+    {
+      id: "mediano", label: "Mediano", dims: "35x45cm", price: 390000,
+      wallImage: "35x45.png",
+      wallCanvas: { left: 42.96, top: 21.92, width: 12.29, height: 24.13 }
+    },
+    {
+      id: "grande", label: "Grande", dims: "50x70cm", price: 490000,
+      wallImage: "50x70.png",
+      wallCanvas: { left: 44.20, top: 24.12, width: 9.67, height: 18.69 }
+    }
   ],
 
   // Tamaños reales adicionales, no destacados como tarjeta pero disponibles a pedido.

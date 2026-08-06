@@ -1108,19 +1108,31 @@ textarea:focus-visible,
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
+  perspective: 1200px;
 }
 
+/* .mockup-wall es la foto real de living correspondiente al tamaño elegido
+   (config.sizes[].wallImage) — el marco ya está fotografiado adentro, así
+   que solo superponemos la foto del cliente en el rectángulo medido
+   (.mockup-photo-area, posicionado por JS con config.sizes[].wallCanvas). */
 .mockup-wall {
+  position: relative;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(2.5rem, 8vw, 5rem);
+  max-width: 560px;
+  aspect-ratio: 1448 / 1086;
   border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-bg-alt);
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--shadow-md);
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease, filter var(--transition-base), box-shadow var(--transition-base);
+}
+
+.mockup-wall.is-empty {
+  background-image: none !important;
   background: linear-gradient(160deg, #EFE9DD 0%, #E4DCCB 55%, #D9CFBA 100%);
-  box-shadow: inset 0 0 60px rgba(36, 31, 26, 0.06);
-  perspective: 1200px;
-  transition: filter var(--transition-base), box-shadow var(--transition-base);
 }
 
 .mockup-wall.is-dim {
@@ -1128,43 +1140,14 @@ textarea:focus-visible,
   box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.35);
 }
 
-.mockup-frame {
-  position: relative;
-  width: min(320px, 100%);
-  aspect-ratio: 4 / 5;
-  background-color: #E7DCC4;
-  border-radius: 2px;
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease, filter 0.4s ease;
-  filter: drop-shadow(0 18px 30px rgba(36, 31, 26, 0.28));
-}
-
-.mockup-frame[data-frame="simple"] {
-  padding: 14px;
-  border: 1px solid rgba(36, 31, 26, 0.15);
-  background-color: #C7A26B;
-}
-
-.mockup-frame[data-frame="renacentista"] {
-  padding: 26px;
-  background-color: #8C6A3B;
-  border: 3px solid #6E4F26;
-  box-shadow:
-    inset 0 0 0 4px #B99655,
-    inset 0 0 0 8px #6E4F26,
-    inset 0 0 0 11px #D4B579,
-    0 18px 30px rgba(36, 31, 26, 0.28);
-}
-
-.mockup-frame-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background-color: var(--mockup-bg-color, #F7F4EE);
+.mockup-photo-area {
+  position: absolute;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(247, 244, 238, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(36, 31, 26, 0.1);
 }
 
 #mockup-pet-image {
@@ -1175,9 +1158,14 @@ textarea:focus-visible,
 
 .mockup-placeholder {
   color: var(--color-text-muted);
-  font-size: 0.85rem;
+  font-size: 1.15rem;
+  opacity: 0.55;
+}
+
+.mockup-size-hint {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
   text-align: center;
-  padding: 1.5rem;
 }
 
 .mockup-controls {

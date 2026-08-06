@@ -75,7 +75,7 @@
 
   function setSize(id) {
     selection.size = id;
-    // El marco renacentista solo existe para "mediano" (35x50) — si ya no aplica, se resetea.
+    // Si el marco elegido ya no está disponible para el nuevo tamaño, se resetea.
     if (selection.frame && !isFrameAvailable(selection.frame, id)) {
       selection.frame = null;
     }
