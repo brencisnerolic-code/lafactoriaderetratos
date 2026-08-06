@@ -553,7 +553,7 @@ textarea:focus-visible,
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: rgba(190, 91, 56, 0.12);
+  background-color: rgba(196, 167, 71, 0.12);
   color: var(--color-accent);
   font-weight: 700;
 }
@@ -621,8 +621,7 @@ textarea:focus-visible,
 }
 
 .size-options,
-.frame-options,
-.merch-options {
+.frame-options {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
@@ -637,16 +636,14 @@ textarea:focus-visible,
 
 @media (min-width: 640px) {
   .size-options,
-  .frame-options,
-  .merch-options {
+  .frame-options {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Card buttons: size / frame / merch */
+/* Card buttons: size / frame */
 .size-card,
-.frame-card,
-.merch-card {
+.frame-card {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -660,18 +657,16 @@ textarea:focus-visible,
 }
 
 .size-card:hover,
-.frame-card:not(.is-disabled):hover,
-.merch-card:not(.is-disabled):hover {
+.frame-card:not(.is-disabled):hover {
   border-color: var(--color-accent);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
 
 .size-card.is-active,
-.frame-card.is-active,
-.merch-card.is-active {
+.frame-card.is-active {
   border-color: var(--color-accent);
-  background-color: rgba(190, 91, 56, 0.07);
+  background-color: rgba(196, 167, 71, 0.1);
   box-shadow: 0 0 0 1px var(--color-accent) inset;
 }
 
@@ -694,33 +689,144 @@ textarea:focus-visible,
   margin-top: 0.25rem;
 }
 
-.frame-card-label,
-.merch-card-label {
+.frame-card-label {
   font-weight: 600;
   font-size: 0.98rem;
 }
 
-.frame-card-note,
-.merch-card-note {
+.frame-card-note {
   font-size: 0.78rem;
   font-style: italic;
   color: var(--color-text-muted);
 }
 
 .frame-card.is-disabled,
-.merch-card.is-disabled,
-.frame-card:disabled,
-.merch-card:disabled {
+.frame-card:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   background-color: var(--color-bg-alt);
 }
 
-.frame-card.is-disabled:hover,
-.merch-card.is-disabled:hover {
+.frame-card.is-disabled:hover {
   transform: none;
   box-shadow: none;
   border-color: var(--color-border);
+}
+
+/* ===== Merchandising (paso 4) ===== */
+.merch-intro {
+  background-color: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.1rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.merch-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.merch-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.35rem;
+  transition: border-color var(--transition-base), background-color var(--transition-base);
+}
+
+.merch-item.is-free {
+  border-color: var(--color-accent);
+  background-color: rgba(196, 167, 71, 0.08);
+}
+
+.merch-item.is-added {
+  border-color: var(--color-accent);
+}
+
+.merch-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 200px;
+}
+
+.merch-item-label {
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+
+.merch-item-desc {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.merch-item-action {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.merch-item-price {
+  font-weight: 600;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.merch-badge-free {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.btn-merch-add {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text);
+  background-color: transparent;
+  border: 1.5px solid var(--color-text);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  white-space: nowrap;
+  transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+}
+
+.btn-merch-add:hover,
+.btn-merch-add:focus-visible {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+}
+
+.btn-merch-add.is-active {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.btn-merch-add.is-active:hover,
+.btn-merch-add.is-active:focus-visible {
+  background-color: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
 }
 
 /* Color swatches */
@@ -876,12 +982,12 @@ textarea:focus-visible,
 .dropzone:hover,
 .dropzone:focus-visible {
   border-color: var(--color-accent);
-  background-color: rgba(190, 91, 56, 0.04);
+  background-color: rgba(196, 167, 71, 0.04);
 }
 
 .dropzone.is-dragover {
   border-color: var(--color-accent);
-  background-color: rgba(190, 91, 56, 0.09);
+  background-color: rgba(196, 167, 71, 0.09);
 }
 
 .dropzone-content p {
@@ -896,7 +1002,7 @@ textarea:focus-visible,
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: rgba(190, 91, 56, 0.1);
+  background-color: rgba(196, 167, 71, 0.1);
   color: var(--color-accent);
   font-size: 1.4rem;
   margin-bottom: 1rem;
@@ -1043,7 +1149,7 @@ textarea:focus-visible,
 .form-row textarea:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(190, 91, 56, 0.15);
+  box-shadow: 0 0 0 3px rgba(196, 167, 71, 0.15);
 }
 
 .form-row-full {
@@ -1555,7 +1661,7 @@ textarea:focus-visible,
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background-color: rgba(190, 91, 56, 0.1);
+  background-color: rgba(196, 167, 71, 0.1);
   color: var(--color-accent);
   font-size: 1rem;
   transition: transform var(--transition-base);

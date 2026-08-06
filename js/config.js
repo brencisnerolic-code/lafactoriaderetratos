@@ -54,12 +54,21 @@ window.FACTORIA_CONFIG = {
     { id: "otro", label: "Otro color", hex: null, custom: true }
   ],
 
-  // TBD: merchandising aún no tiene precio confirmado — se muestra "Próximamente".
-  merch: [
-    { id: "solo", label: "Retrato solo", priceAdd: 0, available: true },
-    { id: "remera", label: "Retrato + Remera impresa", priceAdd: null, available: false },
-    { id: "totebag", label: "Retrato + Totebag impreso", priceAdd: null, available: false }
+  // Merchandising opcional. Cada tamaño de retrato incluye algunos ítems
+  // gratis automáticamente (ver merchFreeBySize) — el resto se puede sumar
+  // por su precio de lista.
+  merchItems: [
+    { id: "digital", label: "Pintura Digitalizada (HIGH RES)", desc: "Descarga digital en alta resolución de tu retrato", price: 10000 },
+    { id: "remera", label: "Remera personalizada", desc: "Estampado de tu retrato en una remera", price: 40000 },
+    { id: "totebag", label: "Totebag personalizado", desc: "Estampado de tu retrato en un totebag", price: 20000 }
   ],
+
+  // Qué ítems de merchItems vienen incluidos gratis según el tamaño elegido.
+  merchFreeBySize: {
+    chico: [],
+    mediano: ["digital"],
+    grande: ["digital", "totebag"]
+  },
 
   depositPercent: 50,
   deliveryDays: 15,

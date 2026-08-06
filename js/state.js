@@ -31,7 +31,7 @@
     frame: null,
     frameColor: null,
     customFrameColorLabel: "",
-    merch: "solo"
+    merchAddons: []
   };
 
   function findSize(id) {
@@ -43,8 +43,14 @@
   function findFrameColor(id) {
     return CFG.frameColors.find((c) => c.id === id);
   }
-  function findMerch(id) {
-    return CFG.merch.find((m) => m.id === id);
+  function findMerchItem(id) {
+    return CFG.merchItems.find((m) => m.id === id);
+  }
+  function getFreeMerchIds(sizeId) {
+    return (sizeId && CFG.merchFreeBySize[sizeId]) || [];
+  }
+  function isMerchFree(id, sizeId) {
+    return getFreeMerchIds(sizeId).includes(id);
   }
 
   function isFrameAvailable(frameId, sizeId) {
@@ -67,7 +73,12 @@
     if (selection.frame && !isFrameAvailable(selection.frame, id)) {
       selection.frame = null;
     }
+    // Ítems que ahora vienen gratis con el nuevo tamaño salen de la lista paga
+    // (ya están incluidos, no hace falta seguir cobrándolos como addon).
+    const free = getFreeMerchIds(id);
+    selection.merchAddons = selection.merchAddons.filter((m) => !free.includes(m));
     renderFrameOptions();
+    renderMerchOptions();
     syncActiveStates();
     emitChange();
   }
@@ -86,28 +97,39 @@
     emitChange();
   }
 
-  function setMerch(id) {
-    const merch = findMerch(id);
-    if (!merch || merch.available === false) return; // "Próximamente" — no seleccionable aún
-    selection.merch = id;
+  function toggleMerchAddon(id) {
+    const item = findMerchItem(id);
+    if (!item) return;
+    if (isMerchFree(id, selection.size)) return; // ya incluido gratis, no hace falta "agregar"
+    const idx = selection.merchAddons.indexOf(id);
+    if (idx === -1) {
+      selection.merchAddons.push(id);
+    } else {
+      selection.merchAddons.splice(idx, 1);
+    }
     syncActiveStates();
     emitChange();
   }
 
   // ---------- pricing ----------
 
+  function getMerchTotal() {
+    const free = getFreeMerchIds(selection.size);
+    return selection.merchAddons.reduce((sum, id) => {
+      if (free.includes(id)) return sum; // incluido gratis, no se cobra
+      const item = findMerchItem(id);
+      return item ? sum + item.price : sum;
+    }, 0);
+  }
+
   function getPrice() {
     const size = findSize(selection.size);
     const frame = findFrame(selection.frame);
-    const merch = findMerch(selection.merch);
     if (!size || !frame) return null;
     // priceAdd === null significa "precio a confirmar" (ej. marco renacentista) —
     // no hay total confiable para mostrar, a diferencia de 0 que sí es un precio real.
     if (frame.priceAdd === null) return null;
-    if (merch && merch.priceAdd === null) return null;
-    let total = size.price + frame.priceAdd;
-    if (merch && typeof merch.priceAdd === "number") total += merch.priceAdd;
-    return total;
+    return size.price + frame.priceAdd + getMerchTotal();
   }
 
   function formatARS(n) {
@@ -115,16 +137,27 @@
     return "$ " + n.toLocaleString("es-AR") + " ARS";
   }
 
+  function getMerchLabel() {
+    const free = getFreeMerchIds(selection.size);
+    const freeLabels = free.map((id) => findMerchItem(id)).filter(Boolean).map((m) => `${m.label} (incluida)`);
+    const paidLabels = selection.merchAddons
+      .filter((id) => !free.includes(id))
+      .map((id) => findMerchItem(id))
+      .filter(Boolean)
+      .map((m) => m.label);
+    const parts = [...freeLabels, ...paidLabels];
+    return parts.length ? parts.join(" + ") : "Retrato solo";
+  }
+
   function getLabels() {
     const size = findSize(selection.size);
     const frame = findFrame(selection.frame);
     const frameColor = findFrameColor(selection.frameColor);
-    const merch = findMerch(selection.merch);
     return {
       sizeLabel: size ? `${size.label} (${size.dims})` : "—",
       frameLabel: frame ? frame.label : "—",
       frameColorLabel: frameColor ? (frameColor.id === "otro" && selection.customFrameColorLabel ? selection.customFrameColorLabel : frameColor.label) : "—",
-      merchLabel: merch ? merch.label : "Retrato solo"
+      merchLabel: getMerchLabel()
     };
   }
 
@@ -196,21 +229,58 @@
     });
   }
 
+  function formatARSShort(n) {
+    return "$" + n.toLocaleString("es-AR");
+  }
+
+  function renderMerchIntro() {
+    const introEl = document.getElementById("merch-intro");
+    if (!introEl) return;
+    const size = findSize(selection.size);
+    const free = getFreeMerchIds(selection.size);
+    if (!size) {
+      introEl.textContent = "Elegí un tamaño para ver qué extras vienen incluidos gratis.";
+      introEl.hidden = false;
+      return;
+    }
+    if (!free.length) {
+      introEl.textContent = `${size.label} no incluye extras gratis — sumá lo que quieras más abajo.`;
+      introEl.hidden = false;
+      return;
+    }
+    const freeLabels = free.map((id) => findMerchItem(id)?.label).filter(Boolean).join(" + ");
+    introEl.innerHTML = `🎁 <strong>${size.label}</strong> incluye gratis: ${freeLabels}`;
+    introEl.hidden = false;
+  }
+
   function renderMerchOptions() {
     const wrap = document.querySelector("#step-merch .merch-options");
     if (!wrap) return;
-    wrap.innerHTML = CFG.merch
-      .map(
-        (m) => `
-      <button type="button" class="merch-card${m.available === false ? " is-disabled" : ""}" data-merch="${m.id}"
-        aria-pressed="false" ${m.available === false ? "disabled" : ""}>
-        <span class="merch-card-label">${m.label}</span>
-        ${m.available === false ? '<span class="merch-card-note">Próximamente</span>' : ""}
-      </button>`
-      )
+    renderMerchIntro();
+    const free = getFreeMerchIds(selection.size);
+    wrap.innerHTML = CFG.merchItems
+      .map((m) => {
+        const isFree = free.includes(m.id);
+        const isAdded = selection.merchAddons.includes(m.id);
+        return `
+      <div class="merch-item${isFree ? " is-free" : ""}${isAdded ? " is-added" : ""}" data-merch-item="${m.id}">
+        <div class="merch-item-info">
+          <span class="merch-item-label">${m.label}</span>
+          <span class="merch-item-desc">${m.desc}</span>
+        </div>
+        <div class="merch-item-action">
+          ${
+            isFree
+              ? `<span class="merch-badge-free">🎁 Incluido gratis</span>`
+              : `<span class="merch-item-price">+${formatARSShort(m.price)}</span>
+                 <button type="button" class="btn-merch-add" data-merch-add="${m.id}" aria-pressed="${isAdded}">${isAdded ? "Agregado ✓" : "Agregar"}</button>`
+          }
+        </div>
+      </div>`;
+      })
       .join("");
-    wrap.querySelectorAll(".merch-card:not(.is-disabled)").forEach((btn) => {
-      btn.addEventListener("click", () => setMerch(btn.dataset.merch));
+    wrap.querySelectorAll(".btn-merch-add").forEach((btn) => {
+      btn.addEventListener("click", () => toggleMerchAddon(btn.dataset.merchAdd));
     });
   }
 
@@ -230,10 +300,13 @@
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-pressed", String(active));
     });
-    document.querySelectorAll(".merch-card").forEach((btn) => {
-      const active = btn.dataset.merch === selection.merch;
-      btn.classList.toggle("is-active", active);
-      btn.setAttribute("aria-pressed", String(active));
+    document.querySelectorAll(".btn-merch-add").forEach((btn) => {
+      const added = selection.merchAddons.includes(btn.dataset.merchAdd);
+      btn.classList.toggle("is-active", added);
+      btn.setAttribute("aria-pressed", String(added));
+      btn.textContent = added ? "Agregado ✓" : "Agregar";
+      const item = document.querySelector(`.merch-item[data-merch-item="${btn.dataset.merchAdd}"]`);
+      if (item) item.classList.toggle("is-added", added);
     });
   }
 
@@ -304,7 +377,7 @@
     setSize,
     setFrame,
     setFrameColor,
-    setMerch,
+    toggleMerchAddon,
     getPrice,
     getLabels,
     isFrameAvailable,
