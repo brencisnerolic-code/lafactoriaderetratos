@@ -40,18 +40,16 @@ window.FACTORIA_CONFIG = {
     { id: "box", label: "Marco BOX", desc: "Efecto 3D, profundidad, más impactante", priceAdd: 10000, availableFor: "all" }
   ],
 
-  // Colores de marco: 9 opciones (8 preestablecidas + 1 personalizado).
+  // Colores de marco: 4 opciones de la línea Kiri. El cliente elige clickeando
+  // directamente sobre el marco que le gusta en la imagen combinada
+  // "Color de marco.png" — cada hotspot es la región (en %) de esa imagen
+  // donde vive ese marco.
+  frameColorImage: "Color de marco.png",
   frameColors: [
-    { id: "negro", label: "Negro (bestseller)", hex: "#1B1815" },
-    { id: "blanco", label: "Blanco (minimalista)", hex: "#F7F4EE" },
-    { id: "gris-claro", label: "Gris claro", hex: "#C9C4BB" },
-    { id: "gris-oscuro", label: "Gris oscuro", hex: "#4A473F" },
-    { id: "natural", label: "Natural (cálido)", hex: "#D4A574" },
-    { id: "madera-oscura", label: "Madera oscura", hex: "#6B4423" },
-    { id: "barnizado", label: "Barnizado (clásico)", hex: "#8B7355" },
-    { id: "oro", label: "Oro", hex: "#D4AF37" },
-    { id: "plata", label: "Plata", hex: "#C0C0C0" },
-    { id: "otro", label: "Otro color", hex: null, custom: true }
+    { id: "natural", label: "Marco Kiri Natural", priceAdd: 0, hex: "#D3B496", hotspot: { left: 1, top: 20, width: 24, height: 57 } },
+    { id: "barnizado", label: "Marco Kiri Barnizado", priceAdd: 0, hex: "#E8A578", hotspot: { left: 25.5, top: 20, width: 24, height: 57 } },
+    { id: "negro", label: "Marco Kiri Negro", priceAdd: 0, hex: "#201F1F", hotspot: { left: 50, top: 20, width: 24.5, height: 57 } },
+    { id: "blanco", label: "Marco Kiri Blanco", priceAdd: 0, hex: "#F5F4F5", hotspot: { left: 74.5, top: 20, width: 25, height: 57 } }
   ],
 
   // Merchandising opcional. Cada tamaño de retrato incluye algunos ítems

@@ -128,14 +128,41 @@
       <!-- Paso 3: color de marco -->
       <fieldset class="config-step" id="step-frame-color" data-step="frame-color">
         <legend>3. Color de marco</legend>
-        <div class="frame-color-options" role="group" aria-label="Elegir color de marco">
-          <!-- color-swatch buttons injected here -->
+        <p class="step-intro">Tocá el marco que más te guste en la imagen.</p>
+        <div class="frame-color-picker" role="group" aria-label="Elegir color de marco">
+          <!-- imagen + hotspots injected here -->
+        </div>
+        <p class="frame-color-selected" id="frame-color-selected">Elegí un color de marco tocando la imagen</p>
+      </fieldset>
+
+      <!-- Paso 4: fondo del retrato -->
+      <fieldset class="config-step" id="step-bg-pref" data-step="bg-pref">
+        <legend>4. Fondo del retrato</legend>
+        <p class="step-intro">¿Qué fondo preferís?</p>
+        <div class="bg-pref-options" role="radiogroup" aria-label="Preferencia de fondo">
+          <label class="bg-pref-option">
+            <input type="radio" name="bg-pref" value="artist" checked>
+            <span class="bg-pref-option-text">
+              <span class="bg-pref-option-label">Dejar que la artista decida el fondo ideal</span>
+              <span class="bg-pref-option-note">Recomendado — la artista elegirá según tu mascota</span>
+            </span>
+          </label>
+          <label class="bg-pref-option">
+            <input type="radio" name="bg-pref" value="custom">
+            <span class="bg-pref-option-text">
+              <span class="bg-pref-option-label">Quiero un fondo de color específico</span>
+            </span>
+          </label>
+        </div>
+        <div class="bg-pref-custom-field" id="bg-pref-custom-field" hidden>
+          <label for="bg-pref-custom-text">Describí el color o estilo que querés <span class="step-optional">(opcional)</span></label>
+          <input type="text" id="bg-pref-custom-text" name="bgPrefText" placeholder="Ej: fondo celeste pastel, tonos tierra, degradé...">
         </div>
       </fieldset>
 
-      <!-- Paso 4: merchandising -->
+      <!-- Paso 5: merchandising -->
       <fieldset class="config-step" id="step-merch" data-step="merch">
-        <legend>4. Sumá merchandising <span class="step-optional">(opcional)</span></legend>
+        <legend>5. Sumá merchandising <span class="step-optional">(opcional)</span></legend>
         <p class="merch-intro" id="merch-intro" hidden></p>
         <div class="merch-options" role="group" aria-label="Elegir merchandising adicional">
           <!-- merch-item cards injected here -->
@@ -151,6 +178,7 @@
         <div class="summary-row"><dt>Tamaño</dt><dd id="summary-size">—</dd></div>
         <div class="summary-row"><dt>Tipo de marco</dt><dd id="summary-frame">—</dd></div>
         <div class="summary-row"><dt>Color de marco</dt><dd id="summary-frame-color">—</dd></div>
+        <div class="summary-row"><dt>Fondo</dt><dd id="summary-bg">La artista decide el fondo ideal</dd></div>
         <div class="summary-row"><dt>Extra</dt><dd id="summary-merch">Retrato solo</dd></div>
       </dl>
       <div class="summary-total-row">

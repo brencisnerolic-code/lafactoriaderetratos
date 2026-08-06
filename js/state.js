@@ -3,12 +3,14 @@
  * live pricing and the WhatsApp order summary.
  *
  * Public API (consumed by mockup.js and main.js):
- *   FactoriaState.selection                        -> { size, frame, bg, merch, customBgLabel }
- *   FactoriaState.setSize(id) / setFrame(id) / setBg(id, customLabel?) / setMerch(id)
+ *   FactoriaState.selection                        -> { size, frame, frameColor, bgPreference, bgPreferenceText, merchAddons }
+ *   FactoriaState.setSize(id) / setFrame(id) / setFrameColor(id)
+ *   FactoriaState.setBgPreference("artist"|"custom") / setBgPreferenceText(text)
+ *   FactoriaState.toggleMerchAddon(id)
  *   FactoriaState.getPrice()                        -> number (ARS) or null if incomplete
- *   FactoriaState.getLabels()                       -> { sizeLabel, frameLabel, bgLabel, merchLabel }
+ *   FactoriaState.getLabels()                       -> { sizeLabel, frameLabel, frameColorLabel, bgLabel, merchLabel }
  *   FactoriaState.isFrameAvailable(frameId, sizeId)  -> boolean
- *   FactoriaState.isReadyForMockup()                 -> boolean (size + frame + bg chosen)
+ *   FactoriaState.isReadyForMockup()                 -> boolean (size + frame + frameColor chosen)
  *   FactoriaState.buildWhatsAppMessage(clientData)   -> string (plain text, ready to encodeURIComponent)
  *   FactoriaState.buildWhatsAppUrl(clientData)       -> string (full https://wa.me/... link)
  *
@@ -16,11 +18,13 @@
  *   window.addEventListener('factoria:selection-change', (e) => { ... })
  *
  * DOM contract this file owns/renders into:
- *   #step-size  .size-options   -> one .size-card[data-size] button per config.sizes
- *   #step-frame .frame-options  -> one .frame-card[data-frame] button per config.frames
- *   #step-bg    .bg-options     -> one .color-swatch[data-bg] button per config.bgColors
- *   #step-merch .merch-options  -> one .merch-card[data-merch] button per config.merch
- *   #summary-size / #summary-frame / #summary-bg / #summary-merch / #summary-total
+ *   #step-size        .size-options       -> one .size-card[data-size] button per config.sizes
+ *   #step-frame        .frame-options      -> one .frame-card[data-frame] button per config.frames
+ *   #step-frame-color  .frame-color-picker -> config.frameColorImage + one .frame-color-hotspot per config.frameColors
+ *                       #frame-color-selected -> caption with the currently chosen frame color
+ *   #bg-pref (radio inputs, static markup) + #bg-pref-custom-text + #bg-pref-custom-field
+ *   #step-merch        .merch-options      -> one .merch-item per config.merchItems, #merch-intro banner
+ *   #summary-size / #summary-frame / #summary-frame-color / #summary-bg / #summary-merch / #summary-total
  *   #btn-to-mockup -> disabled until isReadyForMockup()
  */
 (function () {
@@ -30,7 +34,8 @@
     size: null,
     frame: null,
     frameColor: null,
-    customFrameColorLabel: "",
+    bgPreference: "artist",
+    bgPreferenceText: "",
     merchAddons: []
   };
 
@@ -90,10 +95,21 @@
     emitChange();
   }
 
-  function setFrameColor(id, customLabel) {
+  function setFrameColor(id) {
+    if (!findFrameColor(id)) return;
     selection.frameColor = id;
-    selection.customFrameColorLabel = id === "otro" ? customLabel || "" : "";
     syncActiveStates();
+    emitChange();
+  }
+
+  function setBgPreference(value) {
+    selection.bgPreference = value === "custom" ? "custom" : "artist";
+    syncBgPreferenceUI();
+    emitChange();
+  }
+
+  function setBgPreferenceText(text) {
+    selection.bgPreferenceText = text || "";
     emitChange();
   }
 
@@ -125,11 +141,13 @@
   function getPrice() {
     const size = findSize(selection.size);
     const frame = findFrame(selection.frame);
+    const frameColor = findFrameColor(selection.frameColor);
     if (!size || !frame) return null;
     // priceAdd === null significa "precio a confirmar" (ej. marco renacentista) —
     // no hay total confiable para mostrar, a diferencia de 0 que sí es un precio real.
     if (frame.priceAdd === null) return null;
-    return size.price + frame.priceAdd + getMerchTotal();
+    const frameColorAdd = frameColor && typeof frameColor.priceAdd === "number" ? frameColor.priceAdd : 0;
+    return size.price + frame.priceAdd + frameColorAdd + getMerchTotal();
   }
 
   function formatARS(n) {
@@ -149,6 +167,14 @@
     return parts.length ? parts.join(" + ") : "Retrato solo";
   }
 
+  function getBgLabel() {
+    if (selection.bgPreference === "custom") {
+      const text = selection.bgPreferenceText.trim();
+      return text ? `Fondo específico: ${text}` : "Fondo específico (sin detalle aún)";
+    }
+    return "La artista decide el fondo ideal";
+  }
+
   function getLabels() {
     const size = findSize(selection.size);
     const frame = findFrame(selection.frame);
@@ -156,7 +182,8 @@
     return {
       sizeLabel: size ? `${size.label} (${size.dims})` : "—",
       frameLabel: frame ? frame.label : "—",
-      frameColorLabel: frameColor ? (frameColor.id === "otro" && selection.customFrameColorLabel ? selection.customFrameColorLabel : frameColor.label) : "—",
+      frameColorLabel: frameColor ? frameColor.label : "—",
+      bgLabel: getBgLabel(),
       merchLabel: getMerchLabel()
     };
   }
@@ -205,28 +232,33 @@
   }
 
   function renderFrameColorOptions() {
-    const wrap = document.querySelector("#step-frame-color .frame-color-options");
+    const wrap = document.querySelector("#step-frame-color .frame-color-picker");
     if (!wrap) return;
-    wrap.innerHTML = CFG.frameColors
+    const hotspots = CFG.frameColors
       .map(
         (c) => `
-      <button type="button" class="color-swatch${c.custom ? " color-swatch--custom" : ""}" data-frame-color="${c.id}"
-        aria-pressed="false" aria-label="${c.label}" style="${c.hex ? `--swatch-color:${c.hex}` : ""}">
-        ${c.custom ? "?" : ""}
-      </button>`
+      <button type="button" class="frame-color-hotspot" data-frame-color="${c.id}"
+        aria-pressed="false" aria-label="Elegir ${c.label}"
+        style="left:${c.hotspot.left}%;top:${c.hotspot.top}%;width:${c.hotspot.width}%;height:${c.hotspot.height}%;"></button>`
       )
-      .join("") + '<span class="frame-color-option-label" id="frame-color-option-label">Elegí un color</span>';
-    wrap.querySelectorAll(".color-swatch").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        if (btn.dataset.frameColor === "otro") {
-          const custom = window.prompt("Describí el color de marco que te gustaría:", selection.customFrameColorLabel || "");
-          if (custom === null) return;
-          setFrameColor("otro", custom.trim());
-        } else {
-          setFrameColor(btn.dataset.frameColor);
-        }
-      });
+      .join("");
+    wrap.innerHTML = `<img src="${CFG.frameColorImage}" alt="Los 4 colores de marco disponibles: Kiri Natural, Kiri Barnizado, Kiri Negro y Kiri Blanco" class="frame-color-image">${hotspots}`;
+    wrap.querySelectorAll(".frame-color-hotspot").forEach((btn) => {
+      btn.addEventListener("click", () => setFrameColor(btn.dataset.frameColor));
     });
+    renderFrameColorSelected();
+  }
+
+  function renderFrameColorSelected() {
+    const el = document.getElementById("frame-color-selected");
+    if (!el) return;
+    const frameColor = findFrameColor(selection.frameColor);
+    if (!frameColor) {
+      el.textContent = "Elegí un color de marco tocando la imagen";
+      return;
+    }
+    const priceNote = frameColor.priceAdd ? ` (+${formatARS(frameColor.priceAdd)})` : " — sin costo extra";
+    el.innerHTML = `Elegiste: <strong>${frameColor.label}</strong>${priceNote}`;
   }
 
   function formatARSShort(n) {
@@ -295,11 +327,12 @@
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-pressed", String(active));
     });
-    document.querySelectorAll(".color-swatch").forEach((btn) => {
+    document.querySelectorAll(".frame-color-hotspot").forEach((btn) => {
       const active = btn.dataset.frameColor === selection.frameColor;
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-pressed", String(active));
     });
+    renderFrameColorSelected();
     document.querySelectorAll(".btn-merch-add").forEach((btn) => {
       const added = selection.merchAddons.includes(btn.dataset.merchAdd);
       btn.classList.toggle("is-active", added);
@@ -316,12 +349,14 @@
     const sizeEl = document.getElementById("summary-size");
     const frameEl = document.getElementById("summary-frame");
     const frameColorEl = document.getElementById("summary-frame-color");
+    const bgEl = document.getElementById("summary-bg");
     const merchEl = document.getElementById("summary-merch");
     const nextBtn = document.getElementById("btn-to-mockup");
 
     if (sizeEl) sizeEl.textContent = labels.sizeLabel;
     if (frameEl) frameEl.textContent = labels.frameLabel;
     if (frameColorEl) frameColorEl.textContent = labels.frameColorLabel;
+    if (bgEl) bgEl.textContent = labels.bgLabel;
     if (merchEl) merchEl.textContent = labels.merchLabel;
 
     const price = getPrice();
@@ -343,6 +378,7 @@
       `*Tamaño:* ${labels.sizeLabel}`,
       `*Tipo de marco:* ${labels.frameLabel}`,
       `*Color de marco:* ${labels.frameColorLabel}`,
+      `*Fondo:* ${labels.bgLabel}`,
       `*Extra:* ${labels.merchLabel}`,
       `*Total estimado:* ${price === null ? "a confirmar" : formatARS(price)}`,
       ``
@@ -361,6 +397,27 @@
     return `https://wa.me/${CFG.brand.whatsappNumber}?text=${encodeURIComponent(text)}`;
   }
 
+  // ---------- fondo del retrato (paso fijo, no generado por config) ----------
+
+  function syncBgPreferenceUI() {
+    document.querySelectorAll('input[name="bg-pref"]').forEach((input) => {
+      input.checked = input.value === selection.bgPreference;
+    });
+    const customField = document.getElementById("bg-pref-custom-field");
+    if (customField) customField.hidden = selection.bgPreference !== "custom";
+  }
+
+  function bindBgPreferenceInputs() {
+    document.querySelectorAll('input[name="bg-pref"]').forEach((input) => {
+      input.addEventListener("change", () => setBgPreference(input.value));
+    });
+    const textInput = document.getElementById("bg-pref-custom-text");
+    if (textInput) {
+      textInput.addEventListener("input", () => setBgPreferenceText(textInput.value));
+    }
+    syncBgPreferenceUI();
+  }
+
   // ---------- init ----------
 
   function init() {
@@ -368,6 +425,7 @@
     renderFrameOptions();
     renderFrameColorOptions();
     renderMerchOptions();
+    bindBgPreferenceInputs();
     syncActiveStates();
     renderSummary();
   }
@@ -377,6 +435,8 @@
     setSize,
     setFrame,
     setFrameColor,
+    setBgPreference,
+    setBgPreferenceText,
     toggleMerchAddon,
     getPrice,
     getLabels,
