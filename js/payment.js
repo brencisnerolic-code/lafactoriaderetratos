@@ -166,6 +166,18 @@ window.FactoriaPayment = (function () {
       return;
     }
 
+    // Mercado Pago necesita la Netlify Function (/.netlify/functions/create-preference),
+    // que solo existe una vez que el sitio está publicado en Netlify. Abriendo el
+    // archivo local (file://) o probando con un servidor estático simple, ese endpoint
+    // no existe y fetch() falla siempre con "Failed to fetch" — no es un error real de MP.
+    if (window.location.protocol === "file:") {
+      showPaymentError(
+        "Mercado Pago solo funciona en el sitio publicado (netlify.app), no abriendo el archivo local. " +
+          "Probá con transferencia bancaria acá, o subí los cambios y probá la compra en el sitio en vivo."
+      );
+      return;
+    }
+
     setButtonLoading(btn, true, "Conectando con Mercado Pago…");
 
     var body = {
