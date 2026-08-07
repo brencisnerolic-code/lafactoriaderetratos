@@ -1,14 +1,12 @@
 /**
  * mockup.js — wall mockup feature: pet photo upload, composited on top of a
  * real living-room photo that swaps per selected size (config.sizes[].wallImage
- * + wallCanvas), plus rotate/light controls. Kept in sync with FactoriaState.
+ * + wallCanvas). Kept in sync with FactoriaState.
  *
  * Depends on window.FACTORIA_CONFIG (config.js) and window.FactoriaState
  * (state.js), both loaded before this file.
  */
 (function () {
-  const ROTATION_ANGLES = [-15, 0, 15];
-  let rotationIndex = ROTATION_ANGLES.indexOf(0);
   let currentObjectUrl = null;
 
   function $(selector) {
@@ -111,43 +109,6 @@
     });
   }
 
-  // ---------- rotate / lighting controls ----------
-
-  function applyRotation() {
-    const wall = document.getElementById("mockup-wall");
-    if (!wall) return;
-    wall.style.transform = `rotateY(${ROTATION_ANGLES[rotationIndex]}deg)`;
-  }
-
-  function initControls() {
-    const rotateLeftBtn = document.getElementById("btn-rotate-left");
-    const rotateRightBtn = document.getElementById("btn-rotate-right");
-    const lightBtn = document.getElementById("btn-toggle-light");
-    const wall = document.getElementById("mockup-wall");
-
-    if (rotateLeftBtn) {
-      rotateLeftBtn.addEventListener("click", () => {
-        rotationIndex = Math.max(0, rotationIndex - 1);
-        applyRotation();
-      });
-    }
-
-    if (rotateRightBtn) {
-      rotateRightBtn.addEventListener("click", () => {
-        rotationIndex = Math.min(ROTATION_ANGLES.length - 1, rotationIndex + 1);
-        applyRotation();
-      });
-    }
-
-    if (lightBtn && wall) {
-      lightBtn.addEventListener("click", () => {
-        wall.classList.toggle("is-dim");
-      });
-    }
-
-    applyRotation();
-  }
-
   // ---------- sync with FactoriaState ----------
 
   // El marco y su color ya vienen fotografiados dentro de cada wallImage
@@ -207,7 +168,6 @@
 
   function init() {
     initDropzone();
-    initControls();
     initStateSync();
   }
 

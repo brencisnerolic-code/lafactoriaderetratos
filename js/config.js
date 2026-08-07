@@ -28,21 +28,28 @@ window.FACTORIA_CONFIG = {
   // wallCanvas es el rectángulo (en %, medido sobre esa foto) donde va la
   // foto que sube el cliente — el marco ya viene fotografiado en la imagen,
   // así que la superposición solo necesita esas 4 coordenadas.
+  //
+  // OJO: wallImage/wallCanvas de "chico" y "grande" están cruzados a
+  // propósito respecto de sus nombres de archivo — en las fotos originales,
+  // el marco fotografiado en "50x70.png" se ve más chico en cámara que el de
+  // "25x35.png" (fueron tomadas a distancias distintas), así que para que la
+  // escala se perciba correctamente en pantalla (grande = caja más grande)
+  // "chico" usa la foto "50x70.png" y "grande" usa la foto "25x35.png".
   sizes: [
     {
       id: "chico", label: "Chico", dims: "25x35cm", price: 280000,
-      wallImage: "25x35.png",
-      wallCanvas: { left: 41.57, top: 20.07, width: 15.75, height: 30.57 }
+      wallImage: "50x70.png",
+      wallCanvas: { left: 45.17, top: 25.14, width: 9.39, height: 17.86 }
     },
     {
       id: "mediano", label: "Mediano", dims: "35x45cm", price: 390000,
       wallImage: "35x45.png",
-      wallCanvas: { left: 42.96, top: 21.92, width: 12.29, height: 24.13 }
+      wallCanvas: { left: 43.85, top: 23.11, width: 11.95, height: 22.74 }
     },
     {
       id: "grande", label: "Grande", dims: "50x70cm", price: 490000,
-      wallImage: "50x70.png",
-      wallCanvas: { left: 44.20, top: 24.12, width: 9.67, height: 18.69 }
+      wallImage: "25x35.png",
+      wallCanvas: { left: 42.20, top: 21.09, width: 15.26, height: 29.01 }
     }
   ],
 
