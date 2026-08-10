@@ -30,6 +30,7 @@
  */
 (function () {
   const CFG = window.FACTORIA_CONFIG;
+  const T = window.I18N || { t: (k) => k, label: (c, i, f) => f, desc: (c, i, f) => f };
 
   const selection = {
     size: null,
@@ -156,6 +157,11 @@
     return "$ " + n.toLocaleString("es-AR") + " ARS";
   }
 
+  // Nota: getMerchLabel/getBgLabel/getLabels de acá abajo alimentan el mensaje
+  // de WhatsApp (buildWhatsAppMessage) y quedan SIEMPRE en español — lo lee
+  // Juana. Las variantes getDisplay*() de más abajo son las que se muestran
+  // en pantalla y sí respetan el idioma elegido (I18N).
+
   function getMerchLabel() {
     const free = getFreeMerchIds(selection.size);
     const freeLabels = free.map((id) => findMerchItem(id)).filter(Boolean).map((m) => `${m.label} (incluida)`);
@@ -189,6 +195,42 @@
     };
   }
 
+  function getDisplayMerchLabel() {
+    const free = getFreeMerchIds(selection.size);
+    const freeLabels = free
+      .map((id) => findMerchItem(id))
+      .filter(Boolean)
+      .map((m) => `${T.label("merchItems", m.id, m.label)}${T.t("state_included_suffix")}`);
+    const paidLabels = selection.merchAddons
+      .filter((id) => !free.includes(id))
+      .map((id) => findMerchItem(id))
+      .filter(Boolean)
+      .map((m) => T.label("merchItems", m.id, m.label));
+    const parts = [...freeLabels, ...paidLabels];
+    return parts.length ? parts.join(" + ") : T.t("state_portrait_only");
+  }
+
+  function getDisplayBgLabel() {
+    if (selection.bgPreference === "custom") {
+      const text = selection.bgPreferenceText.trim();
+      return text ? `${T.t("state_specific_bg_prefix")}${text}` : T.t("state_specific_bg_empty");
+    }
+    return T.t("state_artist_decides_bg");
+  }
+
+  function getDisplayLabels() {
+    const size = findSize(selection.size);
+    const frame = findFrame(selection.frame);
+    const frameColor = findFrameColor(selection.frameColor);
+    return {
+      sizeLabel: size ? `${T.label("sizes", size.id, size.label)} (${size.dims})` : "—",
+      frameLabel: frame ? T.label("frames", frame.id, frame.label) : "—",
+      frameColorLabel: frameColor ? T.label("frameColors", frameColor.id, frameColor.label) : "—",
+      bgLabel: getDisplayBgLabel(),
+      merchLabel: getDisplayMerchLabel()
+    };
+  }
+
   function isReadyForMockup() {
     return Boolean(selection.size && selection.frame && selection.frameColor);
   }
@@ -203,7 +245,7 @@
         (s) => `
       <button type="button" class="size-card" data-size="${s.id}" aria-pressed="false">
         <span class="size-card-dims">${s.dims}</span>
-        <span class="size-card-label">${s.label}</span>
+        <span class="size-card-label">${T.label("sizes", s.id, s.label)}</span>
         <span class="size-card-price">${formatARS(s.price)}</span>
       </button>`
       )
@@ -221,11 +263,11 @@
         const available = isFrameAvailable(f.id, selection.size);
         return `
       <button type="button" class="frame-hotspot${available ? "" : " is-disabled"}" data-frame="${f.id}"
-        aria-pressed="false" aria-label="Elegir ${f.label}" ${available ? "" : "disabled"}
+        aria-pressed="false" aria-label="${T.t("frame_choose_aria_prefix")}${T.label("frames", f.id, f.label)}" ${available ? "" : "disabled"}
         style="left:${f.hotspot.left}%;top:${f.hotspot.top}%;width:${f.hotspot.width}%;height:${f.hotspot.height}%;"></button>`;
       })
       .join("");
-    wrap.innerHTML = `<img src="${CFG.frameImage}" alt="Los 2 tipos de marco disponibles: Marco Box y Marco Plano" class="frame-picker-image">${hotspots}`;
+    wrap.innerHTML = `<img src="${CFG.frameImage}" alt="${T.t("frame_picker_alt")}" class="frame-picker-image">${hotspots}`;
     wrap.querySelectorAll(".frame-hotspot:not(.is-disabled)").forEach((btn) => {
       btn.addEventListener("click", () => setFrame(btn.dataset.frame));
     });
@@ -237,11 +279,11 @@
     if (!el) return;
     const frame = findFrame(selection.frame);
     if (!frame) {
-      el.textContent = "Elegí un marco tocando la imagen";
+      el.textContent = T.t("state_choose_frame_prompt");
       return;
     }
-    const priceNote = frame.priceAdd ? ` (+${formatARS(frame.priceAdd)})` : " — sin costo extra";
-    el.innerHTML = `Elegiste: <strong>${frame.label}</strong>${priceNote}`;
+    const priceNote = frame.priceAdd ? ` (+${formatARS(frame.priceAdd)})` : T.t("state_no_extra_cost");
+    el.innerHTML = `${T.t("state_you_chose")} <strong>${T.label("frames", frame.id, frame.label)}</strong>${priceNote}`;
   }
 
   function renderFrameColorOptions() {
@@ -251,11 +293,11 @@
       .map(
         (c) => `
       <button type="button" class="frame-color-hotspot" data-frame-color="${c.id}"
-        aria-pressed="false" aria-label="Elegir ${c.label}"
+        aria-pressed="false" aria-label="${T.t("frame_choose_aria_prefix")}${T.label("frameColors", c.id, c.label)}"
         style="left:${c.hotspot.left}%;top:${c.hotspot.top}%;width:${c.hotspot.width}%;height:${c.hotspot.height}%;"></button>`
       )
       .join("");
-    wrap.innerHTML = `<img src="${CFG.frameColorImage}" alt="Los 4 colores de marco disponibles: Kiri Natural, Kiri Barnizado, Kiri Negro y Kiri Blanco" class="frame-color-image">${hotspots}`;
+    wrap.innerHTML = `<img src="${CFG.frameColorImage}" alt="${T.t("frame_color_picker_alt")}" class="frame-color-image">${hotspots}`;
     wrap.querySelectorAll(".frame-color-hotspot").forEach((btn) => {
       btn.addEventListener("click", () => setFrameColor(btn.dataset.frameColor));
     });
@@ -267,11 +309,11 @@
     if (!el) return;
     const frameColor = findFrameColor(selection.frameColor);
     if (!frameColor) {
-      el.textContent = "Elegí un color de marco tocando la imagen";
+      el.textContent = T.t("state_choose_frame_color_prompt");
       return;
     }
-    const priceNote = frameColor.priceAdd ? ` (+${formatARS(frameColor.priceAdd)})` : " — sin costo extra";
-    el.innerHTML = `Elegiste: <strong>${frameColor.label}</strong>${priceNote}`;
+    const priceNote = frameColor.priceAdd ? ` (+${formatARS(frameColor.priceAdd)})` : T.t("state_no_extra_cost");
+    el.innerHTML = `${T.t("state_you_chose")} <strong>${T.label("frameColors", frameColor.id, frameColor.label)}</strong>${priceNote}`;
   }
 
   function formatARSShort(n) {
@@ -284,17 +326,24 @@
     const size = findSize(selection.size);
     const free = getFreeMerchIds(selection.size);
     if (!size) {
-      introEl.textContent = "Elegí un tamaño para ver qué extras vienen incluidos gratis.";
+      introEl.textContent = T.t("state_choose_size_for_extras");
       introEl.hidden = false;
       return;
     }
+    const sizeLabel = T.label("sizes", size.id, size.label);
     if (!free.length) {
-      introEl.textContent = `${size.label} no incluye extras gratis — sumá lo que quieras más abajo.`;
+      introEl.textContent = T.t("state_size_no_free_extras", { size: sizeLabel });
       introEl.hidden = false;
       return;
     }
-    const freeLabels = free.map((id) => findMerchItem(id)?.label).filter(Boolean).join(" + ");
-    introEl.innerHTML = `🎁 <strong>${size.label}</strong> incluye gratis: ${freeLabels}`;
+    const freeLabels = free
+      .map((id) => {
+        const item = findMerchItem(id);
+        return item ? T.label("merchItems", item.id, item.label) : null;
+      })
+      .filter(Boolean)
+      .join(" + ");
+    introEl.innerHTML = `🎁 <strong>${sizeLabel}</strong> ${T.t("state_includes_free")} ${freeLabels}`;
     introEl.hidden = false;
   }
 
@@ -307,18 +356,20 @@
       .map((m) => {
         const isFree = free.includes(m.id);
         const isAdded = selection.merchAddons.includes(m.id);
+        const label = T.label("merchItems", m.id, m.label);
+        const desc = T.desc("merchItems", m.id, m.desc);
         return `
       <div class="merch-item${isFree ? " is-free" : ""}${isAdded ? " is-added" : ""}" data-merch-item="${m.id}">
         <div class="merch-item-info">
-          <span class="merch-item-label">${m.label}</span>
-          <span class="merch-item-desc">${m.desc}</span>
+          <span class="merch-item-label">${label}</span>
+          <span class="merch-item-desc">${desc}</span>
         </div>
         <div class="merch-item-action">
           ${
             isFree
-              ? `<span class="merch-badge-free">🎁 Incluido gratis</span>`
+              ? `<span class="merch-badge-free">${T.t("state_included_free_badge")}</span>`
               : `<span class="merch-item-price">+${formatARSShort(m.price)}</span>
-                 <button type="button" class="btn-merch-add" data-merch-add="${m.id}" aria-pressed="${isAdded}">${isAdded ? "Agregado ✓" : "Agregar"}</button>`
+                 <button type="button" class="btn-merch-add" data-merch-add="${m.id}" aria-pressed="${isAdded}">${isAdded ? T.t("state_added_btn") : T.t("state_add_btn")}</button>`
           }
         </div>
       </div>`;
@@ -351,14 +402,14 @@
       const added = selection.merchAddons.includes(btn.dataset.merchAdd);
       btn.classList.toggle("is-active", added);
       btn.setAttribute("aria-pressed", String(added));
-      btn.textContent = added ? "Agregado ✓" : "Agregar";
+      btn.textContent = added ? T.t("state_added_btn") : T.t("state_add_btn");
       const item = document.querySelector(`.merch-item[data-merch-item="${btn.dataset.merchAdd}"]`);
       if (item) item.classList.toggle("is-added", added);
     });
   }
 
   function renderSummary() {
-    const labels = getLabels();
+    const labels = getDisplayLabels();
     const totalEl = document.getElementById("summary-total");
     const sizeEl = document.getElementById("summary-size");
     const frameEl = document.getElementById("summary-frame");
@@ -375,7 +426,7 @@
 
     const price = getPrice();
     if (totalEl) {
-      totalEl.textContent = price === null ? "A confirmar" : formatARS(price);
+      totalEl.textContent = price === null ? T.t("state_to_be_confirmed") : formatARS(price);
     }
     if (nextBtn) nextBtn.disabled = !isReadyForMockup();
   }
@@ -443,6 +494,18 @@
     syncActiveStates();
     renderSummary();
   }
+
+  // Re-renderiza todo el contenido generado desde config.js (nombres de
+  // tamaño/marco/color/merch) cuando el visitante cambia de idioma con el
+  // selector ES/EN — la selección actual no se toca, solo el texto mostrado.
+  window.addEventListener("factoria:lang-change", () => {
+    renderSizeOptions();
+    renderFrameOptions();
+    renderFrameColorOptions();
+    renderMerchOptions();
+    syncActiveStates();
+    renderSummary();
+  });
 
   window.FactoriaState = {
     selection,

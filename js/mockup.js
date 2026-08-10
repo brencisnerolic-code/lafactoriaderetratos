@@ -7,6 +7,7 @@
  * (state.js), both loaded before this file.
  */
 (function () {
+  const T = window.I18N || { t: (k) => k };
   let currentObjectUrl = null;
 
   function $(selector) {
@@ -37,12 +38,12 @@
     const cfg = getConfig();
     if (!cfg) return false;
     if (!cfg.acceptedUploadTypes.includes(file.type)) {
-      showError("Solo se aceptan archivos JPG o PNG.");
+      showError(T.t("mockup_error_filetype"));
       return false;
     }
     const maxBytes = cfg.maxUploadMB * 1024 * 1024;
     if (file.size > maxBytes) {
-      showError(`El archivo supera los ${cfg.maxUploadMB}MB. Probá con una foto más liviana.`);
+      showError(T.t("mockup_error_filesize", { mb: cfg.maxUploadMB }));
       return false;
     }
     return true;
@@ -65,7 +66,7 @@
     currentObjectUrl = objectUrl;
 
     img.src = objectUrl;
-    img.alt = "Vista previa de tu mascota en el retrato";
+    img.alt = T.t("mockup_preview_alt");
     img.hidden = false;
     if (placeholder) placeholder.hidden = true;
 
@@ -144,7 +145,8 @@
     photoArea.style.height = c.height + "%";
 
     if (hint) {
-      hint.textContent = `Así se ve a escala real el tamaño ${size.label} (${size.dims})`;
+      const sizeLabel = window.I18N ? window.I18N.label("sizes", size.id, size.label) : size.label;
+      hint.textContent = T.t("mockup_size_hint", { label: sizeLabel, dims: size.dims });
       hint.hidden = false;
     }
   }
@@ -157,6 +159,12 @@
   function initStateSync() {
     window.addEventListener("factoria:selection-change", (e) => {
       syncFromSelection(e.detail);
+    });
+
+    window.addEventListener("factoria:lang-change", () => {
+      if (window.FactoriaState && window.FactoriaState.selection) {
+        syncFromSelection(window.FactoriaState.selection);
+      }
     });
 
     if (window.FactoriaState && window.FactoriaState.selection) {

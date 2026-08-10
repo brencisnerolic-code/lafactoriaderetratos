@@ -17,20 +17,24 @@
 <!-- ============ NAV ============ -->
 <header class="site-header" id="site-header">
   <div class="container header-inner">
-    <a href="#top" class="logo-mark" aria-label="La Factoría by Juana Perfecta — inicio">
+    <a href="#top" class="logo-mark" data-i18n-aria-label="logo_aria" aria-label="La Factoría by Juana Perfecta — inicio">
       <img src="LogoLafactoria.png" alt="La Factoría by Juana Perfecta" class="logo-image">
     </a>
 
-    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menú">
+    <button type="button" class="lang-toggle" id="lang-toggle" aria-label="Cambiar a inglés">
+      <span class="lang-option is-active" data-lang-option="es">ES</span><span aria-hidden="true">/</span><span class="lang-option" data-lang-option="en">EN</span>
+    </button>
+
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-i18n-aria-label="nav_open_menu" aria-label="Abrir menú">
       <span></span><span></span><span></span>
     </button>
 
     <nav class="nav-menu" id="nav-menu" aria-label="Navegación principal">
-      <a href="#configurador" class="nav-link">Crear mi retrato</a>
-      <a href="#portfolio" class="nav-link">Portfolio</a>
-      <a href="#testimonios" class="nav-link">Testimonios</a>
-      <a href="#faq" class="nav-link">Preguntas frecuentes</a>
-      <a href="#configurador" class="nav-link nav-cta">Comenzar mi retrato</a>
+      <a href="#configurador" class="nav-link" data-i18n="nav_create">Crear mi retrato</a>
+      <a href="#portfolio" class="nav-link" data-i18n="nav_portfolio">Portfolio</a>
+      <a href="#testimonios" class="nav-link" data-i18n="nav_testimonials">Testimonios</a>
+      <a href="#faq" class="nav-link" data-i18n="nav_faq">Preguntas frecuentes</a>
+      <a href="#configurador" class="nav-link nav-cta" data-i18n="nav_cta">Comenzar mi retrato</a>
     </nav>
   </div>
 </header>
@@ -41,12 +45,12 @@
 <section class="hero" id="top">
   <div class="container hero-inner">
     <div class="hero-copy">
-      <p class="eyebrow">Retratos de mascotas, pintados a mano</p>
-      <h1>Retrato de tu mascota,<br>personalizado y único</h1>
-      <p class="hero-sub">Un auto-regalo emotivo que celebra tu vínculo. Pintado a mano en acrílico u óleo sobre madera — no es una impresión, es una obra original.</p>
+      <p class="eyebrow" data-i18n="hero_eyebrow">Retratos de mascotas, pintados a mano</p>
+      <h1 data-i18n-html="hero_title_html">Retrato de tu mascota,<br>personalizado y único</h1>
+      <p class="hero-sub" data-i18n="hero_sub">Un auto-regalo emotivo que celebra tu vínculo. Pintado a mano en acrílico u óleo sobre madera — no es una impresión, es una obra original.</p>
       <div class="hero-actions">
-        <a href="#configurador" class="btn btn-primary btn-lg">Comenzar mi retrato</a>
-        <a href="#portfolio" class="btn btn-ghost">Ver galería</a>
+        <a href="#configurador" class="btn btn-primary btn-lg" data-i18n="hero_cta_primary">Comenzar mi retrato</a>
+        <a href="#portfolio" class="btn btn-ghost" data-i18n="hero_cta_secondary">Ver galería</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -72,39 +76,39 @@
 
     <div class="configurator-steps">
       <div class="section-head section-head-left">
-        <h2>Armá tu retrato</h2>
-        <p>Elegí tamaño, marco y fondo. El precio se actualiza al instante.</p>
+        <h2 data-i18n="config_heading">Armá tu retrato</h2>
+        <p data-i18n="config_subheading">Elegí tamaño, marco y fondo. El precio se actualiza al instante.</p>
       </div>
 
       <!-- Paso 1: tamaño -->
       <fieldset class="config-step" id="step-size" data-step="size">
-        <legend>1. Tamaño</legend>
-        <div class="size-options" role="group" aria-label="Elegir tamaño del retrato">
+        <legend data-i18n="step1_legend">1. Tamaño</legend>
+        <div class="size-options" role="group" aria-label="Elegir tamaño del retrato" data-i18n-aria-label="step1_group_aria">
           <!-- size-card buttons injected/bound here — see js/config.js FACTORIA_CONFIG.sizes -->
         </div>
-        <p class="step-note">¿Necesitás otra medida? Contamos con opciones personalizadas. <a href="#contacto-whatsapp" class="link-whatsapp-generic">Escribinos por WhatsApp</a>.</p>
+        <p class="step-note" data-i18n-html="step1_note_html">¿Necesitás otra medida? Contamos con opciones personalizadas. <a href="#contacto-whatsapp" class="link-whatsapp-generic">Escribinos por WhatsApp</a>.</p>
       </fieldset>
 
       <!-- Paso 2: marco -->
       <fieldset class="config-step" id="step-frame" data-step="frame">
-        <legend>2. Marco — Elegí tu estilo</legend>
-        <p class="step-intro">tu retrato viene enmarcado y listo para colgar</p>
-        <p class="frame-material-note">Cuadro realizado en madera Kiri, con vidrio, tapa trasera de desmonte y soporte para colgar. Tocá el marco que más te guste en la imagen.</p>
-        <div class="frame-picker" role="group" aria-label="Elegir tipo de marco">
+        <legend data-i18n="step2_legend">2. Marco — Elegí tu estilo</legend>
+        <p class="step-intro" data-i18n="step2_intro">tu retrato viene enmarcado y listo para colgar</p>
+        <p class="frame-material-note" data-i18n="step2_material_note">Cuadro realizado en madera Kiri, con vidrio, tapa trasera de desmonte y soporte para colgar. Tocá el marco que más te guste en la imagen.</p>
+        <div class="frame-picker" role="group" aria-label="Elegir tipo de marco" data-i18n-aria-label="step2_group_aria">
           <!-- imagen + hotspots injected here -->
         </div>
         <p class="frame-selected" id="frame-selected">Elegí un marco tocando la imagen</p>
         <ul class="frame-specs">
-          <li><strong>Marco Plano:</strong> 2 cm frente × 1 cm profundidad</li>
-          <li><strong>Marco Box:</strong> 1,5 cm frente × 2 cm profundidad</li>
+          <li data-i18n-html="frame_specs_plano_html"><strong>Marco Plano:</strong> 2 cm frente × 1 cm profundidad</li>
+          <li data-i18n-html="frame_specs_box_html"><strong>Marco Box:</strong> 1,5 cm frente × 2 cm profundidad</li>
         </ul>
       </fieldset>
 
       <!-- Paso 3: color de marco -->
       <fieldset class="config-step" id="step-frame-color" data-step="frame-color">
-        <legend>3. Color de marco</legend>
-        <p class="step-intro">Tocá el marco que más te guste en la imagen.</p>
-        <div class="frame-color-picker" role="group" aria-label="Elegir color de marco">
+        <legend data-i18n="step3_legend">3. Color de marco</legend>
+        <p class="step-intro" data-i18n="step3_intro">Tocá el marco que más te guste en la imagen.</p>
+        <div class="frame-color-picker" role="group" aria-label="Elegir color de marco" data-i18n-aria-label="step3_group_aria">
           <!-- imagen + hotspots injected here -->
         </div>
         <p class="frame-color-selected" id="frame-color-selected">Elegí un color de marco tocando la imagen</p>
@@ -112,56 +116,56 @@
 
       <!-- Paso 4: fondo del retrato -->
       <fieldset class="config-step" id="step-bg-pref" data-step="bg-pref">
-        <legend>4. Fondo del retrato</legend>
-        <p class="step-intro">¿Qué fondo preferís?</p>
-        <div class="bg-pref-options" role="radiogroup" aria-label="Preferencia de fondo">
+        <legend data-i18n="step4_legend">4. Fondo del retrato</legend>
+        <p class="step-intro" data-i18n="step4_intro">¿Qué fondo preferís?</p>
+        <div class="bg-pref-options" role="radiogroup" aria-label="Preferencia de fondo" data-i18n-aria-label="step4_group_aria">
           <label class="bg-pref-option">
             <input type="radio" name="bg-pref" value="artist" checked>
             <span class="bg-pref-option-text">
-              <span class="bg-pref-option-label">Dejar que la artista decida el fondo ideal</span>
-              <span class="bg-pref-option-note">Recomendado — la artista elegirá según tu mascota</span>
+              <span class="bg-pref-option-label" data-i18n="bgpref_artist_label">Dejar que la artista decida el fondo ideal</span>
+              <span class="bg-pref-option-note" data-i18n="bgpref_artist_note">Recomendado — la artista elegirá según tu mascota</span>
             </span>
           </label>
           <label class="bg-pref-option">
             <input type="radio" name="bg-pref" value="custom">
             <span class="bg-pref-option-text">
-              <span class="bg-pref-option-label">Quiero un fondo de color específico</span>
+              <span class="bg-pref-option-label" data-i18n="bgpref_custom_label">Quiero un fondo de color específico</span>
             </span>
           </label>
         </div>
         <div class="bg-pref-custom-field" id="bg-pref-custom-field" hidden>
-          <label for="bg-pref-custom-text">Describí el color o estilo que querés <span class="step-optional">(opcional)</span></label>
-          <input type="text" id="bg-pref-custom-text" name="bgPrefText" placeholder="Ej: fondo celeste pastel, tonos tierra, degradé...">
+          <label for="bg-pref-custom-text" data-i18n-html="bgpref_custom_field_label_html">Describí el color o estilo que querés <span class="step-optional">(opcional)</span></label>
+          <input type="text" id="bg-pref-custom-text" name="bgPrefText" placeholder="Ej: fondo celeste pastel, tonos tierra, degradé..." data-i18n-placeholder="bgpref_custom_placeholder">
         </div>
       </fieldset>
 
       <!-- Paso 5: merchandising -->
       <fieldset class="config-step" id="step-merch" data-step="merch">
-        <legend>5. Sumá merchandising <span class="step-optional">(opcional)</span></legend>
+        <legend data-i18n-html="step5_legend_html">5. Sumá merchandising <span class="step-optional">(opcional)</span></legend>
         <p class="merch-intro" id="merch-intro" hidden></p>
-        <div class="merch-options" role="group" aria-label="Elegir merchandising adicional">
+        <div class="merch-options" role="group" aria-label="Elegir merchandising adicional" data-i18n-aria-label="merch_group_aria">
           <!-- merch-item cards injected here -->
         </div>
-        <p class="step-note">La impresión es de tu retrato ya terminado (la pintura).</p>
+        <p class="step-note" data-i18n="step5_note">La impresión es de tu retrato ya terminado (la pintura).</p>
       </fieldset>
     </div>
 
     <!-- Resumen sticky -->
     <aside class="order-summary" id="order-summary" aria-live="polite">
-      <h3>Tu retrato</h3>
+      <h3 data-i18n="summary_heading">Tu retrato</h3>
       <dl class="summary-list">
-        <div class="summary-row"><dt>Tamaño</dt><dd id="summary-size">—</dd></div>
-        <div class="summary-row"><dt>Tipo de marco</dt><dd id="summary-frame">—</dd></div>
-        <div class="summary-row"><dt>Color de marco</dt><dd id="summary-frame-color">—</dd></div>
-        <div class="summary-row"><dt>Fondo</dt><dd id="summary-bg">La artista decide el fondo ideal</dd></div>
-        <div class="summary-row"><dt>Extra</dt><dd id="summary-merch">Retrato solo</dd></div>
+        <div class="summary-row"><dt data-i18n="summary_size_label">Tamaño</dt><dd id="summary-size">—</dd></div>
+        <div class="summary-row"><dt data-i18n="summary_frame_label">Tipo de marco</dt><dd id="summary-frame">—</dd></div>
+        <div class="summary-row"><dt data-i18n="summary_frame_color_label">Color de marco</dt><dd id="summary-frame-color">—</dd></div>
+        <div class="summary-row"><dt data-i18n="summary_bg_label">Fondo</dt><dd id="summary-bg">La artista decide el fondo ideal</dd></div>
+        <div class="summary-row"><dt data-i18n="summary_extra_label">Extra</dt><dd id="summary-merch">Retrato solo</dd></div>
       </dl>
       <div class="summary-total-row">
-        <span>Total estimado</span>
+        <span data-i18n="summary_total_label">Total estimado</span>
         <strong id="summary-total">$ 0 ARS</strong>
       </div>
-      <p class="summary-fine-print">Seña del 50% para comenzar · entrega estimada 15 días.</p>
-      <button type="button" class="btn btn-primary btn-block" id="btn-to-mockup">Ver en mi pared</button>
+      <p class="summary-fine-print" data-i18n="summary_fine_print">Seña del 50% para comenzar · entrega estimada 15 días.</p>
+      <button type="button" class="btn btn-primary btn-block" id="btn-to-mockup" data-i18n="btn_to_mockup">Ver en mi pared</button>
     </aside>
 
   </div>
@@ -171,9 +175,9 @@
 <section class="wall-mockup" id="mockup">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">La joya de la corona</p>
-      <h2>Mirá tu retrato en la pared</h2>
-      <p>Subí una foto de tu mascota y mirá exactamente cómo va a quedar, colgado y enmarcado, antes de comprar.</p>
+      <p class="eyebrow" data-i18n="mockup_eyebrow">La joya de la corona</p>
+      <h2 data-i18n="mockup_heading">Mirá tu retrato en la pared</h2>
+      <p data-i18n="mockup_sub">Subí una foto de tu mascota y mirá exactamente cómo va a quedar, colgado y enmarcado, antes de comprar.</p>
     </div>
 
     <div class="mockup-layout">
@@ -182,12 +186,12 @@
           <input type="file" id="mockup-file-input" accept="image/jpeg,image/png" hidden>
           <div class="dropzone-content">
             <span class="dropzone-icon" aria-hidden="true">↑</span>
-            <p><strong>Arrastrá una foto</strong> o hacé clic para elegir</p>
-            <p id="dropzone-hint" class="dropzone-hint">JPG o PNG, máx. 10MB</p>
+            <p data-i18n-html="dropzone_html"><strong>Arrastrá una foto</strong> o hacé clic para elegir</p>
+            <p id="dropzone-hint" class="dropzone-hint" data-i18n="dropzone_hint">JPG o PNG, máx. 10MB</p>
           </div>
         </div>
         <p class="dropzone-error" id="dropzone-error" role="alert" hidden></p>
-        <p class="dropzone-tip">✓ Cualquier foto funciona, mejor definición = mejor resultado</p>
+        <p class="dropzone-tip" data-i18n="dropzone_tip">✓ Cualquier foto funciona, mejor definición = mejor resultado</p>
       </div>
 
       <div class="mockup-stage">
@@ -198,12 +202,12 @@
           </div>
         </div>
         <p class="mockup-size-hint" id="mockup-size-hint" hidden></p>
-        <button type="button" class="btn btn-link" id="btn-back-to-config">← Cambiar configuración</button>
+        <button type="button" class="btn btn-link" id="btn-back-to-config" data-i18n="btn_back_to_config">← Cambiar configuración</button>
       </div>
     </div>
 
     <div class="mockup-cta">
-      <button type="button" class="btn btn-primary btn-lg" id="btn-to-checkout">Siguiente paso</button>
+      <button type="button" class="btn btn-primary btn-lg" id="btn-to-checkout" data-i18n="btn_to_checkout">Siguiente paso</button>
     </div>
   </div>
 </section>
@@ -212,44 +216,44 @@
 <section class="checkout" id="checkout">
   <div class="container checkout-inner">
     <div class="section-head section-head-left">
-      <h2>Últimos datos</h2>
-      <p>Enviás la foto de tu mascota. Nosotros creamos una <strong>pintura original</strong>. El retrato final será único y tendrá nuestro estilo artístico.</p>
+      <h2 data-i18n="checkout_heading">Últimos datos</h2>
+      <p data-i18n-html="checkout_sub_html">Enviás la foto de tu mascota. Nosotros creamos una <strong>pintura original</strong>. El retrato final será único y tendrá nuestro estilo artístico.</p>
     </div>
 
     <form class="client-form" id="client-form" novalidate>
       <div class="form-row">
-        <label for="client-pet-name">Nombre de tu mascota <span class="optional">(opcional)</span></label>
+        <label for="client-pet-name" data-i18n-html="label_pet_name_html">Nombre de tu mascota <span class="optional">(opcional)</span></label>
         <input type="text" id="client-pet-name" name="petName" autocomplete="off">
       </div>
       <div class="form-row">
-        <label for="client-name">Tu nombre <span class="required">*</span></label>
+        <label for="client-name" data-i18n-html="label_your_name_html">Tu nombre <span class="required">*</span></label>
         <input type="text" id="client-name" name="name" required autocomplete="name">
       </div>
       <div class="form-row">
-        <label for="client-email">Email <span class="required">*</span></label>
+        <label for="client-email" data-i18n-html="label_email_html">Email <span class="required">*</span></label>
         <input type="email" id="client-email" name="email" required autocomplete="email">
       </div>
       <div class="form-row">
-        <label for="client-phone">Teléfono / WhatsApp <span class="required">*</span></label>
+        <label for="client-phone" data-i18n-html="label_phone_html">Teléfono / WhatsApp <span class="required">*</span></label>
         <input type="tel" id="client-phone" name="phone" required autocomplete="tel">
       </div>
       <div class="form-row form-row-full">
-        <label for="client-notes">Notas especiales <span class="optional">(opcional, máx. 500 caracteres)</span></label>
-        <textarea id="client-notes" name="notes" maxlength="500" rows="3" placeholder='Ej: "Quiero capturar su expresión traviesa" o "Tiene un lunar especial"'></textarea>
+        <label for="client-notes" data-i18n-html="label_notes_html">Notas especiales <span class="optional">(opcional, máx. 500 caracteres)</span></label>
+        <textarea id="client-notes" name="notes" maxlength="500" rows="3" placeholder='Ej: "Quiero capturar su expresión traviesa" o "Tiene un lunar especial"' data-i18n-placeholder="notes_placeholder"></textarea>
       </div>
 
       <div class="form-row form-row-full form-terms">
         <label class="checkbox-label">
           <input type="checkbox" id="accept-terms" required>
-          Acepto los <a href="terminos.html" target="_blank" rel="noopener" class="link-terms">términos y condiciones</a>
+          <span data-i18n-html="terms_checkbox_html">Acepto los <a href="terminos.html" target="_blank" rel="noopener" class="link-terms">términos y condiciones</a></span>
         </label>
       </div>
 
       <p class="form-error" id="form-error" role="alert" hidden></p>
 
       <div class="form-row form-row-full checkout-payment">
-        <p class="payment-note">Con la seña del 50% arrancamos tu retrato. Elegís cómo pagar en el siguiente paso.</p>
-        <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-whatsapp-checkout">
+        <p class="payment-note" data-i18n="payment_note">Con la seña del 50% arrancamos tu retrato. Elegís cómo pagar en el siguiente paso.</p>
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-whatsapp-checkout" data-i18n="btn_continue_payment">
           Continuar al pago
         </button>
       </div>
@@ -261,23 +265,23 @@
 <section class="payment-section" id="payment-section" hidden>
   <div class="container">
     <div class="section-head section-head-left">
-      <h2>Elegí tu método de pago</h2>
-      <p>Ambos métodos son seguros y rápidos.</p>
+      <h2 data-i18n="payment_heading">Elegí tu método de pago</h2>
+      <p data-i18n="payment_sub">Ambos métodos son seguros y rápidos.</p>
     </div>
 
-    <p class="payment-total">Seña a pagar hoy (50%): <strong id="payment-total-amount">—</strong></p>
+    <p class="payment-total"><span data-i18n="payment_total_label">Seña a pagar hoy (50%):</span> <strong id="payment-total-amount">—</strong></p>
 
     <div class="payment-methods">
       <button type="button" class="payment-method-card" id="btn-pay-mercadopago">
         <span class="payment-method-icon" aria-hidden="true">💳</span>
-        <span class="payment-method-title">Mercado Pago</span>
-        <span class="payment-method-desc">Pagá con tarjeta online, al instante.</span>
+        <span class="payment-method-title" data-i18n="mp_title">Mercado Pago</span>
+        <span class="payment-method-desc" data-i18n="mp_desc">Pagá con tarjeta online, al instante.</span>
       </button>
 
       <button type="button" class="payment-method-card" id="btn-pay-transfer">
         <span class="payment-method-icon" aria-hidden="true">🏦</span>
-        <span class="payment-method-title">Transferencia bancaria</span>
-        <span class="payment-method-desc">Te mostramos los datos para transferir.</span>
+        <span class="payment-method-title" data-i18n="transfer_title">Transferencia bancaria</span>
+        <span class="payment-method-desc" data-i18n="transfer_desc">Te mostramos los datos para transferir.</span>
       </button>
     </div>
 
@@ -288,45 +292,45 @@
 <!-- MODAL: transferencia bancaria -->
 <div class="modal-overlay" id="modal-transfer" hidden>
   <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-transfer-title">
-    <button type="button" class="modal-close" id="btn-close-transfer" aria-label="Cerrar">✕</button>
-    <h3 id="modal-transfer-title">Transferencia bancaria</h3>
+    <button type="button" class="modal-close" id="btn-close-transfer" data-i18n-aria-label="modal_close_aria" aria-label="Cerrar">✕</button>
+    <h3 id="modal-transfer-title" data-i18n="transfer_title">Transferencia bancaria</h3>
 
     <dl class="transfer-details">
       <div class="transfer-row">
-        <dt>Banco</dt>
+        <dt data-i18n="transfer_banco_label">Banco</dt>
         <dd id="transfer-banco">—</dd>
       </div>
       <div class="transfer-row">
-        <dt>Titular</dt>
+        <dt data-i18n="transfer_titular_label">Titular</dt>
         <dd id="transfer-titular">—</dd>
       </div>
       <div class="transfer-row">
-        <dt>CBU</dt>
+        <dt data-i18n="transfer_cbu_label">CBU</dt>
         <dd class="transfer-copy-row">
           <code id="transfer-cbu">—</code>
-          <button type="button" class="btn-copy" data-copy-target="transfer-cbu">Copiar</button>
+          <button type="button" class="btn-copy" data-copy-target="transfer-cbu" data-i18n="btn_copy">Copiar</button>
         </dd>
       </div>
       <div class="transfer-row">
-        <dt>Alias</dt>
+        <dt data-i18n="transfer_alias_label">Alias</dt>
         <dd class="transfer-copy-row">
           <code id="transfer-alias">—</code>
-          <button type="button" class="btn-copy" data-copy-target="transfer-alias">Copiar</button>
+          <button type="button" class="btn-copy" data-copy-target="transfer-alias" data-i18n="btn_copy">Copiar</button>
         </dd>
       </div>
       <div class="transfer-row">
-        <dt>Monto a transferir</dt>
+        <dt data-i18n="transfer_amount_label">Monto a transferir</dt>
         <dd id="transfer-amount" class="transfer-amount">—</dd>
       </div>
       <div class="transfer-row">
-        <dt>Concepto</dt>
-        <dd>Retrato mascota — Orden #<span id="transfer-order-number">—</span></dd>
+        <dt data-i18n="transfer_concept_label">Concepto</dt>
+        <dd data-i18n-html="transfer_concept_value_html">Retrato mascota — Orden #<span id="transfer-order-number">—</span></dd>
       </div>
     </dl>
 
-    <p class="transfer-warning">Una vez que hagas la transferencia, mandanos el comprobante por WhatsApp para arrancar tu retrato.</p>
+    <p class="transfer-warning" data-i18n="transfer_warning">Una vez que hagas la transferencia, mandanos el comprobante por WhatsApp para arrancar tu retrato.</p>
 
-    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-confirm-transfer">
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-confirm-transfer" data-i18n="btn_confirm_transfer">
       Confirmar transferencia por WhatsApp
     </button>
   </div>
@@ -336,39 +340,39 @@
 <section class="portfolio" id="portfolio">
   <div class="container">
     <div class="section-head">
-      <h2>Nuestros trabajos</h2>
-      <p>Cada retrato es único, hecho a mano.</p>
+      <h2 data-i18n="portfolio_heading">Nuestros trabajos</h2>
+      <p data-i18n="portfolio_sub">Cada retrato es único, hecho a mano.</p>
     </div>
 
     <div class="gallery-grid" id="gallery-grid">
-      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera">
+      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
         <img src="img/portfolio/portfolio-1.png" alt="Retrato pintado a mano de un perro" loading="lazy">
       </button>
-      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera">
+      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
         <img src="img/portfolio/portfolio-2.png" alt="Retrato pintado a mano de un cachorro" loading="lazy">
       </button>
-      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera">
+      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
         <img src="img/portfolio/portfolio-3.png" alt="Retrato pintado a mano de una mascota" loading="lazy">
       </button>
-      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera">
+      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
         <img src="img/portfolio/portfolio-4.png" alt="Retrato pintado a mano de una mascota" loading="lazy">
       </button>
-      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera">
+      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
         <img src="img/portfolio/portfolio-5.png" alt="Retrato pintado a mano de una mascota" loading="lazy">
       </button>
-      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera">
+      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
         <img src="img/portfolio/portfolio-6.png" alt="Retrato pintado a mano de un bulldog" loading="lazy">
       </button>
-      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera">
+      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
         <img src="img/portfolio/portfolio-7.png" alt="Retrato pintado a mano de un perro con marco dorado" loading="lazy">
       </button>
-      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera">
+      <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
         <img src="img/portfolio/portfolio-8.png" alt="Retrato pintado a mano de un bulldog junto a la mascota real" loading="lazy">
       </button>
     </div>
 
     <div class="portfolio-more">
-      <a href="https://www.instagram.com/lafactoriaderetratos" target="_blank" rel="noopener">Ver más en Instagram @lafactoriaderetratos →</a>
+      <a href="https://www.instagram.com/lafactoriaderetratos" target="_blank" rel="noopener" data-i18n="portfolio_more_link">Ver más en Instagram @lafactoriaderetratos →</a>
     </div>
   </div>
 
@@ -385,7 +389,7 @@
 <section class="testimonials" id="testimonios">
   <div class="container">
     <div class="section-head">
-      <h2>Lo que dicen nuestros clientes</h2>
+      <h2 data-i18n="testimonials_heading">Lo que dicen nuestros clientes</h2>
     </div>
     <div class="testimonial-grid">
       <div class="testimonial-card-img"><img src="img/testimonios/crops/testimonio-1.png" alt="Captura de chat de Instagram de Lucas Rodríguez: &quot;Aaaaaay muchas gracias posta, me encanto posta, lo quiero colgar en casa, posta re lindo, me encanto el estilo&quot;" loading="lazy"></div>
@@ -411,12 +415,12 @@
       <img src="img/about-juana.jpeg" alt="Brenda Cisnero (Juana Perfecta), artista de La Factoría, con uno de sus retratos" class="about-photo-img">
     </div>
     <div class="about-copy">
-      <h2>Detrás de cada retrato</h2>
-      <p>La Factoría es un estudio de retratos de autor creado por Juana Perfecta, artista visual argentina con una práctica desarrollada entre la pintura, el hiperrealismo y la exploración de la materia.</p>
-      <p>Cada retrato es pintado personalmente por ella, de principio a fin, a partir de las fotografías y la historia de cada mascota. No buscamos simplemente reproducir una imagen, sino capturar esa mirada, ese gesto o esa expresión que hace que tu compañero sea único.</p>
-      <p>El resultado es una obra original, hecha a mano y creada especialmente para vos, pensada para conservar su esencia y acompañarte en el tiempo.</p>
-      <p>Antes de darla por terminada, la revisamos con vos. Los ajustes que sean necesarios están incluidos, sin costo adicional.</p>
-      <p class="about-credit">Juana Perfecta es el nombre artístico de Brenda Cisnero, Licenciada en Artes Visuales, con formación y trayectoria artística en Argentina y Estados Unidos.</p>
+      <h2 data-i18n="about_heading">Detrás de cada retrato</h2>
+      <p data-i18n="about_p1">La Factoría es un estudio de retratos de autor creado por Juana Perfecta, artista visual argentina con una práctica desarrollada entre la pintura, el hiperrealismo y la exploración de la materia.</p>
+      <p data-i18n="about_p2">Cada retrato es pintado personalmente por ella, de principio a fin, a partir de las fotografías y la historia de cada mascota. No buscamos simplemente reproducir una imagen, sino capturar esa mirada, ese gesto o esa expresión que hace que tu compañero sea único.</p>
+      <p data-i18n="about_p3">El resultado es una obra original, hecha a mano y creada especialmente para vos, pensada para conservar su esencia y acompañarte en el tiempo.</p>
+      <p data-i18n="about_p4">Antes de darla por terminada, la revisamos con vos. Los ajustes que sean necesarios están incluidos, sin costo adicional.</p>
+      <p class="about-credit" data-i18n="about_credit">Juana Perfecta es el nombre artístico de Brenda Cisnero, Licenciada en Artes Visuales, con formación y trayectoria artística en Argentina y Estados Unidos.</p>
     </div>
   </div>
 </section>
@@ -425,97 +429,97 @@
 <section class="faq" id="faq">
   <div class="container">
     <div class="section-head">
-      <h2>Preguntas frecuentes</h2>
+      <h2 data-i18n="faq_heading">Preguntas frecuentes</h2>
     </div>
     <div class="faq-list">
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Qué fotos necesito enviar?
+          <span data-i18n="faq_q1">¿Qué fotos necesito enviar?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>Cualquier foto clara de tu mascota. Mientras mejor definición tenga, mejor será el resultado.</p>
+          <p data-i18n="faq_a1">Cualquier foto clara de tu mascota. Mientras mejor definición tenga, mejor será el resultado.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Qué pasa si mi foto no tiene buena calidad?
+          <span data-i18n="faq_q2">¿Qué pasa si mi foto no tiene buena calidad?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>Si tienes dudas, envíanosla mejor posible y un mensaje por WhatsApp. Evaluaremos juntos si podemos trabajar con ella.</p>
+          <p data-i18n="faq_a2">Si tienes dudas, envíanosla mejor posible y un mensaje por WhatsApp. Evaluaremos juntos si podemos trabajar con ella.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Cuánto tarda mi retrato?
+          <span data-i18n="faq_q3">¿Cuánto tarda mi retrato?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>Entre 5 y 15 días hábiles, dependiendo de nuestra agenda.</p>
+          <p data-i18n="faq_a3">Entre 5 y 15 días hábiles, dependiendo de nuestra agenda.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Qué tamaño recomiendan?
+          <span data-i18n="faq_q4">¿Qué tamaño recomiendan?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>Depende de dónde lo cuelgues. Chico (25x35) para espacios íntimos. Mediano/Grande para living o salón. Consultanos si dudas.</p>
+          <p data-i18n="faq_a4">Depende de dónde lo cuelgues. Chico (25x35) para espacios íntimos. Mediano/Grande para living o salón. Consultanos si dudas.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Puedo incluir más de una mascota o personas?
+          <span data-i18n="faq_q5">¿Puedo incluir más de una mascota o personas?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>Sí. Podemos realizar retratos con varias mascotas. Para personas, depende de la foto. ¡Envíanosla y evaluamos!</p>
+          <p data-i18n="faq_a5">Sí. Podemos realizar retratos con varias mascotas. Para personas, depende de la foto. ¡Envíanosla y evaluamos!</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Qué técnica utilizan?
+          <span data-i18n="faq_q6">¿Qué técnica utilizan?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>Cada retrato está pintado completamente a mano sobre lienzo con pintura acrílica u óleo. No imprimimos fotografías ni utilizamos procesos industriales. Cada obra es única y original.</p>
+          <p data-i18n="faq_a6">Cada retrato está pintado completamente a mano sobre lienzo con pintura acrílica u óleo. No imprimimos fotografías ni utilizamos procesos industriales. Cada obra es única y original.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Puedo pedir cambios antes del envío?
+          <span data-i18n="faq_q7">¿Puedo pedir cambios antes del envío?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>Sí. Antes de enviarte el retrato final, te mostramos una foto. Puedes solicitar ajustes sin cargo adicional.</p>
+          <p data-i18n="faq_a7">Sí. Antes de enviarte el retrato final, te mostramos una foto. Puedes solicitar ajustes sin cargo adicional.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Qué incluye mi compra?
+          <span data-i18n="faq_q8">¿Qué incluye mi compra?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>Tu retrato original pintado a mano sobre lienzo, su marco, sistema listo para colgar y embalaje especial para que llegue en perfectas condiciones.</p>
+          <p data-i18n="faq_a8">Tu retrato original pintado a mano sobre lienzo, su marco, sistema listo para colgar y embalaje especial para que llegue en perfectas condiciones.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Puedo encargar un retrato como regalo?
+          <span data-i18n="faq_q9">¿Puedo encargar un retrato como regalo?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>¡Por supuesto! Es uno de los regalos más elegidos por quienes consideran a sus mascotas parte de la familia. Te recomendamos hacer el pedido con anticipación si es para una fecha especial.</p>
+          <p data-i18n="faq_a9">¡Por supuesto! Es uno de los regalos más elegidos por quienes consideran a sus mascotas parte de la familia. Te recomendamos hacer el pedido con anticipación si es para una fecha especial.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Realizan envíos a todo el país y al exterior?
+          <span data-i18n="faq_q10">¿Realizan envíos a todo el país y al exterior?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p>Sí. Realizamos envíos a toda Argentina y también a otros países. Cada obra se embala cuidadosamente para garantizar que llegue en excelentes condiciones.</p>
+          <p data-i18n="faq_a10">Sí. Realizamos envíos a toda Argentina y también a otros países. Cada obra se embala cuidadosamente para garantizar que llegue en excelentes condiciones.</p>
         </div>
       </div>
     </div>
@@ -526,18 +530,18 @@
 <section class="shipping" id="envios">
   <div class="container">
     <div class="section-head">
-      <h2>📦 Envío y retiro</h2>
+      <h2 data-i18n-html="shipping_heading_html">📦 Envío y retiro</h2>
     </div>
     <div class="shipping-options">
       <div class="shipping-card">
         <span class="shipping-icon">🚚</span>
-        <h3>Envío gratis a todo el país</h3>
-        <p>Llega en 5-7 días hábiles después de haberlo terminado. Embalado profesionalmente para que llegue perfecto.</p>
+        <h3 data-i18n="shipping_card1_title">Envío gratis a todo el país</h3>
+        <p data-i18n="shipping_card1_text">Llega en 5-7 días hábiles después de haberlo terminado. Embalado profesionalmente para que llegue perfecto.</p>
       </div>
       <div class="shipping-card">
         <span class="shipping-icon">🏪</span>
-        <h3>Retiro en el atelier</h3>
-        <p><strong>Sinclair 3026, PB</strong> — Ciudad Autónoma de Buenos Aires. Coordinamos horario por WhatsApp.</p>
+        <h3 data-i18n="shipping_card2_title">Retiro en el atelier</h3>
+        <p data-i18n-html="shipping_card2_text_html"><strong>Sinclair 3026, PB</strong> — Ciudad Autónoma de Buenos Aires. Coordinamos horario por WhatsApp.</p>
       </div>
     </div>
   </div>
@@ -553,27 +557,28 @@
       <span class="logo-tagline">by Juana Perfecta</span>
     </div>
     <nav class="footer-links" aria-label="Enlaces del pie de página">
-      <a href="#top">Home</a>
-      <a href="#configurador">Shop</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#faq">FAQ</a>
-      <a href="terminos.html">Términos</a>
-      <a href="privacidad.html">Privacidad</a>
+      <a href="#top" data-i18n="footer_nav_home">Home</a>
+      <a href="#configurador" data-i18n="footer_nav_shop">Shop</a>
+      <a href="#portfolio" data-i18n="footer_nav_portfolio">Portfolio</a>
+      <a href="#faq" data-i18n="footer_nav_faq">FAQ</a>
+      <a href="terminos.html" data-i18n="footer_nav_terms">Términos</a>
+      <a href="privacidad.html" data-i18n="footer_nav_privacy">Privacidad</a>
     </nav>
     <div class="footer-contact">
       <a href="https://www.instagram.com/lafactoriaderetratos" target="_blank" rel="noopener">Instagram @lafactoriaderetratos</a>
       <a href="mailto:lafactoriabyjuanaperfecta@gmail.com">lafactoriabyjuanaperfecta@gmail.com</a>
       <span>CABA, Argentina</span>
     </div>
-    <p class="footer-copy">© <span id="footer-year"></span> La Factoría by Juana Perfecta. Todos los derechos reservados.</p>
+    <p class="footer-copy"><span data-i18n="footer_copy_prefix">©</span> <span id="footer-year"></span> <span data-i18n="footer_copy_suffix">La Factoría by Juana Perfecta. Todos los derechos reservados.</span></p>
   </div>
 </footer>
 
 <!-- WhatsApp flotante -->
-<a href="https://wa.me/5491130509450" class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+<a href="https://wa.me/5491130509450" class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener" data-i18n-aria-label="whatsapp_aria" aria-label="Escribinos por WhatsApp">
   <svg class="whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/></svg>
 </a>
 
+<script src="js/i18n.js"></script>
 <script src="js/config.js"></script>
 <script src="js/state.js"></script>
 <script src="js/mockup.js"></script>

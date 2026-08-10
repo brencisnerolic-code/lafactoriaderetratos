@@ -9,6 +9,8 @@
 (function () {
   "use strict";
 
+  var T = window.I18N || { t: function (k) { return k; } };
+
   function prefersReducedMotion() {
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
@@ -211,12 +213,12 @@
         typeof window.FactoriaState.isReadyForMockup === "function" &&
         !window.FactoriaState.isReadyForMockup()
       ) {
-        showError("Volvé al configurador y completá tamaño, marco y fondo antes de continuar.");
+        showError(T.t("form_error_incomplete_config"));
         return;
       }
 
       if (!isValid()) {
-        showError("Completá los campos obligatorios y aceptá los términos para continuar.");
+        showError(T.t("form_error_required_fields"));
         return;
       }
 

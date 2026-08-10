@@ -10,6 +10,7 @@
 window.FactoriaPayment = (function () {
   "use strict";
 
+  var T = window.I18N || { t: function (k) { return k; } };
   var clientData = null;
   var orderNumber = null;
 
@@ -39,7 +40,7 @@ window.FactoriaPayment = (function () {
   }
 
   function formatARS(n) {
-    if (n === null || n === undefined) return "A confirmar por WhatsApp";
+    if (n === null || n === undefined) return T.t("payment_amount_tbd");
     return "$ " + n.toLocaleString("es-AR") + " ARS";
   }
 
@@ -105,7 +106,7 @@ window.FactoriaPayment = (function () {
         if (!target || !navigator.clipboard) return;
         navigator.clipboard.writeText(target.textContent.trim()).then(function () {
           var originalLabel = btn.textContent;
-          btn.textContent = "¡Copiado!";
+          btn.textContent = T.t("payment_copied");
           setTimeout(function () {
             btn.textContent = originalLabel;
           }, 1500);
@@ -162,7 +163,7 @@ window.FactoriaPayment = (function () {
     hidePaymentError();
 
     if (!cfg || !amount) {
-      showPaymentError("No pudimos calcular el monto a pagar. Volvé al configurador y revisá tu selección.");
+      showPaymentError(T.t("payment_error_no_amount"));
       return;
     }
 
@@ -171,14 +172,11 @@ window.FactoriaPayment = (function () {
     // archivo local (file://) o probando con un servidor estático simple, ese endpoint
     // no existe y fetch() falla siempre con "Failed to fetch" — no es un error real de MP.
     if (window.location.protocol === "file:") {
-      showPaymentError(
-        "Mercado Pago solo funciona en el sitio publicado (netlify.app), no abriendo el archivo local. " +
-          "Probá con transferencia bancaria acá, o subí los cambios y probá la compra en el sitio en vivo."
-      );
+      showPaymentError(T.t("payment_error_file_protocol"));
       return;
     }
 
-    setButtonLoading(btn, true, "Conectando con Mercado Pago…");
+    setButtonLoading(btn, true, T.t("payment_connecting_mp"));
 
     var body = {
       title: "Seña 50% — Retrato de mascota (" + orderNumber + ")",
@@ -200,19 +198,18 @@ window.FactoriaPayment = (function () {
     })
       .then(function (res) {
         return res.json().then(function (data) {
-          if (!res.ok) throw new Error(data.error || "Error desconocido de Mercado Pago.");
+          if (!res.ok) throw new Error(data.error || T.t("payment_error_unknown_mp"));
           return data;
         });
       })
       .then(function (data) {
-        if (!data.initPoint) throw new Error("Mercado Pago no devolvió un link de pago.");
+        if (!data.initPoint) throw new Error(T.t("payment_error_no_link"));
         window.location.href = data.initPoint;
       })
       .catch(function (err) {
         setButtonLoading(btn, false);
         showPaymentError(
-          "No pudimos conectar con Mercado Pago (" + err.message + "). " +
-            "Probá con transferencia bancaria, o escribinos por WhatsApp."
+          T.t("payment_error_mp_generic_prefix") + err.message + T.t("payment_error_mp_generic_suffix")
         );
       });
   }
@@ -266,6 +263,12 @@ window.FactoriaPayment = (function () {
     }
 
     initTransferCopyButtons();
+
+    window.addEventListener("factoria:lang-change", function () {
+      updateTotalDisplay();
+      var modal = $("modal-transfer");
+      if (modal && !modal.hidden) fillTransferModal();
+    });
   }
 
   if (document.readyState === "loading") {
