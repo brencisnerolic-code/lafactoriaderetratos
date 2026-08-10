@@ -496,6 +496,15 @@ textarea:focus-visible,
   border-radius: calc(var(--radius-lg) - 6px);
 }
 
+.hero-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: calc(var(--radius-lg) - 6px);
+  position: relative;
+  z-index: 1;
+}
+
 .hero-frame-placeholder {
   text-align: center;
   color: var(--color-text-muted);
@@ -1595,9 +1604,8 @@ textarea:focus-visible,
 
 /* ===== Testimonials ===== */
 .testimonial-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
+  column-count: 2;
+  column-gap: 0.6rem;
 }
 
 .testimonial-card {
@@ -1607,34 +1615,29 @@ textarea:focus-visible,
   padding: clamp(1.5rem, 3vw, 2rem);
 }
 
-.testimonial-quote {
-  font-family: var(--font-heading);
-  font-style: italic;
-  font-size: 1.1rem;
-  color: var(--color-text);
-  margin-bottom: 1rem;
+.testimonial-card-img {
+  break-inside: avoid;
+  margin-bottom: 0.6rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
 }
 
-.testimonial-author {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  font-weight: 600;
+.testimonial-card-img img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-.testimonial-placeholder {
-  border-style: dashed;
-  border-color: var(--color-text-muted);
-  background-color: transparent;
-}
-
-.testimonial-placeholder .testimonial-quote {
-  color: var(--color-text-muted);
-  font-style: italic;
+@media (min-width: 640px) {
+  .testimonial-grid {
+    column-count: 3;
+  }
 }
 
 @media (min-width: 1024px) {
   .testimonial-grid {
-    grid-template-columns: repeat(3, 1fr);
+    column-count: 4;
   }
 }
 
@@ -1650,9 +1653,14 @@ textarea:focus-visible,
   align-items: center;
 }
 
-.about-photo-placeholder {
+.about-photo-placeholder,
+.about-photo-img {
   aspect-ratio: 1 / 1;
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.about-photo-placeholder {
   background: linear-gradient(155deg, var(--color-surface), var(--color-border));
   display: flex;
   align-items: center;
@@ -1660,7 +1668,13 @@ textarea:focus-visible,
   color: var(--color-text-muted);
   font-family: var(--font-heading);
   font-style: italic;
-  box-shadow: var(--shadow-sm);
+}
+
+.about-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .about-copy h2 {
@@ -1668,11 +1682,11 @@ textarea:focus-visible,
 }
 
 .about-copy p {
+  font-size: 0.85rem;
   margin-bottom: 1rem;
 }
 
 .about-credit {
-  font-size: 0.85rem;
   margin-top: 1.5rem;
 }
 
@@ -1837,15 +1851,61 @@ textarea:focus-visible,
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.6rem;
+  color: #FFFFFF;
   box-shadow: var(--shadow-md);
   transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.whatsapp-icon {
+  width: 30px;
+  height: 30px;
 }
 
 .whatsapp-float:hover,
 .whatsapp-float:focus-visible {
   transform: scale(1.08);
   box-shadow: var(--shadow-lg);
+}
+
+/* ===== Shipping ===== */
+.shipping .section-head h2 {
+  font-size: 1.1rem;
+}
+
+.shipping-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.shipping-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.shipping-icon {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.shipping-card h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.shipping-card p {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 640px) {
+  .shipping-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ===== Size guide ===== */
@@ -1856,7 +1916,6 @@ textarea:focus-visible,
 }
 
 .size-guide-image {
-  margin-top: 2.5rem;
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -1866,6 +1925,59 @@ textarea:focus-visible,
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* ===== Legal pages (términos / privacidad) ===== */
+.legal-page {
+  padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+.legal-content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.legal-back {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.legal-content h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  margin-bottom: 0.5rem;
+}
+
+.legal-updated {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2.5rem;
+}
+
+.legal-content h2 {
+  font-size: 1.05rem;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-content p,
+.legal-content li {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.legal-content ul {
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-content a {
+  color: var(--color-accent);
 }
 
 /* ===== Reduced motion ===== */

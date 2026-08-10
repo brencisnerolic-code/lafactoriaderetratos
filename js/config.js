@@ -15,7 +15,7 @@ window.FACTORIA_CONFIG = {
     instagramUrl: "https://www.instagram.com/lafactoriaderetratos",
     whatsappNumber: "5491130509450", // 011 3050-9450, formato wa.me (54 9 11 3050 9450)
     whatsappDisplay: "011 3050-9450",
-    email: "contacto@lafactoriaderetratos.com", // TBD: confirmar con Juana
+    email: "lafactoriabyjuanaperfecta@gmail.com",
     location: "CABA, Argentina",
     storeUrl: "https://juanaperfecta.mitiendanube.com/pets-art/"
   },

@@ -41,33 +41,26 @@ estático (por ejemplo `npx serve .`).
 
 ## Contenido pendiente (para Juana)
 
-Marcado en el código como TBD / placeholder. El sitio funciona igual sin esto,
-pero conviene completarlo antes de compartir el link:
-
-- [ ] **Fotos de portfolio reales** (8–12 retratos terminados) → reemplazar los
-      `.gallery-placeholder` en `index.html` (`#gallery-grid`) por `<img>` reales.
-- [ ] **Foto de portada del hero** → reemplazar `.hero-frame-placeholder`.
-- [ ] **Foto profesional de Juana** para "Sobre nosotros" → reemplazar `.about-photo-placeholder`.
-- [ ] **3–5 testimonios reales** de clientes → reemplazar las `.testimonial-placeholder` en `#testimonios`.
-- [ ] **Precio del marco renacentista** (hoy dice "a confirmar por WhatsApp" — se
-      puede cargar un número real en `js/config.js` → `frames[1].priceAdd`).
-- [ ] **Colores de fondo definitivos** — hoy hay 6 sugeridos en `js/config.js` →
-      `bgColors` (blanco, gris claro, gris oscuro, negro, celeste, "otro"); confirmar
-      si son los reales o hay que cambiar la paleta.
-- [ ] **Merchandising (remera / totebag)** — está en el sitio pero marcado
-      "Próximamente" (sin precio) en `js/config.js` → `merch`. Activar cuando haya precio.
-- [ ] **Email de contacto** — usé `contacto@lafactoriaderetratos.com` como
+- [x] **Fotos de portfolio reales** → cargadas en `img/portfolio/` y enlazadas en `#gallery-grid`.
+- [x] **Foto de portada del hero** → `img/hero-retrato.png`.
+- [x] **Foto de Juana** para "Sobre nosotros" → `img/about-juana.jpeg`.
+- [x] **Testimonios reales** → capturas de chat de Instagram, recortadas en
+      `img/testimonios/crops/` y mostradas como imagen en `#testimonios`.
+- [x] **Datos de transferencia bancaria** → cargados en `js/config.js` → `bankTransfer`.
+- [x] **Merchandising (remera / totebag)** → activado con precio real en `js/config.js` → `merchItems`.
+- [ ] **Email de contacto** — sigue siendo `contacto@lafactoriaderetratos.com` como
       placeholder en `js/config.js` → `brand.email`; confirmar si es real.
-- [ ] **Términos y condiciones** — el link en el checkout y footer hoy no lleva
-      a ningún lado (`href="#"`).
-- [ ] **Datos de transferencia bancaria** (banco, titular, CBU, alias) — hoy
-      son placeholders `"TBD — completar con Juana"` en `js/config.js` →
-      `bankTransfer`. **No se pueden inventar**: un dato mal puesto manda la
-      plata del cliente a la cuenta equivocada. Pasámelos y los cargo.
+- [ ] **Términos y condiciones / Privacidad** — los links en el checkout y footer
+      hoy no llevan a ningún lado (`href="#"`). Falta redactar el texto legal
+      (o al menos una versión mínima) y linkearlo.
 - [ ] **Access Token de Mercado Pago** — variable de entorno `MP_ACCESS_TOKEN`
       en Netlify (Site settings → Environment variables), nunca en el código.
       Se obtiene en https://www.mercadopago.com.ar/developers/panel → tus
-      credenciales de producción.
+      credenciales de producción. **Esto lo tiene que hacer Juana** (Claude no
+      puede ingresar tokens/credenciales por política de seguridad).
+- [ ] **Confirmar deploy en Netlify** — verificar que el sitio esté conectado al
+      repo `github.com/brencisnerolic-code/lafactoriaderetratos` y probar el
+      botón de Mercado Pago ya en producción (no funciona en `file://` local).
 
 ## Cómo desplegar (Netlify)
 

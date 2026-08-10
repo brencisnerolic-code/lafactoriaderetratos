@@ -5,3 +5,8 @@ node_modules/
 *.log
 .netlify
 .claude/
+
+# Capturas originales sin recortar de testimonios (exponen nombre/foto real de clientes) —
+# solo se publican los recortes curados en img/testimonios/crops/
+img/testimonios/testimonios-*.png
+img/testimonios/testimonios-*.jpg
