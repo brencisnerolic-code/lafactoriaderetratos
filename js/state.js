@@ -76,6 +76,13 @@
 
   function setSize(id) {
     selection.size = id;
+    if (typeof window.gtag === "function") {
+      const sizeCfg = CFG.sizes.find((s) => s.id === id);
+      window.gtag("event", "select_size", {
+        size_id: id,
+        size_label: sizeCfg ? sizeCfg.label : id
+      });
+    }
     // Si el marco elegido ya no está disponible para el nuevo tamaño, se resetea.
     if (selection.frame && !isFrameAvailable(selection.frame, id)) {
       selection.frame = null;

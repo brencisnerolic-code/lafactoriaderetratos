@@ -167,6 +167,14 @@ window.FactoriaPayment = (function () {
       return;
     }
 
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "mercadopago_click", {
+        order_id: orderNumber,
+        value: amount,
+        currency: "ARS"
+      });
+    }
+
     // Mercado Pago necesita la Netlify Function (/.netlify/functions/create-preference),
     // que solo existe una vez que el sitio está publicado en Netlify. Abriendo el
     // archivo local (file://) o probando con un servidor estático simple, ese endpoint
@@ -204,6 +212,9 @@ window.FactoriaPayment = (function () {
       })
       .then(function (data) {
         if (!data.initPoint) throw new Error(T.t("payment_error_no_link"));
+        try {
+          sessionStorage.setItem("factoria_order_amount_" + orderNumber, String(amount));
+        } catch (e) {}
         window.location.href = data.initPoint;
       })
       .catch(function (err) {
@@ -258,7 +269,12 @@ window.FactoriaPayment = (function () {
     if (confirmTransferBtn) {
       confirmTransferBtn.addEventListener("click", function () {
         var url = buildTransferWhatsAppUrl();
-        if (url) window.open(url, "_blank", "noopener");
+        if (url) {
+          if (typeof window.gtag === "function") {
+            window.gtag("event", "whatsapp_click", { source: "transfer_confirm", order_id: orderNumber });
+          }
+          window.open(url, "_blank", "noopener");
+        }
       });
     }
 

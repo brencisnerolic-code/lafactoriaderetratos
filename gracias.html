@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google tag (gtag.js) — GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YN6MTF3M3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YN6MTF3M3Z');
+</script>
 <title>¡Gracias por tu pedido! — La Factoría by Juana Perfecta</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,6 +86,8 @@
   (function () {
     var params = new URLSearchParams(window.location.search);
     var order = params.get("external_reference");
+    var status = params.get("collection_status") || params.get("status");
+    var paymentId = params.get("payment_id") || params.get("collection_id");
     var orderEl = document.getElementById("thanks-order-number");
     var waLink = document.getElementById("thanks-whatsapp");
     if (order && orderEl) {
@@ -85,6 +96,18 @@
         var msg = encodeURIComponent("¡Hola! Acabo de pagar mi retrato por Mercado Pago. Orden #" + order + ".");
         waLink.href = "https://wa.me/5491130509450?text=" + msg;
       }
+    }
+    // Solo contamos "purchase" cuando MP confirma el pago como aprobado.
+    if (order && status === "approved" && typeof window.gtag === "function") {
+      var storedAmount = 0;
+      try {
+        storedAmount = Number(sessionStorage.getItem("factoria_order_amount_" + order)) || 0;
+      } catch (e) {}
+      window.gtag("event", "purchase", {
+        transaction_id: paymentId || order,
+        currency: "ARS",
+        value: storedAmount
+      });
     }
   })();
 </script>
