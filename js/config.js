@@ -7,12 +7,14 @@
  */
 window.FACTORIA_CONFIG = {
   brand: {
-    name: "La Factoría",
+    name: "La Factoría de Retratos",
     tagline: "by Juana Perfecta",
-    fullName: "La Factoría by Juana Perfecta",
+    fullName: "La Factoría de Retratos",
     artist: "Brenda Cisnero — Licenciada en Artes",
     instagramHandle: "@lafactoriaderetratos",
     instagramUrl: "https://www.instagram.com/lafactoriaderetratos",
+    tiktokHandle: "@lafactoriaderetratos",
+    tiktokUrl: "https://www.tiktok.com/@lafactoriaderetratos",
     whatsappNumber: "5491130509450", // 011 3050-9450, formato wa.me (54 9 11 3050 9450)
     whatsappDisplay: "011 3050-9450",
     email: "lafactoriabyjuanaperfecta@gmail.com",

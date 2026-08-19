@@ -26,7 +26,7 @@ window.I18N = (function () {
       nav_testimonials: "Testimonios",
       nav_faq: "Preguntas frecuentes",
       nav_cta: "Comenzar mi retrato",
-      logo_aria: "La Factoría by Juana Perfecta — inicio",
+      logo_aria: "La Factoría de Retratos — inicio",
 
       hero_eyebrow: "Retratos de mascotas, pintados a mano",
       hero_title_html: "Retrato de tu mascota,<br>personalizado y único",
@@ -160,10 +160,10 @@ window.I18N = (function () {
       footer_nav_terms: "Términos",
       footer_nav_privacy: "Privacidad",
       footer_copy_prefix: "©",
-      footer_copy_suffix: "La Factoría by Juana Perfecta. Todos los derechos reservados.",
+      footer_copy_suffix: "La Factoría de Retratos. Todos los derechos reservados.",
       whatsapp_aria: "Escribinos por WhatsApp",
 
-      meta_title: "La Factoría by Juana Perfecta — Retratos de mascotas personalizados",
+      meta_title: "La Factoría de Retratos — Retratos de mascotas pintados a mano",
       meta_description: "Retrato de tu mascota, pintado a mano en acrílico u óleo sobre madera. Un auto-regalo emotivo, único e irrepetible. Configurá el tuyo y mirá cómo queda en tu pared antes de comprar.",
 
       // ---- dynamic strings used by state.js / mockup.js / payment.js / main.js ----
@@ -213,7 +213,7 @@ window.I18N = (function () {
       nav_testimonials: "Testimonials",
       nav_faq: "FAQ",
       nav_cta: "Start my portrait",
-      logo_aria: "La Factoría by Juana Perfecta — home",
+      logo_aria: "La Factoría de Retratos — home",
 
       hero_eyebrow: "Hand-painted pet portraits",
       hero_title_html: "A portrait of your pet,<br>personalized and unique",
@@ -347,10 +347,10 @@ window.I18N = (function () {
       footer_nav_terms: "Terms",
       footer_nav_privacy: "Privacy",
       footer_copy_prefix: "©",
-      footer_copy_suffix: "La Factoría by Juana Perfecta. All rights reserved.",
+      footer_copy_suffix: "La Factoría de Retratos. All rights reserved.",
       whatsapp_aria: "Message us on WhatsApp",
 
-      meta_title: "La Factoría by Juana Perfecta — Custom pet portraits",
+      meta_title: "La Factoría de Retratos — Hand-painted pet portraits",
       meta_description: "A portrait of your pet, hand-painted in acrylic or oil on wood. An emotional, one-of-a-kind self-gift. Configure yours and see how it looks on your wall before you buy.",
 
       state_choose_frame_prompt: "Tap the image to choose a frame",
