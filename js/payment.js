@@ -174,6 +174,13 @@ window.FactoriaPayment = (function () {
         currency: "ARS"
       });
     }
+    if (typeof window.fbq === "function") {
+      window.fbq("track", "InitiateCheckout", {
+        value: amount,
+        currency: "ARS",
+        content_name: "Seña 50% — Retrato de mascota"
+      });
+    }
 
     // Mercado Pago necesita la Netlify Function (/.netlify/functions/create-preference),
     // que solo existe una vez que el sitio está publicado en Netlify. Abriendo el
@@ -272,6 +279,13 @@ window.FactoriaPayment = (function () {
         if (url) {
           if (typeof window.gtag === "function") {
             window.gtag("event", "whatsapp_click", { source: "transfer_confirm", order_id: orderNumber });
+          }
+          if (typeof window.fbq === "function") {
+            window.fbq("track", "InitiateCheckout", {
+              value: depositAmount(),
+              currency: "ARS",
+              content_name: "Confirmación de transferencia"
+            });
           }
           window.open(url, "_blank", "noopener");
         }

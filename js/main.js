@@ -269,11 +269,16 @@
   function initWhatsAppTracking() {
     document.addEventListener("click", function (event) {
       var link = event.target.closest && event.target.closest('a[href*="wa.me"]');
-      if (!link || typeof window.gtag !== "function") return;
-      window.gtag("event", "whatsapp_click", {
-        source: link.id || "link",
-        link_url: link.href
-      });
+      if (!link) return;
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "whatsapp_click", {
+          source: link.id || "link",
+          link_url: link.href
+        });
+      }
+      if (typeof window.fbq === "function") {
+        window.fbq("track", "Contact", { source: link.id || "link" });
+      }
     });
   }
 
