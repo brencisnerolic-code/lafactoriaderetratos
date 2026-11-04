@@ -234,6 +234,10 @@
         referral: referralInput ? referralInput.value.trim() : ""
       };
 
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "begin_checkout", { currency: "ARS" });
+      }
+
       var paymentSection = document.getElementById("payment-section");
       if (paymentSection) {
         paymentSection.hidden = false;

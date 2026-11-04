@@ -2070,6 +2070,9 @@ textarea:focus-visible,
   color: var(--color-accent);
 }
 
+.legal-content a.btn-primary { color: #FFFFFF; text-decoration: none; }
+.legal-content a.btn-ghost { color: var(--color-text); text-decoration: none; }
+
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
   html {
