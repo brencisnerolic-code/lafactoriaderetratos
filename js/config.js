@@ -110,7 +110,9 @@ window.FACTORIA_CONFIG = {
   },
 
   depositPercent: 50,
-  deliveryDays: 15,
+  // Plazos en días hábiles (ver Fase 2: cálculo de fechas).
+  productionDays: { min: 10, max: 15 },
+  shippingDays: { min: 5, max: 7 },
   maxUploadMB: 10,
   acceptedUploadTypes: ["image/jpeg", "image/png"],
 

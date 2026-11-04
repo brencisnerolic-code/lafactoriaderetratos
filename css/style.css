@@ -1955,6 +1955,13 @@ textarea:focus-visible,
   font-size: 1.1rem;
 }
 
+.shipping-note {
+  margin: 1.5rem auto 0;
+  max-width: 60ch;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
 .shipping-options {
   display: grid;
   grid-template-columns: 1fr;
