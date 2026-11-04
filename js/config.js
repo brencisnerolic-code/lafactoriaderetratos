@@ -105,7 +105,7 @@ window.FACTORIA_CONFIG = {
   // Qué ítems de merchItems vienen incluidos gratis según el tamaño elegido.
   merchFreeBySize: {
     chico: [],
-    mediano: ["digital"],
+    mediano: [],
     grande: ["digital", "totebag"]
   },
 
