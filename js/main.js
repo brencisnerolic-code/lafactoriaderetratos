@@ -183,6 +183,7 @@
     var termsInput = document.getElementById("accept-terms");
     var petNameInput = document.getElementById("client-pet-name");
     var notesInput = document.getElementById("client-notes");
+    var referralInput = document.getElementById("client-referral");
 
     function showError(message) {
       if (!errorEl) return;
@@ -229,7 +230,8 @@
         name: nameInput ? nameInput.value.trim() : "",
         email: emailInput ? emailInput.value.trim() : "",
         phone: phoneInput ? phoneInput.value.trim() : "",
-        notes: notesInput ? notesInput.value.trim() : ""
+        notes: notesInput ? notesInput.value.trim() : "",
+        referral: referralInput ? referralInput.value.trim() : ""
       };
 
       var paymentSection = document.getElementById("payment-section");

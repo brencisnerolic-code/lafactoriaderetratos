@@ -121,6 +121,7 @@ window.FactoriaPayment = (function () {
     var amount = formatARS(depositAmount());
     var name = clientData && clientData.name ? clientData.name : "";
     var email = clientData && clientData.email ? clientData.email : "";
+    var referral = clientData && clientData.referral ? clientData.referral : "";
 
     var lines = [
       "¡Hola! Acabo de hacer una transferencia por " + amount + " para mi retrato de mascota.",
@@ -128,11 +129,12 @@ window.FactoriaPayment = (function () {
       "Orden: #" + orderNumber,
       "Nombre: " + name,
       "Email: " + email,
+      referral ? "Cómo nos conociste: " + referral : null,
       "",
       "Les mando el comprobante a continuación."
     ];
 
-    var message = encodeURIComponent(lines.join("\n"));
+    var message = encodeURIComponent(lines.filter(function (l) { return l !== null; }).join("\n"));
     return "https://wa.me/" + cfg.brand.whatsappNumber + "?text=" + message;
   }
 

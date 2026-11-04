@@ -2084,3 +2084,64 @@ textarea:focus-visible,
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ===== Fase 2: aviso de Navidad, barra de confianza, extras del resumen ===== */
+.holiday-banner {
+  background: var(--color-accent-dark);
+  color: #FFFFFF;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+.holiday-banner p { margin: 0; }
+
+.trust-bar {
+  background: var(--color-bg-alt);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.9rem 0;
+}
+.trust-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+}
+.trust-list li { display: inline-flex; align-items: center; gap: 0.4rem; }
+.google-seal { color: var(--color-text-muted); }
+
+.hero-support {
+  margin-top: 0.75rem;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.config-guarantee {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-bg-alt);
+  font-size: 0.9rem;
+}
+
+.summary-split { margin-top: 0.75rem; }
+.summary-delivery,
+.price-validity {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0.5rem 0 0;
+}
+
+.summary-includes { margin: 1rem 0; font-size: 0.875rem; }
+.summary-includes h4 { margin: 0 0 0.4rem; font-size: 0.95rem; }
+.summary-includes ul { margin: 0; padding-left: 1.1rem; }
+.summary-includes li { margin-bottom: 0.25rem; }
+
+.field-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
