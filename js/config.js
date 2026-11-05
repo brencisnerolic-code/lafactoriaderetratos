@@ -110,7 +110,39 @@ window.FACTORIA_CONFIG = {
   },
 
   depositPercent: 50,
-  deliveryDays: 15,
+  // Plazos en días hábiles (se usan para calcular la fecha de entrega).
+  productionDays: { min: 10, max: 15 },
+  shippingDays: { min: 5, max: 7 },
+
+  // Aviso de Navidad: fechas límite AAAA-MM-DD. Cada parte del aviso se oculta
+  // sola cuando pasa su fecha (ver js/extras.js).
+  navidad: { domicilioHasta: "2026-11-20", retiroHasta: "2026-12-01" },
+
+  // Sello de Google: solo se muestra si ambos valores están cargados.
+  googleReview: { score: null, count: null },
+
+  // Vigencia de precios (se muestra solo con MOSTRAR_VIGENCIA_PRECIOS).
+  preciosVigentesHasta: "2026-12-31",
+
+  // Flags de elementos opcionales. Todo apagado por defecto.
+  flags: {
+    MOSTRAR_AVISO_FECHAS: true,
+    MOSTRAR_VIGENCIA_PRECIOS: false,
+    MOSTRAR_CERTIFICADO: false,
+    MOSTRAR_DIRECCION: false
+  },
+
+  // Feriados nacionales de Argentina usados para contar días hábiles.
+  // Lista cargada por el desarrollador: VERIFICAR contra el calendario oficial
+  // antes de publicar (los trasladables pueden cambiar).
+  feriados: [
+    "2026-01-01", "2026-02-16", "2026-02-17", "2026-03-24", "2026-04-02", "2026-04-03",
+    "2026-05-01", "2026-05-25", "2026-06-15", "2026-06-20", "2026-07-09", "2026-08-17",
+    "2026-10-12", "2026-11-20", "2026-12-08", "2026-12-25",
+    "2027-01-01", "2027-02-08", "2027-02-09", "2027-03-24", "2027-03-26", "2027-04-02",
+    "2027-05-01", "2027-05-25", "2027-06-21", "2027-06-20", "2027-07-09", "2027-08-16",
+    "2027-10-11", "2027-11-20", "2027-12-08", "2027-12-25"
+  ],
   maxUploadMB: 10,
   acceptedUploadTypes: ["image/jpeg", "image/png"],
 

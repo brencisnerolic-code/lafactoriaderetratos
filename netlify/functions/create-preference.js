@@ -33,7 +33,8 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: JSON.stringify({ error: "Body inválido" }) };
   }
 
-  const { title, unitPrice, quantity, payer, externalReference, siteUrl } = payload;
+  const { title, unitPrice, quantity, payer, externalReference, siteUrl, metadata } = payload;
+  const isGift = !!(metadata && metadata.type === "gift");
 
   if (!title || typeof unitPrice !== "number" || unitPrice <= 0) {
     return { statusCode: 400, body: JSON.stringify({ error: "Faltan datos del pedido (title / unitPrice)." }) };
@@ -63,7 +64,10 @@ exports.handler = async function (event) {
           failure: `${origin}/#checkout`
         }
       : undefined,
-    auto_return: origin ? "approved" : undefined
+    auto_return: origin ? "approved" : undefined,
+    // Regalos: Mercado Pago avisa al Apps Script (ver apps-script/voucher.gs) cuando el pago cambia de estado.
+    notification_url: isGift && process.env.MP_NOTIFICATION_URL ? process.env.MP_NOTIFICATION_URL : undefined,
+    metadata: isGift ? metadata : undefined
   };
 
   try {

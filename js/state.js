@@ -465,6 +465,7 @@
     if (clientData.name) lines.push(`*Nombre:* ${clientData.name}`);
     if (clientData.email) lines.push(`*Email:* ${clientData.email}`);
     if (clientData.phone) lines.push(`*Teléfono:* ${clientData.phone}`);
+    if (clientData.referral) lines.push(`*Cómo nos conoció:* ${clientData.referral}`);
     if (clientData.notes) lines.push(`*Notas:* ${clientData.notes}`);
     lines.push(``, `Voy a enviar la foto de mi mascota por acá mismo. ¡Gracias!`);
     return lines.join("\n");
