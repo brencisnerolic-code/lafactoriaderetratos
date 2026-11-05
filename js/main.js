@@ -184,6 +184,37 @@
     var petNameInput = document.getElementById("client-pet-name");
     var notesInput = document.getElementById("client-notes");
     var referralInput = document.getElementById("client-referral");
+    var giftToggle = document.getElementById("gift-toggle");
+    var giftExplain = document.getElementById("gift-explain");
+    var giftFields = document.getElementById("gift-fields");
+    var giftFieldsMessage = document.getElementById("gift-fields-message");
+    var giftReceiverInput = document.getElementById("gift-receiver");
+    var giftMessageInput = document.getElementById("gift-message");
+
+    function isGiftOn() {
+      return !!(giftToggle && giftToggle.checked);
+    }
+
+    function syncGift() {
+      var on = isGiftOn();
+      if (giftExplain) giftExplain.hidden = !on;
+      document.body.classList.toggle("gift-mode", on);
+      if (giftFields) giftFields.hidden = !on;
+      if (giftFieldsMessage) giftFieldsMessage.hidden = !on;
+      if (window.FactoriaPayment && typeof window.FactoriaPayment.setGiftMode === "function") {
+        window.FactoriaPayment.setGiftMode(on);
+      }
+    }
+
+    if (giftToggle) giftToggle.addEventListener("change", syncGift);
+    var btnGift = document.getElementById("btn-gift");
+    if (btnGift && giftToggle) {
+      btnGift.addEventListener("click", function () {
+        giftToggle.checked = true;
+        syncGift();
+      });
+    }
+    syncGift();
 
     function showError(message) {
       if (!errorEl) return;
@@ -204,6 +235,7 @@
       if (nameInput && !nameInput.value.trim()) return false;
       if (phoneInput && !phoneInput.value.trim()) return false;
       if (emailInput && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) return false;
+      if (isGiftOn() && giftReceiverInput && !giftReceiverInput.value.trim()) return false;
       if (termsInput && !termsInput.checked) return false;
       return true;
     }
@@ -231,7 +263,10 @@
         email: emailInput ? emailInput.value.trim() : "",
         phone: phoneInput ? phoneInput.value.trim() : "",
         notes: notesInput ? notesInput.value.trim() : "",
-        referral: referralInput ? referralInput.value.trim() : ""
+        referral: referralInput ? referralInput.value.trim() : "",
+        isGift: isGiftOn(),
+        giftReceiver: giftReceiverInput ? giftReceiverInput.value.trim() : "",
+        giftMessage: giftMessageInput ? giftMessageInput.value.trim() : ""
       };
 
       if (typeof window.gtag === "function") {

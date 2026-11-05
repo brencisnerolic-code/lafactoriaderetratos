@@ -157,6 +157,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
       <p class="hero-sub" data-i18n="hero_sub">Obra original de una artista visual, en acrílico u óleo sobre madera. Enmarcada, firmada y lista para colgar. No es una impresión.</p>
       <div class="hero-actions">
         <a href="#configurador" class="btn btn-primary btn-lg" data-i18n="hero_cta_primary">Comenzar mi retrato</a>
+        <a href="#configurador" class="btn btn-ghost" id="btn-gift" data-i18n="hero_cta_gift">Regalar un retrato</a>
         <a href="#portfolio" class="btn btn-ghost" data-i18n="hero_cta_secondary">Ver galería</a>
       </div>
     </div>
@@ -196,6 +197,13 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
       <div class="section-head section-head-left">
         <h2 data-i18n="config_heading">Armá tu retrato</h2>
         <p data-i18n="config_subheading">Elegí tamaño, marco y fondo. El precio se actualiza al instante.</p>
+        <div class="gift-toggle-block">
+          <label class="checkbox-label">
+            <input type="checkbox" id="gift-toggle">
+            <span data-i18n="gift_toggle">Es un regalo</span>
+          </label>
+          <p class="gift-explain" id="gift-explain" data-i18n="gift_explain" hidden>Es la misma compra: elegís todo y pagás el total ahora. Te llega un voucher por mail y la persona que lo recibe nos escribe para revisar los detalles juntos.</p>
+        </div>
         <p class="config-guarantee" data-i18n="config_guarantee">Antes de enviarlo te mostramos el retrato y hacemos los ajustes que necesites, sin costo. Recién cuando lo sentís tuyo, sale del atelier.</p>
       </div>
 
@@ -383,6 +391,15 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
         <textarea id="client-notes" name="notes" maxlength="500" rows="3" placeholder='Ej: "Quiero capturar su expresión traviesa" o "Tiene un lunar especial"' data-i18n-placeholder="notes_placeholder"></textarea>
       </div>
 
+      <div class="form-row gift-fields" id="gift-fields" hidden>
+        <label for="gift-receiver" data-i18n-html="label_gift_receiver_html">Nombre de quien recibe <span class="required">*</span></label>
+        <input type="text" id="gift-receiver" name="giftReceiver" maxlength="100" autocomplete="off">
+      </div>
+      <div class="form-row form-row-full gift-fields" id="gift-fields-message" hidden>
+        <label for="gift-message" data-i18n-html="label_gift_message_html">Mensaje para quien recibe <span class="optional">(opcional, máx. 300 caracteres)</span></label>
+        <textarea id="gift-message" name="giftMessage" maxlength="300" rows="3"></textarea>
+      </div>
+
       <div class="form-row form-row-full form-terms">
         <label class="checkbox-label">
           <input type="checkbox" id="accept-terms" required>
@@ -410,7 +427,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
       <p data-i18n="payment_sub">Ambos métodos son seguros y rápidos.</p>
     </div>
 
-    <p class="payment-total"><span data-i18n="payment_total_label">Seña a pagar hoy (50%):</span> <strong id="payment-total-amount">—</strong></p>
+    <p class="payment-total"><span id="payment-total-label" data-i18n="payment_total_label">Seña a pagar hoy (50%):</span> <strong id="payment-total-amount">—</strong></p>
 
     <div class="payment-methods">
       <button type="button" class="payment-method-card" id="btn-pay-mercadopago">

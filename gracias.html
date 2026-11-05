@@ -109,6 +109,11 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
     var paymentId = params.get("payment_id") || params.get("collection_id");
     var orderEl = document.getElementById("thanks-order-number");
     var waLink = document.getElementById("thanks-whatsapp");
+    if (order && order.indexOf("GIFT-") === 0 && orderEl) {
+      var giftNote = document.createElement("p");
+      giftNote.textContent = "Tu regalo está confirmado. El voucher te llega por mail en unos minutos. Quien lo recibe nos escribe por WhatsApp con el código y la foto de su mascota.";
+      orderEl.insertAdjacentElement("afterend", giftNote);
+    }
     if (order && orderEl) {
       orderEl.textContent = "Orden: #" + order;
       if (waLink) {

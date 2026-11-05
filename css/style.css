@@ -2148,3 +2148,16 @@ textarea:focus-visible,
   font-size: 0.8rem;
   color: var(--color-text-muted);
 }
+
+/* ===== Regalo (voucher) ===== */
+.gift-toggle-block { margin: 0.75rem 0 0; }
+.gift-explain {
+  margin: 0.5rem 0 0;
+  padding: 0.6rem 0.9rem;
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-bg-alt);
+  font-size: 0.9rem;
+}
+.gift-fields { margin-top: 0.5rem; }
+/* En modo regalo se cobra el total: no mostramos seña ni saldo */
+.gift-mode .summary-split { display: none !important; }
