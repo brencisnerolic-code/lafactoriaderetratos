@@ -1,48 +1,58 @@
-# Vouchers de regalo: puesta en marcha
+# Pedidos, mails y vouchers: puesta en marcha
 
-Esto conecta la compra de un regalo con una planilla, un PDF y un mail automático.
-Lo hacés una sola vez. Ningún token va en el código: los secretos van en las propiedades del proyecto.
+Todo lo que llega (compras de Mercado Pago, transferencias y regalos) queda en la hoja **Pedidos**, con un mail tuyo por cada pedido. Los regalos además reciben el voucher solos.
 
-## 1. Crear la planilla y el script
+Ningún token va en el código: los secretos van en las propiedades del proyecto.
 
-1. Creá una planilla de Google Sheets nueva, por ejemplo "Vouchers La Factoría".
-2. Menú **Extensiones → Apps Script**. Borrá lo que aparezca y pegá el contenido de `voucher.gs`. Guardá.
+## 1. Script
+
+1. En la planilla: **Extensiones → Apps Script**. Borrá todo lo que haya y pegá el contenido completo de `voucher.gs`. Guardá.
+2. Ejecutá **instalarDisparador** una sola vez (elegila arriba y tocá Ejecutar). Te va a pedir permisos: aceptalos. Este paso hace que la casilla "sena_recibida" funcione.
 
 ## 2. Propiedades (secretos)
 
-En Apps Script: **Configuración del proyecto → Propiedades de la secuencia → Agregar propiedad**:
+**Configuración del proyecto → Propiedades de la secuencia de comandos → Agregar propiedad**:
 
 | Propiedad | Valor |
 | --- | --- |
-| `MP_ACCESS_TOKEN` | Tu Access Token de **producción** de Mercado Pago (el mismo que usa Netlify). |
-| `OWNER_EMAIL` | El mail donde querés recibir la copia de cada voucher. |
+| `MP_ACCESS_TOKEN` | Token de Mercado Pago. Para probar: el de **prueba** (`TEST-`). Para producción: el real (`APP_USR-`). |
+| `OWNER_EMAIL` | Tu mail. |
 
-Opcional, para probar sin pagar de verdad: `PRUEBA_PAYMENT_ID` con el ID de un pago de prueba.
+Para probar un pago ya hecho, agregá también `PRUEBA_PAYMENT_ID` con el ID.
 
-## 3. Publicar como web app
+## 3. Publicar la aplicación web
 
-1. **Implementar → Nueva implementación → Tipo: Aplicación web**.
-2. Ejecutar como: **Yo**. Quién tiene acceso: **Cualquier usuario**. (Mercado Pago tiene que poder llamarla.)
-3. Copiá la **URL de la aplicación web** (termina en `/exec`).
+1. **Implementar → Nueva implementación** (o editá la existente → **Nueva versión**), tipo **Aplicación web**.
+2. Ejecutar como: **Yo**. Quién tiene acceso: **Cualquier usuario**.
+3. Copiá la URL que termina en `/exec`.
 
-## 4. Avisarle a la web
+Si ya tenías la implementación, usá **Nueva versión** para que la URL no cambie.
 
-En Netlify: **Site settings → Environment variables**, agregá:
+## 4. Conectar la web
+
+En Netlify, **Environment variables**:
 
 | Variable | Valor |
 | --- | --- |
-| `MP_NOTIFICATION_URL` | La URL `/exec` del paso 3. |
+| `MP_NOTIFICATION_URL` | La URL `/exec` del paso 3. Para todos los contextos. |
 
-Después hacé un nuevo deploy del sitio para que tome la variable.
+Y en el archivo `js/config.js`, en `pedidos → endpoint`, pegá la misma URL `/exec`. Así las transferencias también te llegan por mail.
 
-Con esto, cada pago de regalo que se aprueba en Mercado Pago llama al script. No hace falta configurar nada más en el panel de Mercado Pago.
+Después hacé un nuevo deploy del sitio.
 
-## 5. Probar
+## 5. Cómo se usa
 
-1. Con el token de **prueba** de Mercado Pago, hacé un regalo en el sitio y pagá con una tarjeta de prueba.
-2. En el editor de Apps Script, ejecutá `probarConPagoId` (con `PRUEBA_PAYMENT_ID` cargada). Mirá el registro: **Ejecuciones**.
-3. Revisá la hoja "Vouchers", la carpeta "Vouchers emitidos" en Drive y el mail.
+**Compra con Mercado Pago:** cuando se aprueba el pago, llega el mail con todos los datos. Si es regalo, se emite el voucher y le llega al comprador con el PDF.
 
-## Canje
+**Compra por transferencia:**
+1. Llega el mail "Transferencia por confirmar" y la fila aparece como *transferencia pendiente*.
+2. Cuando veas la seña en tu cuenta, en la planilla tildá la casilla **sena_recibida** de esa fila.
+3. Si es regalo, el voucher se emite solo y le llega al comprador por mail. En el mail que te llega a vos aparece un link de WhatsApp para mandárselo al comprador con un toque.
 
-Cuando la persona te escriba con el código, buscalo en la columna `codigo` y cambiá `estado` a `canjeado`.
+**Canje:** cuando quien recibe te escriba con el código, cambiá `estado` a `canjeado` en la fila correspondiente.
+
+## 6. Probar
+
+1. Con el token de prueba, hacé una compra de regalo con tarjeta de prueba.
+2. Revisá la hoja, el mail y el PDF.
+3. Probá también una transferencia: tildá la casilla y revisá que salga el voucher.

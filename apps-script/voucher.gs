@@ -1,198 +1,247 @@
 /**
- * voucher.gs — Google Apps Script para los vouchers de regalo de La Factoría.
+ * voucher.gs — Google Apps Script de La Factoría de Retratos.
  *
- * Qué hace:
- *   1. Mercado Pago avisa (POST) a esta web app cuando cambia un pago.
- *   2. Vuelve a consultar el pago en la API de Mercado Pago (no confía en el aviso).
- *   3. Si el pago es de un regalo y está aprobado, emite un voucher:
- *      código FACT-XXXX-XXXX, fila en la planilla, PDF y mail al comprador
- *      (con copia a La Factoría).
+ * Hace tres cosas:
+ *   1. Pedidos: cada compra aprobada por Mercado Pago, y cada transferencia que avisa la web,
+ *      queda en la hoja "Pedidos" y te llega un mail con todos los datos.
+ *   2. Regalos: cuando un regalo está pagado (Mercado Pago aprobado, o tildás "seña recibida"
+ *      en la planilla si fue por transferencia), se emite el voucher: código, PDF y mail al comprador.
+ *   3. Nada de secretos en este archivo: el token va en las propiedades del proyecto.
  *
- * Vive en la planilla de Google: Extensiones → Apps Script → pegar este archivo.
- * Configuración en: Configuración del proyecto → Propiedades de la secuencia
- * (ver apps-script/LEEME.md). Ningún token va en este archivo.
+ * Instalación y configuración: ver apps-script/LEEME.md
  */
 
 var CONFIG = {
-  WHATSAPP_CANJE: "5491130509450",
   SITE_URL: "https://lafactoriaderetratos.com",
+  WHATSAPP: "5491130509450",
   VIGENCIA_MESES: 6,
-  NOMBRE_HOJA: "Vouchers"
+  HOJA: "Pedidos",
+  ZONA: "America/Argentina/Buenos_Aires"
 };
 
 var COLUMNAS = [
-  "codigo", "emitido", "vence", "comprador", "email_comprador", "receptor",
-  "mensaje", "detalle_retrato", "monto_ars", "mp_payment_id", "estado", "pdf_url"
+  "pedido", "fecha", "metodo", "tipo", "comprador", "email", "telefono", "mascota",
+  "receptor", "mensaje_regalo", "notas", "referido", "detalle", "total_ars", "sena_ars",
+  "mp_payment_id", "sena_recibida", "estado", "voucher_codigo", "voucher_pdf", "vence"
 ];
 
-// ---------- Entrada desde Mercado Pago ----------
+// ---------- Entradas ----------
 
+// Mercado Pago (notificación) y la web (transferencia) llegan por POST.
 function doPost(e) {
   var lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
-    var aviso = JSON.parse((e && e.postData && e.postData.contents) || "{}");
-    var paymentId = (aviso.data && aviso.data.id) || (e.parameter && e.parameter["data.id"]);
-    if (!paymentId || (aviso.type && aviso.type !== "payment")) return ok_();
-
-    var pago = consultarPago_(paymentId);
-    if (!pago) return ok_();
-    if (pago.status !== "approved") return ok_();
-    if (!pago.external_reference || String(pago.external_reference).indexOf("GIFT-") !== 0) return ok_();
-
-    emitirVoucher_(pago);
+    var cuerpo = JSON.parse((e && e.postData && e.postData.contents) || "{}");
+    if (cuerpo.action === "transferencia") {
+      registrarTransferencia_(cuerpo);
+    } else if (cuerpo.data && cuerpo.data.id) {
+      procesarPagoMP_(String(cuerpo.data.id));
+    }
   } catch (err) {
-    // Respondemos 200 igual para que Mercado Pago no reintente sin fin; el error queda en el registro.
     console.error(err);
   } finally {
     lock.releaseLock();
   }
-  return ok_();
-}
-
-function ok_() {
   return ContentService.createTextOutput("ok");
 }
 
-function consultarPago_(paymentId) {
-  var token = PropertiesService.getScriptProperties().getProperty("MP_ACCESS_TOKEN");
-  if (!token) throw new Error("Falta la propiedad MP_ACCESS_TOKEN");
-  var res = UrlFetchApp.fetch("https://api.mercadopago.com/v1/payments/" + encodeURIComponent(paymentId), {
-    method: "get",
-    headers: { Authorization: "Bearer " + token },
-    muteHttpExceptions: true
-  });
-  if (res.getResponseCode() !== 200) return null;
-  return JSON.parse(res.getContentText());
+// Se ejecuta sola cada vez que editás la planilla (se instala con instalarDisparador).
+function alEditarPlanilla(e) {
+  try {
+    var hoja = e.range.getSheet();
+    if (hoja.getName() !== CONFIG.HOJA || e.range.getRow() < 2) return;
+    var mapa = mapaColumnas_(hoja);
+    if (e.range.getColumn() !== mapa.sena_recibida) return;
+    if (e.value !== "TRUE" && e.value !== true) return;
+    var fila = e.range.getRow();
+    var datos = filaComoObjeto_(hoja, fila, mapa);
+    hoja.getRange(fila, mapa.estado).setValue("seña recibida");
+    if (datos.tipo === "regalo" && !datos.voucher_codigo) emitirVoucher_(hoja, fila, mapa);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-// ---------- Emisión ----------
-
-function emitirVoucher_(pago) {
-  var hoja = obtenerHoja_();
-  var paymentId = String(pago.id);
-
-  // Idempotencia: si ya emitimos este pago, no hacemos nada.
-  var filas = hoja.getDataRange().getValues();
-  for (var i = 1; i < filas.length; i++) {
-    if (String(filas[i][COLUMNAS.indexOf("mp_payment_id")]) === paymentId) return;
+// Ejecutar una sola vez desde el editor: crea el disparador que escucha las ediciones.
+function instalarDisparador() {
+  var existe = ScriptApp.getProjectTriggers().some(function (t) {
+    return t.getHandlerFunction() === "alEditarPlanilla";
+  });
+  if (!existe) {
+    ScriptApp.newTrigger("alEditarPlanilla").forSpreadsheet(SpreadsheetApp.getActive()).onEdit().create();
   }
+}
+
+// ---------- Mercado Pago ----------
+
+function procesarPagoMP_(paymentId) {
+  var pago = consultarPago_(paymentId);
+  if (!pago || pago.status !== "approved") return;
+  var hoja = obtenerHoja_();
+  var mapa = mapaColumnas_(hoja);
+  if (yaRegistrado_(hoja, mapa, "mp_payment_id", paymentId)) return;
 
   var meta = pago.metadata || {};
+  var datos = {
+    pedido: meta.order || pago.external_reference || "",
+    metodo: "mercadopago",
+    tipo: meta.type === "gift" ? "regalo" : "retrato",
+    comprador: meta.buyer_name || (pago.payer && pago.payer.first_name) || "",
+    email: meta.buyer_email || (pago.payer && pago.payer.email) || "",
+    telefono: meta.buyer_phone || "",
+    mascota: meta.pet_name || "",
+    receptor: meta.receiver_name || "",
+    mensaje_regalo: meta.message || "",
+    notas: meta.notes || "",
+    referido: meta.referral || "",
+    detalle: meta.selection || "",
+    total_ars: meta.total || "",
+    sena_ars: pago.transaction_amount || "",
+    mp_payment_id: paymentId,
+    estado: "pagado"
+  };
+  var fila = agregarFila_(hoja, mapa, datos, true);
+  avisarPedido_("Nuevo pedido pagado " + datos.pedido, datos);
+  if (datos.tipo === "regalo") emitirVoucher_(hoja, fila, mapa);
+}
+
+// ---------- Transferencia ----------
+
+function registrarTransferencia_(datos) {
+  var hoja = obtenerHoja_();
+  var mapa = mapaColumnas_(hoja);
+  if (yaRegistrado_(hoja, mapa, "pedido", datos.order)) return;
+  var fila = agregarFila_(hoja, mapa, {
+    pedido: datos.order || "",
+    metodo: "transferencia",
+    tipo: datos.type === "gift" ? "regalo" : "retrato",
+    comprador: datos.buyer_name || "",
+    email: datos.buyer_email || "",
+    telefono: datos.buyer_phone || "",
+    mascota: datos.pet_name || "",
+    receptor: datos.receiver_name || "",
+    mensaje_regalo: datos.message || "",
+    notas: datos.notes || "",
+    referido: datos.referral || "",
+    detalle: datos.selection || "",
+    total_ars: datos.total || "",
+    sena_ars: datos.deposit || "",
+    estado: "transferencia pendiente"
+  }, false);
+  avisarPedido_("Transferencia por confirmar " + datos.order, datos);
+  // Recordatorio: cuando veas la seña en tu cuenta, tildá "sena_recibida" en la fila.
+  GmailApp.sendEmail(
+    propiedad_("OWNER_EMAIL"),
+    "Para confirmar: tildá la seña en la fila " + fila,
+    "Cuando recibas la seña de " + datos.order + " tildá la casilla sena_recibida (fila " + fila + ") en la planilla " +
+      SpreadsheetApp.getActive().getUrl()
+  );
+}
+
+// ---------- Voucher ----------
+
+function emitirVoucher_(hoja, fila, mapa) {
+  var datos = filaComoObjeto_(hoja, fila, mapa);
+  if (datos.voucher_codigo) return;
+
   var hoy = new Date();
   var vence = new Date(hoy.getFullYear(), hoy.getMonth() + CONFIG.VIGENCIA_MESES, hoy.getDate());
-  var codigo = generarCodigo_(filas);
-  var comprador = meta.buyer_name || (pago.payer && pago.payer.first_name) || "";
-  var emailComprador = (pago.payer && pago.payer.email) || meta.buyer_email || "";
-  var receptor = meta.receiver_name || "";
-  var mensaje = meta.message || "";
-  var detalle = meta.selection || "";
-  var monto = pago.transaction_amount || 0;
-
+  var codigo = generarCodigo_(hoja, mapa);
   var pdf = generarPdf_({
-    codigo: codigo, receptor: receptor, comprador: comprador, mensaje: mensaje,
-    detalle: detalle, vence: vence
+    codigo: codigo,
+    receptor: datos.receptor,
+    comprador: datos.comprador,
+    mensaje: datos.mensaje_regalo,
+    detalle: datos.detalle,
+    vence: vence
   });
-  var pdfUrl = guardarPdf_(pdf, codigo);
+  var url = guardarPdf_(pdf, codigo);
 
-  hoja.appendRow([
-    codigo, hoy, vence, comprador, emailComprador, receptor,
-    mensaje, detalle, monto, paymentId, "emitido", pdfUrl
-  ]);
+  hoja.getRange(fila, mapa.voucher_codigo).setValue(codigo);
+  hoja.getRange(fila, mapa.voucher_pdf).setValue(url);
+  hoja.getRange(fila, mapa.vence).setValue(vence);
+  hoja.getRange(fila, mapa.estado).setValue("voucher emitido");
 
-  if (emailComprador) {
+  if (datos.email) {
     GmailApp.sendEmail(
-      emailComprador,
+      datos.email,
       "Tu voucher de regalo de La Factoría de Retratos",
-      textoMailComprador_(codigo, receptor, vence),
+      textoMailVoucher_(codigo, datos.receptor, vence),
       { attachments: [pdf], name: "La Factoría de Retratos" }
     );
   }
-  var owner = PropertiesService.getScriptProperties().getProperty("OWNER_EMAIL");
-  if (owner) {
-    GmailApp.sendEmail(
-      owner,
-      "Nuevo voucher " + codigo + " (" + receptor + ")",
-      "Comprador: " + comprador + " <" + emailComprador + ">\n" +
-      "Receptor: " + receptor + "\n" +
-      "Detalle: " + detalle + "\n" +
-      "Monto: $" + monto + " ARS\n" +
-      "Mensaje: " + (mensaje || "-") + "\n" +
-      "Pago Mercado Pago: " + paymentId + "\n" +
-      "PDF: " + pdfUrl
-    );
-  }
+  GmailApp.sendEmail(
+    propiedad_("OWNER_EMAIL"),
+    "Voucher emitido " + codigo + " (" + datos.receptor + ")",
+    "Comprador: " + datos.comprador + " <" + datos.email + ">\n" +
+      "Teléfono: " + datos.telefono + "\n" +
+      "Detalle: " + datos.detalle + "\n" +
+      "PDF: " + url + "\n\n" +
+      "Para mandárselo por WhatsApp al comprador, tocá este link:\n" + linkWhatsappVoucher_(datos.telefono, codigo)
+  );
 }
 
-function obtenerHoja_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var hoja = ss.getSheetByName(CONFIG.NOMBRE_HOJA);
-  if (!hoja) {
-    hoja = ss.insertSheet(CONFIG.NOMBRE_HOJA);
-    hoja.appendRow(COLUMNAS);
-    hoja.setFrozenRows(1);
-  }
-  return hoja;
-}
-
-// Sin 0, O, 1 ni I para que no se confundan al leerlo.
-function generarCodigo_(filasExistentes) {
+function generarCodigo_(hoja, mapa) {
   var letras = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  var existentes = {};
-  for (var i = 1; i < filasExistentes.length; i++) existentes[String(filasExistentes[i][0])] = true;
+  var usados = {};
+  var ultima = hoja.getLastRow();
+  if (ultima > 1) {
+    hoja.getRange(2, mapa.voucher_codigo, ultima - 1, 1).getValues().forEach(function (r) {
+      usados[String(r[0])] = true;
+    });
+  }
   var codigo;
   do {
-    var parte = function () {
-      var s = "";
-      for (var j = 0; j < 4; j++) s += letras.charAt(Math.floor(Math.random() * letras.length));
-      return s;
-    };
-    codigo = "FACT-" + parte() + "-" + parte();
-  } while (existentes[codigo]);
+    codigo = "FACT-" + bloque_(letras) + "-" + bloque_(letras);
+  } while (usados[codigo]);
   return codigo;
 }
 
-// ---------- PDF (Google Doc convertido a PDF; no requiere librerías externas) ----------
+function bloque_(letras) {
+  var s = "";
+  for (var i = 0; i < 4; i++) s += letras.charAt(Math.floor(Math.random() * letras.length));
+  return s;
+}
 
 function generarPdf_(d) {
   var doc = DocumentApp.create("Voucher " + d.codigo);
   var cuerpo = doc.getBody();
   cuerpo.clear();
-  var fecha = Utilities.formatDate(d.vence, "America/Argentina/Buenos_Aires", "dd/MM/yyyy");
+  var fecha = Utilities.formatDate(d.vence, CONFIG.ZONA, "dd/MM/yyyy");
   cuerpo.appendParagraph("La Factoría de Retratos").setHeading(DocumentApp.ParagraphHeading.HEADING1);
   cuerpo.appendParagraph("Voucher de regalo").setHeading(DocumentApp.ParagraphHeading.HEADING2);
   cuerpo.appendParagraph("Para: " + d.receptor + "  ·  De: " + d.comprador);
   if (d.mensaje) cuerpo.appendParagraph("“" + d.mensaje + "”");
-  cuerpo.appendParagraph("Tu retrato hiperrealista de mascota, pintado a mano. " + d.detalle +
+  cuerpo.appendParagraph("Un retrato hiperrealista de tu mascota, pintado a mano. " + d.detalle +
     ". Marco de madera Kiri con vidrio, listo para colgar. Envío gratis a todo el país.");
   cuerpo.appendParagraph("Código: " + d.codigo).setHeading(DocumentApp.ParagraphHeading.HEADING2);
-  var wa = "https://wa.me/" + CONFIG.WHATSAPP_CANJE + "?text=" + encodeURIComponent(
-    "Hola, recibí un voucher de regalo de La Factoría de Retratos. Mi código es " + d.codigo + ".");
-  cuerpo.appendParagraph("Cómo canjearlo: escribinos por WhatsApp con tu código y la foto de tu mascota. Revisamos los detalles juntos y empezamos a pintar.");
-  cuerpo.appendParagraph("WhatsApp: " + wa);
+  cuerpo.appendParagraph("Cómo canjearlo: escribinos por WhatsApp con tu código y la foto de tu mascota. " +
+    "Revisamos los detalles juntos. El retrato se entrega al completar el saldo.");
+  cuerpo.appendParagraph("WhatsApp: " + linkWhatsappVoucher_("", d.codigo));
   cuerpo.appendParagraph("Válido hasta el " + fecha + ".");
   cuerpo.appendParagraph("lafactoriaderetratos.com · @lafactoriaderetratos");
   doc.saveAndClose();
 
-  var file = DriveApp.getFileById(doc.getId());
-  var pdf = file.getAs(MimeType.PDF).setName(d.codigo + ".pdf");
-  file.setTrashed(true);
+  var archivo = DriveApp.getFileById(doc.getId());
+  var pdf = archivo.getAs(MimeType.PDF).setName(d.codigo + ".pdf");
+  archivo.setTrashed(true);
   return pdf;
 }
 
 function guardarPdf_(pdf, codigo) {
   var carpeta = obtenerCarpeta_("Vouchers emitidos");
-  var archivo = carpeta.createFile(pdf.copyBlob().setName(codigo + ".pdf"));
-  return archivo.getUrl();
+  return carpeta.createFile(pdf.copyBlob().setName(codigo + ".pdf")).getUrl();
 }
 
-function obtenerCarpeta_(nombre) {
-  var it = DriveApp.getFoldersByName(nombre);
-  return it.hasNext() ? it.next() : DriveApp.createFolder(nombre);
+function linkWhatsappVoucher_(telefono, codigo) {
+  var numero = String(telefono || "").replace(/\D/g, "");
+  var texto = "Hola, te envío tu voucher de regalo de La Factoría de Retratos. Tu código es " + codigo + ".";
+  return "https://wa.me/" + numero + "?text=" + encodeURIComponent(texto);
 }
 
-function textoMailComprador_(codigo, receptor, vence) {
-  var fecha = Utilities.formatDate(vence, "America/Argentina/Buenos_Aires", "dd/MM/yyyy");
+function textoMailVoucher_(codigo, receptor, vence) {
+  var fecha = Utilities.formatDate(vence, CONFIG.ZONA, "dd/MM/yyyy");
   return "¡Gracias por tu compra!\n\n" +
     "Adjuntamos tu voucher de regalo para " + receptor + ".\n" +
     "Código: " + codigo + "\n" +
@@ -202,12 +251,104 @@ function textoMailComprador_(codigo, receptor, vence) {
     "La Factoría de Retratos · lafactoriaderetratos.com";
 }
 
-// ---------- Prueba manual (desde el editor: Ejecutar → probarConPagoId) ----------
+// ---------- Avisos ----------
 
+function avisarPedido_(asunto, d) {
+  GmailApp.sendEmail(propiedad_("OWNER_EMAIL"), asunto, textoResumen_(d));
+}
+
+function textoResumen_(d) {
+  return "Pedido: " + (d.order || d.pedido || "-") + "\n" +
+    "Método: " + (d.metodo || (d.type === "gift" ? "regalo" : "")) + "\n" +
+    "Tipo: " + (d.type === "gift" || d.tipo === "regalo" ? "REGALO" : "retrato") + "\n" +
+    "Comprador: " + (d.buyer_name || d.comprador || "-") + "\n" +
+    "Email: " + (d.buyer_email || d.email || "-") + "\n" +
+    "Teléfono: " + (d.buyer_phone || d.telefono || "-") + "\n" +
+    "Mascota: " + (d.pet_name || d.mascota || "-") + "\n" +
+    "Detalle: " + (d.selection || d.detalle || "-") + "\n" +
+    "Seña: " + (d.deposit || d.sena_ars || "-") + " ARS · Total: " + (d.total || d.total_ars || "-") + " ARS\n" +
+    "Notas: " + (d.notes || d.notas || "-") + "\n" +
+    "Cómo nos conoció: " + (d.referral || d.referido || "-") + "\n" +
+    ((d.receiver_name || d.receptor) ? "Quien recibe: " + (d.receiver_name || d.receptor) + "\n" : "") +
+    ((d.message || d.mensaje_regalo) ? "Mensaje: " + (d.message || d.mensaje_regalo) + "\n" : "");
+}
+
+// ---------- Planilla ----------
+
+function obtenerHoja_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var hoja = ss.getSheetByName(CONFIG.HOJA);
+  if (!hoja) {
+    hoja = ss.insertSheet(CONFIG.HOJA);
+    hoja.getRange(1, 1, 1, COLUMNAS.length).setValues([COLUMNAS]);
+    hoja.setFrozenRows(1);
+  }
+  return hoja;
+}
+
+function mapaColumnas_(hoja) {
+  var encabezados = hoja.getRange(1, 1, 1, COLUMNAS.length).getValues()[0];
+  var mapa = {};
+  COLUMNAS.forEach(function (nombre) {
+    mapa[nombre] = encabezados.indexOf(nombre) + 1;
+  });
+  return mapa;
+}
+
+function agregarFila_(hoja, mapa, datos, pagado) {
+  var fila = hoja.getLastRow() + 1;
+  var valores = COLUMNAS.map(function (nombre) {
+    if (nombre === "fecha") return new Date();
+    if (nombre === "sena_recibida") return pagado;
+    return datos[nombre] !== undefined ? datos[nombre] : "";
+  });
+  hoja.getRange(fila, 1, 1, COLUMNAS.length).setValues([valores]);
+  // Casilla para tildar la seña en transferencias.
+  hoja.getRange(fila, mapa.sena_recibida).insertCheckboxes();
+  if (pagado) hoja.getRange(fila, mapa.sena_recibida).setValue(true);
+  return fila;
+}
+
+function filaComoObjeto_(hoja, fila, mapa) {
+  var valores = hoja.getRange(fila, 1, 1, COLUMNAS.length).getValues()[0];
+  var obj = {};
+  COLUMNAS.forEach(function (nombre, i) { obj[nombre] = valores[i]; });
+  return obj;
+}
+
+function yaRegistrado_(hoja, mapa, columna, valor) {
+  var ultima = hoja.getLastRow();
+  if (ultima < 2 || !valor) return false;
+  var celdas = hoja.getRange(2, mapa[columna], ultima - 1, 1).getValues();
+  return celdas.some(function (r) { return String(r[0]) === String(valor); });
+}
+
+// ---------- Mercado Pago API y Drive ----------
+
+function consultarPago_(paymentId) {
+  var res = UrlFetchApp.fetch("https://api.mercadopago.com/v1/payments/" + encodeURIComponent(paymentId), {
+    method: "get",
+    headers: { Authorization: "Bearer " + propiedad_("MP_ACCESS_TOKEN") },
+    muteHttpExceptions: true
+  });
+  if (res.getResponseCode() !== 200) return null;
+  return JSON.parse(res.getContentText());
+}
+
+function propiedad_(nombre) {
+  var valor = PropertiesService.getScriptProperties().getProperty(nombre);
+  if (!valor) throw new Error("Falta la propiedad " + nombre);
+  return valor;
+}
+
+function obtenerCarpeta_(nombre) {
+  var it = DriveApp.getFoldersByName(nombre);
+  return it.hasNext() ? it.next() : DriveApp.createFolder(nombre);
+}
+
+// ---------- Prueba manual ----------
+
+// Editor → Ejecutar → probarConPagoId (con la propiedad PRUEBA_PAYMENT_ID cargada).
 function probarConPagoId() {
-  var id = PropertiesService.getScriptProperties().getProperty("PRUEBA_PAYMENT_ID");
-  if (!id) throw new Error("Cargá la propiedad PRUEBA_PAYMENT_ID con un ID de pago de prueba");
-  var pago = consultarPago_(id);
-  Logger.log(JSON.stringify(pago && { status: pago.status, ref: pago.external_reference }));
-  if (pago && pago.status === "approved") emitirVoucher_(pago);
+  procesarPagoMP_(propiedad_("PRUEBA_PAYMENT_ID"));
 }
