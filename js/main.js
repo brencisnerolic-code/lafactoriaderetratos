@@ -198,7 +198,6 @@
     function syncGift() {
       var on = isGiftOn();
       if (giftExplain) giftExplain.hidden = !on;
-      document.body.classList.toggle("gift-mode", on);
       if (giftFields) giftFields.hidden = !on;
       if (giftFieldsMessage) giftFieldsMessage.hidden = !on;
       if (window.FactoriaPayment && typeof window.FactoriaPayment.setGiftMode === "function") {

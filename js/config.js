@@ -159,5 +159,11 @@ window.FACTORIA_CONFIG = {
   // netlify/functions/create-preference.js del lado del servidor.
   payment: {
     createPreferenceEndpoint: "/.netlify/functions/create-preference"
+  },
+
+  // Apps Script (apps-script/voucher.gs): recibe los pedidos por transferencia.
+  // Pegá acá la URL /exec de la implementación. Vacía = no se avisa por mail.
+  pedidos: {
+    endpoint: ""
   }
 };

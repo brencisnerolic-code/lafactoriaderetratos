@@ -28,15 +28,12 @@ window.FactoriaPayment = (function () {
   }
 
   function generateOrderNumber() {
-    return (giftMode ? "GIFT-" : "FAC-") + Date.now().toString(36).toUpperCase().slice(-6);
+    return "FAC-" + Date.now().toString(36).toUpperCase().slice(-6);
   }
 
   // Regalo: se cobra el total y, al aprobarse, el Apps Script emite el voucher.
   function setGiftMode(on) {
     giftMode = !!on;
-    orderNumber = null;
-    var transferBtn = $("btn-pay-transfer");
-    if (transferBtn) transferBtn.hidden = giftMode;
     updateTotalDisplay();
   }
 
@@ -52,15 +49,24 @@ window.FactoriaPayment = (function () {
       .join(" · ");
   }
 
-  function giftMetadata() {
+  // Datos del pedido que viajan a Mercado Pago (y quedan en el aviso de Apps Script).
+  function orderMetadata() {
     var c = clientData || {};
+    var total = window.FactoriaState ? window.FactoriaState.getPrice() : null;
     return {
-      type: "gift",
+      type: giftMode ? "gift" : "order",
+      order: clip(orderNumber, 40),
       buyer_name: clip(c.name, 100),
       buyer_email: clip(c.email, 100),
+      buyer_phone: clip(c.phone, 40),
+      pet_name: clip(c.petName, 100),
+      notes: clip(c.notes, 500),
+      referral: clip(c.referral, 200),
       receiver_name: clip(c.giftReceiver, 100),
       message: clip(c.giftMessage, 300),
-      selection: clip(selectionSummary(), 480)
+      selection: clip(selectionSummary(), 480),
+      total: String(total || ""),
+      deposit: String(depositAmount() || "")
     };
   }
 
@@ -69,7 +75,6 @@ window.FactoriaPayment = (function () {
     if (!window.FactoriaState || typeof window.FactoriaState.getPrice !== "function" || !cfg) return null;
     var total = window.FactoriaState.getPrice();
     if (total === null || total === undefined) return null;
-    if (giftMode) return total;
     var pct = typeof cfg.depositPercent === "number" ? cfg.depositPercent : 50;
     return Math.round((total * pct) / 100);
   }
@@ -95,9 +100,7 @@ window.FactoriaPayment = (function () {
   function updateTotalDisplay() {
     var el = $("payment-total-amount");
     var label = $("payment-total-label");
-    if (label) label.textContent = T.t(giftMode ? "gift_total_label" : "payment_total_label");
-    var note = document.querySelector(".checkout-payment .payment-note");
-    if (note) note.textContent = T.t(giftMode ? "gift_payment_note" : "payment_note");
+    if (label) label.textContent = T.t("payment_total_label");
     if (!el) return;
     el.textContent = formatARS(depositAmount());
   }
@@ -154,21 +157,43 @@ window.FactoriaPayment = (function () {
     });
   }
 
+  // Avisa a Apps Script que hay una transferencia por confirmar (mail + planilla).
+  function registerTransfer() {
+    var cfg = getConfig();
+    var endpoint = cfg && cfg.pedidos && cfg.pedidos.endpoint;
+    if (!endpoint) return;
+    var data = orderMetadata();
+    data.action = "transferencia";
+    fetch(endpoint, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(data)
+    }).catch(function () {});
+  }
+
   function buildTransferWhatsAppUrl() {
     var cfg = getConfig();
     if (!cfg || !cfg.brand) return null;
     var amount = formatARS(depositAmount());
-    var name = clientData && clientData.name ? clientData.name : "";
-    var email = clientData && clientData.email ? clientData.email : "";
-    var referral = clientData && clientData.referral ? clientData.referral : "";
+    var c = clientData || {};
+    var headline = giftMode
+      ? "¡Hola! Acabo de hacer una transferencia por " + amount + " para un retrato como regalo. Espero el voucher."
+      : "¡Hola! Acabo de hacer una transferencia por " + amount + " para mi retrato de mascota.";
 
     var lines = [
-      "¡Hola! Acabo de hacer una transferencia por " + amount + " para mi retrato de mascota.",
+      headline,
       "",
       "Orden: #" + orderNumber,
-      "Nombre: " + name,
-      "Email: " + email,
-      referral ? "Cómo nos conociste: " + referral : null,
+      "Nombre: " + (c.name || ""),
+      "Email: " + (c.email || ""),
+      "Teléfono: " + (c.phone || ""),
+      "Mascota: " + (c.petName || "-"),
+      "Detalle: " + selectionSummary(),
+      c.notes ? "Notas: " + c.notes : null,
+      c.referral ? "Cómo nos conoció: " + c.referral : null,
+      giftMode ? "Quien recibe: " + (c.giftReceiver || "-") : null,
+      giftMode && c.giftMessage ? "Mensaje para quien recibe: " + c.giftMessage : null,
       "",
       "Les mando el comprobante a continuación."
     ];
@@ -236,7 +261,7 @@ window.FactoriaPayment = (function () {
 
     var body = {
       title: giftMode
-        ? "Retrato como regalo (total) — " + orderNumber
+        ? "Seña 50% — Retrato como regalo (" + orderNumber + ")"
         : "Seña 50% — Retrato de mascota (" + orderNumber + ")",
       unitPrice: amount,
       quantity: 1,
@@ -248,7 +273,7 @@ window.FactoriaPayment = (function () {
         phone: clientData ? clientData.phone : ""
       }
     };
-    if (giftMode) body.metadata = giftMetadata();
+    body.metadata = orderMetadata();
 
     fetch(cfg.payment.createPreferenceEndpoint, {
       method: "POST",
@@ -331,6 +356,7 @@ window.FactoriaPayment = (function () {
               content_name: "Confirmación de transferencia"
             });
           }
+          registerTransfer();
           window.open(url, "_blank", "noopener");
         }
       });

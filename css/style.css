@@ -2159,5 +2159,3 @@ textarea:focus-visible,
   font-size: 0.9rem;
 }
 .gift-fields { margin-top: 0.5rem; }
-/* En modo regalo se cobra el total: no mostramos seña ni saldo */
-.gift-mode .summary-split { display: none !important; }
