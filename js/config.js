@@ -164,6 +164,6 @@ window.FACTORIA_CONFIG = {
   // Apps Script (apps-script/voucher.gs): recibe los pedidos por transferencia.
   // Pegá acá la URL /exec de la implementación. Vacía = no se avisa por mail.
   pedidos: {
-    endpoint: ""
+    endpoint: "https://script.google.com/macros/s/AKfycbz2qh9UpPOQmnreHUpXfp7cejQ1xJIxr7O1vku8YMUMWMYinOWZ28WhgVUEeuS3Y8N79g/exec"
   }
 };
