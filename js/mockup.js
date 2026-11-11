@@ -89,6 +89,9 @@
 
     fileInput.addEventListener("change", () => {
       const file = fileInput.files && fileInput.files[0];
+      if (file && typeof window.gtag === "function") {
+        window.gtag("event", "uso_simulador", { action: "upload" });
+      }
       handleFile(file);
       fileInput.value = "";
     });

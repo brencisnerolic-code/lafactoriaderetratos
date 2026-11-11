@@ -68,22 +68,55 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
   "url": "https://lafactoriaderetratos.com/",
   "telephone": "+5491130509450",
   "email": "lafactoriabyjuanaperfecta@gmail.com",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Sinclair 3026, PB",
-    "addressLocality": "Ciudad Autónoma de Buenos Aires",
-    "addressCountry": "AR"
-  },
   "sameAs": [
-    "https://www.instagram.com/lafactoriaderetratos",
-    "https://www.tiktok.com/@lafactoriaderetratos"
+    "https://www.instagram.com/lafactoriaderetratos"
   ],
   "description": "Retratos de mascotas pintados a mano en acrílico u óleo sobre madera. Configurador online: elegí tamaño, marco y fondo, y mirá cómo queda en tu pared antes de comprar.",
   "priceRange": "$$"
 }
 </script>
+<!-- Productos (precios de js/config.js, mantener sincronizados a mano) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {
+      "@type": "ListItem", "position": 1,
+      "item": {
+        "@type": "Product",
+        "name": "Retrato hiperrealista de mascota pintado a mano 25x35 cm",
+        "description": "Retrato original pintado a mano sobre madera, con marco de madera Kiri con vidrio.",
+        "brand": { "@type": "Brand", "name": "La Factoría de Retratos" },
+        "offers": { "@type": "Offer", "price": "280000", "priceCurrency": "ARS", "availability": "https://schema.org/InStock", "url": "https://lafactoriaderetratos.com/#configurador" }
+      }
+    },
+    {
+      "@type": "ListItem", "position": 2,
+      "item": {
+        "@type": "Product",
+        "name": "Retrato hiperrealista de mascota pintado a mano 35x45 cm",
+        "description": "Retrato original pintado a mano sobre madera, con marco de madera Kiri con vidrio.",
+        "brand": { "@type": "Brand", "name": "La Factoría de Retratos" },
+        "offers": { "@type": "Offer", "price": "390000", "priceCurrency": "ARS", "availability": "https://schema.org/InStock", "url": "https://lafactoriaderetratos.com/#configurador" }
+      }
+    },
+    {
+      "@type": "ListItem", "position": 3,
+      "item": {
+        "@type": "Product",
+        "name": "Retrato hiperrealista de mascota pintado a mano 50x70 cm",
+        "description": "Retrato original pintado a mano sobre madera, con marco de madera Kiri con vidrio.",
+        "brand": { "@type": "Brand", "name": "La Factoría de Retratos" },
+        "offers": { "@type": "Offer", "price": "490000", "priceCurrency": "ARS", "availability": "https://schema.org/InStock", "url": "https://lafactoriaderetratos.com/#configurador" }
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
+<div class="holiday-banner" id="holiday-banner" role="status" hidden><p id="holiday-banner-text"></p></div>
 
 <a class="skip-link" href="#main">Saltar al contenido</a>
 
@@ -119,26 +152,39 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
   <div class="container hero-inner">
     <div class="hero-copy">
       <p class="eyebrow" data-i18n="hero_eyebrow">Retratos de mascotas, pintados a mano</p>
-      <h1 data-i18n-html="hero_title_html">Retrato de tu mascota,<br>personalizado y único</h1>
-      <p class="hero-sub" data-i18n="hero_sub">Un auto-regalo emotivo que celebra tu vínculo. Pintado a mano en acrílico u óleo sobre madera — no es una impresión, es una obra original.</p>
+      <h1 data-i18n-html="hero_title_html">Retrato hiperrealista de tu mascota,<br>pintado a mano</h1>
+      <p class="hero-support" data-i18n="hero_support">Un regalo para vos o para quien más quiere a su mascota. Un cuadro único que celebra ese vínculo.</p>
+      <p class="hero-sub" data-i18n="hero_sub">Obra original de una artista visual, en acrílico u óleo sobre madera. Enmarcada, firmada y lista para colgar. No es una impresión.</p>
       <div class="hero-actions">
         <a href="#configurador" class="btn btn-primary btn-lg" data-i18n="hero_cta_primary">Comenzar mi retrato</a>
+        <a href="#configurador" class="btn btn-ghost" id="btn-gift" data-i18n="hero_cta_gift">Regalar un retrato</a>
         <a href="#portfolio" class="btn btn-ghost" data-i18n="hero_cta_secondary">Ver galería</a>
       </div>
     </div>
     <div class="hero-visual">
       <div class="hero-frame" aria-hidden="true">
-        <img src="img/hero-retrato.png" alt="Retrato de mascota pintado a mano por La Factoría" loading="eager">
+        <img src="img/hero-retrato.png" alt="Retrato hiperrealista de mascota pintado a mano por La Factoría de Retratos" loading="eager">
       </div>
     </div>
   </div>
+</section>
+
+<!-- ============ 1B. BARRA DE CONFIANZA ============ -->
+<section class="trust-bar" aria-label="Garantías">
+  <ul class="container trust-list">
+    <li><span class="trust-icon" aria-hidden="true">✋</span><span data-i18n="trust_1">Pintado a mano</span></li>
+    <li><span class="trust-icon" aria-hidden="true">🔧</span><span data-i18n="trust_2">Ajustes sin costo</span></li>
+    <li><span class="trust-icon" aria-hidden="true">🚚</span><span data-i18n="trust_3">Envío gratis a todo el país</span></li>
+    <li><span class="trust-icon" aria-hidden="true">🖼️</span><span data-i18n="trust_4">Marco de madera Kiri con vidrio</span></li>
+    <li class="google-seal" id="google-seal" hidden></li>
+  </ul>
 </section>
 
 <!-- ============ 2B. GUÍA DE TAMAÑOS ============ -->
 <section class="size-guide" id="guia-tamaños">
   <div class="container">
     <div class="size-guide-image">
-      <img src="guia de tamaños.png" alt="Guía de tamaños: Pequeño (25x35cm), Mediano (35x50cm), Grande (50x70cm)">
+      <img src="guia de tamaños.png" alt="Guía de tamaños: Pequeño (25x35cm), Mediano (35x45cm), Grande (50x70cm)">
     </div>
   </div>
 </section>
@@ -151,6 +197,14 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
       <div class="section-head section-head-left">
         <h2 data-i18n="config_heading">Armá tu retrato</h2>
         <p data-i18n="config_subheading">Elegí tamaño, marco y fondo. El precio se actualiza al instante.</p>
+        <div class="gift-toggle-block">
+          <label class="checkbox-label">
+            <input type="checkbox" id="gift-toggle">
+            <span data-i18n="gift_toggle">Es un regalo</span>
+          </label>
+          <p class="gift-explain" id="gift-explain" data-i18n="gift_explain" hidden>Es la misma compra: elegís todo y pagás la seña del 50 %. Al confirmarla te llega el voucher para regalar. El saldo lo coordinamos por WhatsApp antes de entregar el retrato.</p>
+        </div>
+        <p class="config-guarantee" data-i18n="config_guarantee">Antes de enviarlo te mostramos el retrato y hacemos los ajustes que necesites, sin costo. Recién cuando lo sentís tuyo, sale del atelier.</p>
       </div>
 
       <!-- Paso 1: tamaño -->
@@ -237,7 +291,24 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
         <span data-i18n="summary_total_label">Total estimado</span>
         <strong id="summary-total">$ 0 ARS</strong>
       </div>
-      <p class="summary-fine-print" data-i18n="summary_fine_print">Seña del 50% para comenzar · entrega estimada 15 días.</p>
+      <dl class="summary-list summary-split" id="summary-split" hidden>
+        <div class="summary-row"><dt data-i18n="summary_deposit_label">Seña hoy (50 %)</dt><dd id="summary-deposit">—</dd></div>
+        <div class="summary-row"><dt data-i18n="summary_balance_label">Saldo al finalizar</dt><dd id="summary-balance">—</dd></div>
+      </dl>
+      <p class="summary-delivery" id="summary-delivery" hidden></p>
+      <p class="price-validity" id="price-validity" hidden></p>
+      <p class="summary-fine-print" data-i18n="summary_fine_print">Seña del 50 % para comenzar · producción de 10 a 15 días hábiles.</p>
+      <div class="summary-includes">
+        <h4 data-i18n="summary_includes_heading">Incluye</h4>
+        <ul>
+          <li data-i18n="inc_1">Obra original pintada a mano sobre madera</li>
+          <li data-i18n="inc_2">Marco de madera Kiri con vidrio y soporte para colgar</li>
+          <li data-i18n="inc_3">Embalaje especial</li>
+          <li data-i18n="inc_4">Envío gratis a todo el país</li>
+          <li data-i18n="inc_5">Revisión y ajustes sin costo</li>
+          <li id="inc-cert" data-i18n="inc_cert" hidden>Certificado de autenticidad firmado</li>
+        </ul>
+      </div>
       <button type="button" class="btn btn-primary btn-block" id="btn-to-mockup" data-i18n="btn_to_mockup">Ver en mi pared</button>
     </aside>
 
@@ -297,6 +368,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
       <div class="form-row">
         <label for="client-pet-name" data-i18n-html="label_pet_name_html">Nombre de tu mascota <span class="optional">(opcional)</span></label>
         <input type="text" id="client-pet-name" name="petName" autocomplete="off">
+        <p class="field-hint" data-i18n="pet_photo_hint">Si no tenés la foto a mano, mandala después por WhatsApp.</p>
       </div>
       <div class="form-row">
         <label for="client-name" data-i18n-html="label_your_name_html">Tu nombre <span class="required">*</span></label>
@@ -311,8 +383,21 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
         <input type="tel" id="client-phone" name="phone" required autocomplete="tel">
       </div>
       <div class="form-row form-row-full">
+        <label for="client-referral" data-i18n-html="label_referral_html">¿Cómo nos conociste? ¿Te recomendó alguien? <span class="optional">(opcional)</span></label>
+        <input type="text" id="client-referral" name="referral" maxlength="200" autocomplete="off">
+      </div>
+      <div class="form-row form-row-full">
         <label for="client-notes" data-i18n-html="label_notes_html">Notas especiales <span class="optional">(opcional, máx. 500 caracteres)</span></label>
         <textarea id="client-notes" name="notes" maxlength="500" rows="3" placeholder='Ej: "Quiero capturar su expresión traviesa" o "Tiene un lunar especial"' data-i18n-placeholder="notes_placeholder"></textarea>
+      </div>
+
+      <div class="form-row gift-fields" id="gift-fields" hidden>
+        <label for="gift-receiver" data-i18n-html="label_gift_receiver_html">Nombre de quien recibe <span class="required">*</span></label>
+        <input type="text" id="gift-receiver" name="giftReceiver" maxlength="100" autocomplete="off">
+      </div>
+      <div class="form-row form-row-full gift-fields" id="gift-fields-message" hidden>
+        <label for="gift-message" data-i18n-html="label_gift_message_html">Mensaje para quien recibe <span class="optional">(opcional, máx. 300 caracteres)</span></label>
+        <textarea id="gift-message" name="giftMessage" maxlength="300" rows="3"></textarea>
       </div>
 
       <div class="form-row form-row-full form-terms">
@@ -342,7 +427,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
       <p data-i18n="payment_sub">Ambos métodos son seguros y rápidos.</p>
     </div>
 
-    <p class="payment-total"><span data-i18n="payment_total_label">Seña a pagar hoy (50%):</span> <strong id="payment-total-amount">—</strong></p>
+    <p class="payment-total"><span id="payment-total-label" data-i18n="payment_total_label">Seña a pagar hoy (50%):</span> <strong id="payment-total-amount">—</strong></p>
 
     <div class="payment-methods">
       <button type="button" class="payment-method-card" id="btn-pay-mercadopago">
@@ -419,28 +504,28 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
 
     <div class="gallery-grid" id="gallery-grid">
       <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
-        <img src="img/portfolio/portfolio-1.png" alt="Retrato pintado a mano de un perro" loading="lazy">
+        <img src="img/portfolio/portfolio-1.png" alt="Retrato hiperrealista de un perro pintado a mano" loading="lazy">
       </button>
       <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
-        <img src="img/portfolio/portfolio-2.png" alt="Retrato pintado a mano de un cachorro" loading="lazy">
+        <img src="img/portfolio/portfolio-2.png" alt="Retrato hiperrealista de un cachorro pintado a mano" loading="lazy">
       </button>
       <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
-        <img src="img/portfolio/portfolio-3.png" alt="Retrato pintado a mano de una mascota" loading="lazy">
+        <img src="img/portfolio/portfolio-3.png" alt="Retrato hiperrealista de una mascota pintado a mano" loading="lazy">
       </button>
       <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
-        <img src="img/portfolio/portfolio-4.png" alt="Retrato pintado a mano de una mascota" loading="lazy">
+        <img src="img/portfolio/portfolio-4.png" alt="Retrato hiperrealista de una mascota pintado a mano" loading="lazy">
       </button>
       <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
-        <img src="img/portfolio/portfolio-5.png" alt="Retrato pintado a mano de una mascota" loading="lazy">
+        <img src="img/portfolio/portfolio-5.png" alt="Retrato hiperrealista de una mascota pintado a mano" loading="lazy">
       </button>
       <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
-        <img src="img/portfolio/portfolio-6.png" alt="Retrato pintado a mano de un bulldog" loading="lazy">
+        <img src="img/portfolio/portfolio-6.png" alt="Retrato hiperrealista de un bulldog pintado a mano" loading="lazy">
       </button>
       <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
-        <img src="img/portfolio/portfolio-7.png" alt="Retrato pintado a mano de un perro con marco dorado" loading="lazy">
+        <img src="img/portfolio/portfolio-7.png" alt="Retrato hiperrealista de un perro pintado a mano, con marco dorado" loading="lazy">
       </button>
       <button class="gallery-item" type="button" data-caption="Acrílico sobre madera" data-i18n-caption="gallery_caption">
-        <img src="img/portfolio/portfolio-8.png" alt="Retrato pintado a mano de un bulldog junto a la mascota real" loading="lazy">
+        <img src="img/portfolio/portfolio-8.png" alt="Retrato hiperrealista de un bulldog pintado a mano, junto a la mascota real" loading="lazy">
       </button>
     </div>
 
@@ -489,7 +574,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
     </div>
     <div class="about-copy">
       <h2 data-i18n="about_heading">Detrás de cada retrato</h2>
-      <p data-i18n="about_p1">La Factoría es un estudio de retratos de autor creado por Juana Perfecta, artista visual argentina con una práctica desarrollada entre la pintura, el hiperrealismo y la exploración de la materia.</p>
+      <p data-i18n="about_p1">La Factoría es un estudio de retratos de autor creado por Juana Perfecta, artista visual argentina. Hacemos retratos hiperrealistas pintados a mano, con una práctica que combina la pintura y la exploración de la materia.</p>
       <p data-i18n="about_p2">Cada retrato es pintado personalmente por ella, de principio a fin, a partir de las fotografías y la historia de cada mascota. No buscamos simplemente reproducir una imagen, sino capturar esa mirada, ese gesto o esa expresión que hace que tu compañero sea único.</p>
       <p data-i18n="about_p3">El resultado es una obra original, hecha a mano y creada especialmente para vos, pensada para conservar su esencia y acompañarte en el tiempo.</p>
       <p data-i18n="about_p4">Antes de darla por terminada, la revisamos con vos. Los ajustes que sean necesarios están incluidos, sin costo adicional.</p>
@@ -511,7 +596,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a1">Cualquier foto clara de tu mascota. Mientras mejor definición tenga, mejor será el resultado.</p>
+          <p data-i18n="faq_a1">Cualquier foto clara de tu mascota. Cuanto mejor definición tenga, mejor el resultado. Si no la tenés a mano al hacer el pedido, la mandás después por WhatsApp.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -520,7 +605,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a2">Si tienes dudas, envíanosla mejor posible y un mensaje por WhatsApp. Evaluaremos juntos si podemos trabajar con ella.</p>
+          <p data-i18n="faq_a2">Mandanos la mejor que tengas por WhatsApp y evaluamos juntos si podemos trabajar con ella.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -529,7 +614,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a3">Entre 5 y 15 días hábiles, dependiendo de nuestra agenda.</p>
+          <p data-i18n="faq_a3">La producción lleva entre 10 y 15 días hábiles, según la agenda del atelier. El envío a domicilio suma entre 5 y 7 días hábiles desde que el retrato está terminado.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -538,7 +623,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a4">Depende de dónde lo cuelgues. Chico (25x35) para espacios íntimos. Mediano/Grande para living o salón. Consultanos si dudas.</p>
+          <p data-i18n="faq_a4">Depende de dónde lo cuelgues. El Chico (25x35) va muy bien en espacios íntimos; el Mediano y el Grande, en un living o un salón. Probalo en 'Mirá tu retrato en la pared' o consultanos.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -547,7 +632,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a5">Sí. Podemos realizar retratos con varias mascotas. Para personas, depende de la foto. ¡Envíanosla y evaluamos!</p>
+          <p data-i18n="faq_a5">Sí, podemos hacer retratos con varias mascotas. Para personas, depende de la foto: mandanosla y lo evaluamos.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -556,7 +641,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a6">Cada retrato está pintado completamente a mano sobre lienzo con pintura acrílica u óleo. No imprimimos fotografías ni utilizamos procesos industriales. Cada obra es única y original.</p>
+          <p data-i18n="faq_a6">Cada retrato está pintado completamente a mano sobre madera, con pintura acrílica u óleo. No imprimimos fotografías ni usamos procesos industriales. Cada obra es única y original.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -565,7 +650,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a7">Sí. Antes de enviarte el retrato final, te mostramos una foto. Puedes solicitar ajustes sin cargo adicional.</p>
+          <p data-i18n="faq_a7">Sí. Antes de enviarte el retrato final te mostramos una foto y podés pedir los ajustes que necesites, sin costo adicional.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -574,7 +659,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a8">Tu retrato original pintado a mano sobre lienzo, su marco, sistema listo para colgar y embalaje especial para que llegue en perfectas condiciones.</p>
+          <p data-i18n="faq_a8">Tu retrato original pintado a mano sobre madera, enmarcado en madera Kiri con vidrio, con sistema listo para colgar y embalaje especial para que llegue perfecto.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -583,16 +668,34 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a9">¡Por supuesto! Es uno de los regalos más elegidos por quienes consideran a sus mascotas parte de la familia. Te recomendamos hacer el pedido con anticipación si es para una fecha especial.</p>
+          <p data-i18n="faq_a9">¡Por supuesto! Si es para una fecha especial, hacé el pedido con anticipación y coordinamos los tiempos por WhatsApp.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          <span data-i18n="faq_q10">¿Realizan envíos a todo el país y al exterior?</span>
+          <span data-i18n="faq_q10">¿Hacen envíos a todo el país y al exterior?</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer">
-          <p data-i18n="faq_a10">Sí. Realizamos envíos a toda Argentina y también a otros países. Cada obra se embala cuidadosamente para garantizar que llegue en excelentes condiciones.</p>
+          <p data-i18n="faq_a10">Sí. Enviamos gratis a toda la Argentina y también a otros países. Cada obra se embala con mucho cuidado para que llegue en perfectas condiciones.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q11">¿Y si no se parece o no me gusta?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p data-i18n="faq_a11">Antes de terminarlo te mostramos el avance y ajustamos juntos hasta que lo sientas tuyo. Los ajustes no tienen costo.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q12">¿Puedo retirarlo en el atelier?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p data-i18n="faq_a12">Sí. Coordinamos día y horario por WhatsApp.</p>
         </div>
       </div>
     </div>
@@ -609,7 +712,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
       <div class="shipping-card">
         <span class="shipping-icon">🚚</span>
         <h3 data-i18n="shipping_card1_title">Envío gratis a todo el país</h3>
-        <p data-i18n="shipping_card1_text">Llega en 5-7 días hábiles después de haberlo terminado. Embalado profesionalmente para que llegue perfecto.</p>
+        <p data-i18n="shipping_card1_text">Envío a domicilio: 5 a 7 días hábiles desde que tu retrato está terminado. Embalado profesionalmente para que llegue perfecto.</p>
       </div>
       <div class="shipping-card">
         <span class="shipping-icon">🏪</span>
@@ -617,6 +720,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
         <p data-i18n-html="shipping_card2_text_html"><strong>Sinclair 3026, PB</strong> — Ciudad Autónoma de Buenos Aires. Coordinamos horario por WhatsApp.</p>
       </div>
     </div>
+    <p class="shipping-note" data-i18n="shipping_note">Producción: 10 a 15 días hábiles. Retiro en el atelier: coordinamos horario por WhatsApp.</p>
   </div>
 </section>
 
@@ -647,7 +751,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
 </footer>
 
 <!-- WhatsApp flotante -->
-<a href="https://wa.me/5491130509450" class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener" data-i18n-aria-label="whatsapp_aria" aria-label="Escribinos por WhatsApp">
+<a href="https://wa.me/5491130509450?text=Hola%2C%20quiero%20consultar%20por%20un%20retrato%20de%20mi%20mascota." class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener" data-i18n-aria-label="whatsapp_aria" aria-label="Escribinos por WhatsApp">
   <svg class="whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/></svg>
 </a>
 
@@ -656,6 +760,7 @@ src="https://www.facebook.com/tr?id=880420541675750&ev=PageView&noscript=1"
 <script src="js/state.js"></script>
 <script src="js/mockup.js"></script>
 <script src="js/payment.js"></script>
+<script src="js/extras.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

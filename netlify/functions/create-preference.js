@@ -11,6 +11,16 @@
  */
 const MP_PREFERENCES_URL = "https://api.mercadopago.com/checkout/preferences";
 
+// Solo strings cortos: lo que llega de la web nunca se pasa tal cual a Mercado Pago.
+function sanitizeMetadata(meta) {
+  if (!meta || typeof meta !== "object") return undefined;
+  const out = {};
+  Object.keys(meta).forEach(function (k) {
+    if (/^[a-z_]{1,30}$/.test(k)) out[k] = String(meta[k] == null ? "" : meta[k]).slice(0, 500);
+  });
+  return out;
+}
+
 exports.handler = async function (event) {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
@@ -33,7 +43,7 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: JSON.stringify({ error: "Body inválido" }) };
   }
 
-  const { title, unitPrice, quantity, payer, externalReference, siteUrl } = payload;
+  const { title, unitPrice, quantity, payer, externalReference, siteUrl, metadata } = payload;
 
   if (!title || typeof unitPrice !== "number" || unitPrice <= 0) {
     return { statusCode: 400, body: JSON.stringify({ error: "Faltan datos del pedido (title / unitPrice)." }) };
@@ -63,7 +73,11 @@ exports.handler = async function (event) {
           failure: `${origin}/#checkout`
         }
       : undefined,
-    auto_return: origin ? "approved" : undefined
+    auto_return: origin ? "approved" : undefined,
+    // Mercado Pago avisa al Apps Script (ver apps-script/voucher.gs) cuando un pago se aprueba:
+    // el script manda el mail con los datos del pedido y emite el voucher si es un regalo.
+    notification_url: process.env.MP_NOTIFICATION_URL || undefined,
+    metadata: sanitizeMetadata(metadata)
   };
 
   try {
