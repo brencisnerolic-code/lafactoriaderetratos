@@ -30,7 +30,7 @@ window.I18N = (function () {
 
       hero_eyebrow: "Retratos de mascotas, pintados a mano",
       hero_title_html: "Retrato hiperrealista de tu mascota,<br>pintado a mano",
-      hero_sub: "Obra original de una artista visual, en acrílico u óleo sobre madera. Enmarcada, firmada y lista para colgar. No es una impresión.",
+      hero_sub: "Obra original pintada por Juana Perfecta, en acrílico u óleo sobre madera. Enmarcada, firmada y lista para colgar. No es una impresión.",
       hero_cta_primary: "Armar mi retrato",
       hero_cta_secondary: "Ver galería",
 
@@ -228,7 +228,7 @@ window.I18N = (function () {
       banner_domicilio: "Navidad: pedidos con envío a domicilio hasta el {domicilio}.",
       banner_both: "Navidad: pedidos con envío a domicilio hasta el {domicilio}. Con retiro en el atelier, hasta el {retiro}.",
       config_guarantee: "Antes de enviarlo te mostramos el retrato y hacemos los ajustes que necesites, sin costo. Recién cuando lo sentís tuyo, sale del atelier.",
-      trust_4: "Marco de madera Kiri con vidrio",
+      trust_4: "Enmarcado y con vidrio",
       trust_3: "Envío gratis a todo el país",
       trust_2: "Ajustes sin costo",
       trust_1: "Pintado a mano",
@@ -251,7 +251,7 @@ window.I18N = (function () {
 
       hero_eyebrow: "Hand-painted pet portraits",
       hero_title_html: "Hyperrealist portrait of your pet,<br>hand-painted",
-      hero_sub: "An original work by a visual artist, in acrylic or oil on wood. Framed, signed and ready to hang. It is not a print.",
+      hero_sub: "An original work painted by Juana Perfecta, in acrylic or oil on wood. Framed, signed and ready to hang. It is not a print.",
       hero_cta_primary: "Build my portrait",
       hero_cta_secondary: "See gallery",
 
@@ -448,7 +448,7 @@ window.I18N = (function () {
       banner_domicilio: "Christmas: home-delivery orders until {domicilio}.",
       banner_both: "Christmas: home-delivery orders until {domicilio}. Studio pickup until {retiro}.",
       config_guarantee: "Before it ships, we show you the portrait and make any adjustments you need, at no cost. It only leaves the studio once you feel it's yours.",
-      trust_4: "Kiri wood frame with glass",
+      trust_4: "Framed, with glass",
       trust_3: "Free shipping across Argentina",
       trust_2: "Free adjustments",
       trust_1: "Hand-painted",

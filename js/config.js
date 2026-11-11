@@ -126,7 +126,7 @@ window.FACTORIA_CONFIG = {
 
   // Flags de elementos opcionales. Todo apagado por defecto.
   flags: {
-    MOSTRAR_AVISO_FECHAS: true,
+    MOSTRAR_AVISO_FECHAS: false,
     MOSTRAR_VIGENCIA_PRECIOS: false,
     MOSTRAR_CERTIFICADO: false,
     MOSTRAR_DIRECCION: false
